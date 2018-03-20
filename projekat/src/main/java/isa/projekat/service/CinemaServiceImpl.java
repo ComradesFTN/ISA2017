@@ -10,13 +10,13 @@ import isa.projekat.repository.CinemaRepository;
 
 @Service
 public class CinemaServiceImpl implements CinemaService {
-	
+
 	@Autowired
 	private CinemaRepository cinemaRepository;
 
 	@Override
 	public List<Cinema> findAll() {
-		return cinemaRepository.findAll();		
+		return cinemaRepository.findAll();
 	}
 
 }
