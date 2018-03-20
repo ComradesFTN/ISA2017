@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script src="scripts/jquery-3.2.1.min.js"></script>		
+		<meta charset="UTF-8">
+		<title>Pozorista</title>
+		<style>
+			 #prijava
+			  {
+			    text-align:right;
+			  }
+		</style>		
+		<script>
+				$(document).ready(function(){
+					$.ajax({
+						url : "http://localhost:8080/theatres/getTheatres"
+					}).then(
+							function(data) {
+								for (i = 0; i < data.length; i++) {
+									rating=data[i].rating;
+									ratingText="";
+									for(j = 0; j < 5; j++){
+										if(rating<0.5){
+											ratingText+="&#9734;";
+										}
+										else{
+											ratingText+="&#9733;";
+											rating-=1;
+										}
+									}
+									newRow = 
+										"<tr>"
+											+ "<td><a href='theatres/ " + data[i].id + "'>" + data[i].name + "</a></td>"
+											+ "<td>" + data[i].adress + "</td>"
+											+ "<td>" + ratingText + "</td>"
+											+ "<td><form action=\"http://google.com\"><input type=\"submit\" value=\"Pogledaj\" /></form></td>"
+										+ "</tr>"
+									$("#dataTable").append(newRow)
+								}
+							});
+				});
+		</script>
+	</head>
+	<body>			
+		<div id="prijava">
+			<a href="prijava.html">Prijava</a>
+		</div>
+		<div>
+			<table id="dataTable">
+			<tr>
+				<th>Ime</th>
+				<th>Adresa</th>
+				<th>Rejting</th>
+				<th>Repertoar</th>
+			</tr>
+		</table>
+		</div>
+			
+	</body>
+</html>

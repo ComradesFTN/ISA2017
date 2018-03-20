@@ -7,4 +7,6 @@ import isa.projekat.domain.Theatre;
 public interface TheatreService {
 
 	List<Theatre> findAll();
+
+	Theatre save(Theatre theatre);
 }

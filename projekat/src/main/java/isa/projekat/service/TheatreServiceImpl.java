@@ -19,4 +19,9 @@ public class TheatreServiceImpl implements TheatreService {
 		return theatreRepository.findAll();
 	}
 
+	@Override
+	public Theatre save(Theatre theatre) {
+		return theatreRepository.save(theatre);	
+	}
+
 }
