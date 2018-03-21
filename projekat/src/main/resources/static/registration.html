@@ -1,16 +1,45 @@
+<!DOCTYPE html>
 <html>
-	<title>Registracija</title>
-	<body>
-		<form id="registerForm">
-			Email:<input type="text" id="email"><br/>
-			Lozinka:<input type="password" id="password"><br/>
-			Ponovite lozinku:<input type="password" id="repeatedPass"><br/>
-			Ime:<input type="text" id="firstName"><br/>
-			Prezime:<input type="text" id="lastName"><br/>
-			Grad:<input type="text" id="city"><br/>
-			Broj telefona:<input type="text" id="phone"><br/>
-			<input type="submit" value="Register">
-		</form>
-	
+	<head>
+		<title>Registracija</title>
+		<meta charset="UTF-8">
+		<link rel="stylesheet" href="stylesheets/bootstrap.css">
+	</head>	
+	<body class="bg-light">
+		<ul class="nav nav-tabs bg-danger">	
+			<li class="nav-item">
+				<a class="nav-link text-white" href="theatresPage.html">Pozorista</a>				
+			</li>
+			<li class="nav-item">
+				<a class="nav-link text-white" href="cinemasPage.html">Bioskopi</a>
+			</li>
+		</ul>
+		<form class="text-center mt-5" id="registerForm">
+			<div class="form-row">
+				<div class="form-group col-md-4">
+					<label for="name">Ime</label>
+				    <input class="form-control text-center w-26 mx-auto" type="text"  id="name" placeholder="Unesite ime">
+				</div>
+				<div class="form-group col-md-4">
+				    <label for="lastname">Prezime</label>
+				    <input class="form-control text-center w-26 mx-auto" type="text"  id="lastname" placeholder="Unesite prezime">
+				</div>
+				<div class="form-group col-md-4">
+					<label for="email">Email</label>
+					<input class="form-control text-center w-26 mx-auto" type="email" id="email" placeholder="Enter email"><br/>
+				</div>
+			</div>
+			<div>
+					<label for="password">Lozinka</label>
+				    <input class="form-control text-center w-25 mx-auto" type="password"  id="password" placeholder="Password">
+				    <label for="repeatedPassword">Ponovite lozinku</label>
+				    <input class="form-control text-center w-25 mx-auto" type="password"  id="repeatedPassword" placeholder="Repeated password">				    
+				    <label for="city">Grad</label>
+				    <input class="form-control text-center w-25 mx-auto" type="text"  id="city" placeholder="Unesite grad">
+				    <label for="phone">Broj telefona</label>
+				    <input class="form-control text-center w-25 mx-auto" type="text"  id="broj telefona" placeholder="Unesite broj telefona">				
+			</div>
+			<input type="submit" class="btn btn-primary bg-danger" value="Register">
+		</form>	
 	</body>
 </html>

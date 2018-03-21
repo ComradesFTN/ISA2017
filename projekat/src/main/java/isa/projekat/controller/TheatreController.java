@@ -26,7 +26,7 @@ public class TheatreController {
 		return new ResponseEntity<>(theatres, HttpStatus.OK);
 	}
 	
-	@RequestMapping(method = RequestMethod.POST, consumes = "application/json")
+	@RequestMapping(method = RequestMethod.POST, consumes = "application/json" )
 	public ResponseEntity<Theatre> addTheatre(@RequestBody Theatre theatre) {
 		Theatre newTheatre = theatreService.save(theatre);
 		return new ResponseEntity<>(newTheatre, HttpStatus.OK);

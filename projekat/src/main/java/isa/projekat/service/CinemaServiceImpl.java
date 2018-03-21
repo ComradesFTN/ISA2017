@@ -19,4 +19,9 @@ public class CinemaServiceImpl implements CinemaService {
 		return cinemaRepository.findAll();
 	}
 
+	@Override
+	public Cinema save(Cinema cinema) {
+		return cinemaRepository.save(cinema);
+	}
+
 }

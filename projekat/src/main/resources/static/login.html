@@ -1,10 +1,27 @@
+<!DOCTYPE html>
 <html>
-	<title>Prijava</title>
-	<body>
-		<form id="loginForm">
-			Username:<input type="text" id="email"><br/>
-			Password:<input type="password" id="password"><br/>
-			<input type="submit" value="Login"> Don't have an account? <a href="registration.html">Sign up.</a>
+	<head>
+		<title>Prijava</title>
+		<meta charset="UTF-8">
+		<link rel="stylesheet" href="stylesheets/bootstrap.css">
+	</head>	
+	<body class="bg-light">
+		<ul class="nav nav-tabs bg-danger">	
+			<li class="nav-item">
+				<a class="nav-link text-white" href="theatresPage.html">Pozorista</a>				
+			</li>
+			<li class="nav-item">
+				<a class="nav-link text-white" href="cinemasPage.html">Bioskopi</a>
+			</li>
+		</ul>
+		<form class="text-center mt-5" id="loginForm">
+			<div class="form-group">
+				<label for="email">Email</label>
+				<input class="form-control text-center w-25 mx-auto" type="email" id="email" placeholder="Enter email"><br/>				
+			    <label for="password">Password</label>
+			    <input class="form-control text-center w-25 mx-auto" type="password"  id="password" placeholder="Password">			
+			</div>
+			<input type="submit" class="btn btn-primary bg-danger" value="Login"> Don't have an account? <a href="registration.html">Sign up.</a>
 		</form>
 	</body>
 </html>

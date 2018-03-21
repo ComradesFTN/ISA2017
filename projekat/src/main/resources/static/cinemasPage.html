@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<script src="scripts/jquery-3.2.1.min.js"></script>
-		<link rel="stylesheet" href="stylesheets/bootstrap.css">
+		<script src="scripts/jquery-3.2.1.min.js"></script>		
 		<meta charset="UTF-8">
-		<title>Pozorista</title>			
+		<link rel="stylesheet" href="stylesheets/bootstrap.css">
+		<title>Bioskopi</title>		
 		<script>
 				$(document).ready(function(){
 					$.ajax({
-						url : "http://localhost:8080/theatres/getTheatres"
+						url : "http://localhost:8080/cinemas/getCinemas"
 					}).then(
 							function(data) {
 								for (i = 0; i < data.length; i++) {
@@ -25,7 +25,7 @@
 									}
 									newRow = 
 										"<tr>"
-											+ "<td><a href='theatres/ " + data[i].id + "'>" + data[i].name + "</a></td>"
+											+ "<td><a href='cinemas/ " + data[i].id + "'>" + data[i].name + "</a></td>"
 											+ "<td>" + data[i].adress + "</td>"
 											+ "<td>" + ratingText + "</td>"
 											+ "<td><form action=\"http://google.com\"><input type=\"submit\" value=\"Pogledaj\" /></form></td>"

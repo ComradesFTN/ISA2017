@@ -1,10 +1,14 @@
 package isa.projekat.domain;
 
+import java.io.File;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+
+import org.springframework.web.multipart.MultipartFile;
 
 @Entity(name="Pozoriste")
 public class Theatre {
@@ -24,7 +28,7 @@ public class Theatre {
 	
 	@Column(name="PromotivniOpis", columnDefinition="VARCHAR(200)")
 	private String description;
-	
+
 	public Theatre() {
 		
 	}

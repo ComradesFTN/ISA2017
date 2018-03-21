@@ -2,40 +2,31 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<link rel="stylesheet" href="stylesheets/bootstrap.css">
 <title>HomePage</title>
-<style>
- #prijava
-  {
-    text-align:right;
-  }
- .ispodSlike
- {
- 	text-align:center;
- }
- figure
- {
- 	display:inline-block;
- }
-</style>
 </head>
-<body>	
-	<div id="prijava">
-		<a href="login.html">Prijava</a>
-	</div>
-	<div class="ispodSlike">
+<body class="bg-light">	
+	<ul class="nav nav-tabs bg-danger justify-content-end mr-2">	
+		<li class="nav-item">
+			<a class="nav-link text-white" href="login.html">Prijava</a>
+		</li>
+	</ul>
+	<div class="text-center mt-5" >
 		<a href="theatresPage.html">
-			<figure>
-			<img src="images/theatre.jpg"/> 
-			<figcaption>Pozorista</figcaption>
+			<figure class="figure">
+			<img height="250" width="280" hspace="30" src="images/theatre.jpg" class="figure-img img-responsive " /> 
+			<figcaption class="figure-caption text-center">Pozorista</figcaption>
 			</figure>	
 		</a>
-		<a href="cinemas.html">
-			<figure>
-			<img src="images/cinema.jpg"/> 
-			<figcaption>Bioskopi</figcaption>
+		
+		
+		
+		<a href="cinemasPage.html">
+			<figure class="figure">
+			<img height="250" width="280" hspace="30" src="images/cinema.jpg" class="figure-img img-responsive " /> 
+			<figcaption class="figure-caption text-center">Bioskopi</figcaption>
 			</figure>	
 		</a>
 	</div>
-		
 </body>
 </html>
