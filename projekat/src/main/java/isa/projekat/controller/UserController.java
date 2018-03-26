@@ -17,8 +17,8 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
-
-	@RequestMapping(method = RequestMethod.POST, consumes = "application/json")
+	
+	@RequestMapping(method = RequestMethod.POST, consumes= "application/json")
 	public ResponseEntity<User> addUser(@RequestBody User user) {
 		User newUser = userService.save(user);
 		return new ResponseEntity<>(newUser, HttpStatus.OK);
