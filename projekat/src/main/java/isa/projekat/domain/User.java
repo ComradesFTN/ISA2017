@@ -21,15 +21,22 @@ public class User {
 
 	@Column(name = "Ime")
 	private String firstName;
-	
+
 	@Column(name = "Prezime")
 	private String lastName;
-	
+
 	@Column(name = "Grad")
 	private String city;
-	
+
 	@Column(name = "BrojTelefona")
 	private String phone;
+
+	@Column(name = "Potvrdjen")
+	private boolean enabled;
+	
+	public User() {
+		this.enabled = false;
+	}
 
 	public String getEmail() {
 		return email;
@@ -86,7 +93,13 @@ public class User {
 	public void setId(long id) {
 		this.id = id;
 	}
-	
-	
+
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
 
 }

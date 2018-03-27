@@ -18,7 +18,7 @@
 		</ul>
 		
 		<div class="container mx-auto">
-		<form class="mt-5 text-center" id="registerForm" action="http://localhost:8080/users" method="post">
+		<form class="mt-5 text-center" id="registerForm">
 			<div class="form-row">
 				<div class="form-group col-md-2">
 					<label for="name">Ime</label>
@@ -58,7 +58,8 @@
 		</div>
 		
 		<script>
-			$("#submit").click(function() {
+			$("input[type='submit']").click(function() {
+				event.preventDefault();
 				var formData = JSON.stringify({
 					email:$('input[name="email"]').val(),
 					password:$("#pass").val(),
@@ -69,12 +70,13 @@
 				});
 				$.ajax({
 					url: "/users",
-					type: "POST",
+					type: 'POST',
 					data: formData,
 					contentType: "application/json",
 					datatype: "text/html",
 					success: function(data){
 						console.log("Ajax zahtev za registraciju.");
+						window.location.href = "http://localhost:8080/emailConfirm.html";
 					}
 				});
 			});
