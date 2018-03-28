@@ -9,4 +9,6 @@ public interface CinemaService {
 	List<Cinema> findAll();
 
 	Cinema save(Cinema cinema);
+
+	Cinema findOne(Long id);
 }

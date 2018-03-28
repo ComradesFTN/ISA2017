@@ -25,7 +25,7 @@
 									}
 									newRow = 
 										"<tr>"
-											+ "<td><a href='theatres/ " + data[i].id + "'>" + data[i].name + "</a></td>"
+											+ "<td><a class=\"theatres\" href=\"\" id=\""+data[i].id+"\">" + data[i].name + "</a></td>"
 											+ "<td>" + data[i].adress + "</td>"
 											+ "<td>" + ratingText + "</td>"
 											+ "<td><form action=\"http://google.com\"><input type=\"submit\" value=\"Pogledaj\" /></form></td>"
@@ -34,14 +34,39 @@
 								}
 							});
 				});
+			$(document).on("click", ".theatres", function(event) {
+				event.preventDefault();
+				id=$(this).closest("a").attr("id");	
+				var redirect = function(url, method) {
+					var form = document.createElement('form');
+					document.body.appendChild(form);
+					var input = document.createElement('input');
+					input.name='id';
+					input.value=id;
+					form.appendChild(input);
+					form.method = method;
+					form.action = url;
+					form.submit();
+				};
+				redirect('theaterDetails.html','GET');
+			});	
+			
+			
+				
 		</script>
 	</head>
 	<body class="bg-light">			
-		<ul class="nav nav-tabs bg-danger justify-content-end mr-2">	
-			<li class="nav-item">
-				<a class="nav-link text-white" href="login.html">Prijava</a>
-			</li>
-		</ul>
+		<div class="nav nav-tabs bg-danger">
+			<ul class="nav nav-tabs mr-auto bg-danger">			
+				<li class="nav-item">
+					<a class="nav-link active text-danger" href="theatresPage.html">Pozorista</a>				
+				</li>
+				<li class="nav-item">
+					<a class="nav-link text-white" href="cinemasPage.html">Bioskopi</a>
+				</li>			
+			</ul>
+			<a class="nav-link mr-0 text-white" href="login.html">Prijava</a>
+		</div>
 		<div class="container">
 			<table class="table">
 			<thead class="thead-dark">

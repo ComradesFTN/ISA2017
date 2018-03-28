@@ -24,4 +24,9 @@ public class TheatreServiceImpl implements TheatreService {
 		return theatreRepository.save(theatre);	
 	}
 
+	@Override
+	public Theatre findOne(Long id) {
+		return theatreRepository.findOne(id);
+	}
+
 }
