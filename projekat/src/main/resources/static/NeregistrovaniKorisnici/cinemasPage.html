@@ -38,8 +38,11 @@
 					event.preventDefault();
 					id=$(this).closest("a").attr("id");	
 					var redirect = function(url, method) {
+						var div = document.createElement('div');
 						var form = document.createElement('form');
-						document.body.appendChild(form);
+						div.setAttribute("class","invisible");
+						div.appendChild(form);
+						document.body.appendChild(div);
 						var input = document.createElement('input');
 						input.name='id';
 						input.value=id;
