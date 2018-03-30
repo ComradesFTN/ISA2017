@@ -25,7 +25,7 @@ public class VerificationToken {
 
 	private String token;
 
-	@OneToOne(targetEntity = User.class, fetch = FetchType.EAGER, cascade=CascadeType.ALL) //proveri brisanje
+	@OneToOne(targetEntity = User.class, fetch = FetchType.EAGER) //proveri brisanje
 	@JoinColumn(nullable = false, name = "user_id")
 	private User user;
 

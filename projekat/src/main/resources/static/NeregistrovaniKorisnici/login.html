@@ -3,20 +3,21 @@
 	<head>
 		<title>Prijava</title>
 		<meta charset="UTF-8">
+		<script src="scripts/jquery-3.2.1.min.js"></script>
 		<link rel="stylesheet" href="stylesheets/bootstrap.css">
 	</head>	
 	<body class="bg-light">
-		<div class="nav nav-tabs bg-danger">
-			<ul class="nav nav-tabs mr-auto bg-danger">			
-				<li class="nav-item">
-					<a class="nav-link text-white" href="theatresPage.html">Pozorista</a>				
-				</li>
-				<li class="nav-item">
-					<a class="nav-link text-white" href="cinemasPage.html">Bioskopi</a>
-				</li>			
-			</ul>
-			<a class="nav-link mr-0 active text-danger" href="login.html">Prijava</a>
-		</div>
+		<ul class="nav nav-tabs bg-danger">	
+			<li class="nav-item">
+				<a class="nav-link text-white" href="theatresPage.html">Pozorista</a>				
+			</li>
+			<li class="nav-item">
+				<a class="nav-link text-white" href="cinemasPage.html">Bioskopi</a>
+			</li>
+		</ul>
+		<script>
+
+		</script>
 		<form class="text-center mt-5" id="loginForm">
 			<div class="form-group">
 				<label for="email">Email</label>
@@ -26,5 +27,62 @@
 			</div>
 			<input type="submit" class="btn btn-primary bg-danger" value="Login"> Don't have an account? <a href="registration.html">Sign up.</a>
 		</form>
+		
+		<script>
+			$("input[type='submit']").click(function(event) {
+				event.preventDefault();
+				function validate() {
+				    if ($('#email').val() == "" && $('#password').val() == "") {
+				        alert("Username and password are required");
+				        $('#email').focus();
+				        return false;
+				    }
+				    if ($('#email').val() == "") {
+				        alert("Username is required");
+				        $('#email').focus();
+				        return false;
+				    }
+				    if ($('#password').val() == "") {
+				    alert("Password is required");
+				    $('#password').focus();
+				        return false;
+				    }
+				    return true;
+				}
+				if(!validate()) {
+					return;
+				}
+				var formData = JSON.stringify({
+					email:$("#email").val(),
+					password:$("#password").val(),
+				});
+				$.ajax({
+					url: "/users/login",
+					type: 'POST',
+					data: formData,
+					contentType: "application/json",
+					//datatype: "text/html",
+					success: function(data){
+						console.log("Ajax zahtev za login.");
+						
+					},
+					statusCode: {
+				    	404: function() {
+				      	alert("Email nevalidan.");
+				    	},
+				    	400: function() {
+				    		alert("Username i/ili password su netacni.");
+				    	},
+				    	401: function() {
+				    		alert("Vas nalog nije aktiviran.")
+				    	},
+						200: function() {
+							window.location.href = "http://localhost:8080/NeregistrovaniKorisnici/emailConfirm.html";
+							//TODO Treba na homepage.html da ide
+						}
+				  	}
+				});
+			});
+		</script>
 	</body>
 </html>

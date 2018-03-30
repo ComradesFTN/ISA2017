@@ -7,6 +7,7 @@ import isa.projekat.domain.VerificationToken;
 
 public interface UserService {
 
+
 	List<User> findAll();
 
 	User getUser(String verificationToken);
@@ -18,4 +19,6 @@ public interface UserService {
 	User save(User user);
 
 	List<User> save(List<User> users);
+	
+	User getUserByEmail(String email);
 }

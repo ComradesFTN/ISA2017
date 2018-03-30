@@ -58,7 +58,7 @@
 		</div>
 		
 		<script>
-			$("input[type='submit']").click(function() {
+			$("input[type='submit']").click(function(event) {
 				event.preventDefault();
 				var formData = JSON.stringify({
 					email:$('input[name="email"]').val(),
@@ -76,7 +76,7 @@
 					datatype: "text/html",
 					success: function(data){
 						console.log("Ajax zahtev za registraciju.");
-						window.location.href = "http://localhost:8080/emailConfirm.html";
+						window.location.href = "http://localhost:8080/NeregistrovaniKorisnici/emailConfirm.html";
 					}
 				});
 			});

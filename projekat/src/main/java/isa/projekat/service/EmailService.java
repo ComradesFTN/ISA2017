@@ -27,14 +27,14 @@ public class EmailService {
 	public void send(User user) throws MailException, InterruptedException {
 		
 		String token = UUID.randomUUID().toString();
-		String confirmationUrl = "/users/regitrationConfirm.html?token=" + token;
+		String confirmationUrl = "/users/registrationConfirm.html?token=" + token;
 		service.createVerificationToken(user, token);
 
 		SimpleMailMessage mail = new SimpleMailMessage();
 		mail.setTo(user.getEmail());
 		mail.setFrom(env.getProperty("spring.mail.username"));
 		mail.setSubject("Potvrdite email ISA");
-		mail.setText("Pozdrav " + user.getFirstName() + ",\n\n Aktivacioni link je" + " rn" + "http://localhost:8080" + confirmationUrl);
+		mail.setText("Pozdrav " + user.getFirstName() + ",\n\n Aktivacioni link je " + "http://localhost:8080" + confirmationUrl);
 		javaMailSender.send(mail);
 
 		System.out.println("Email poslat!");
