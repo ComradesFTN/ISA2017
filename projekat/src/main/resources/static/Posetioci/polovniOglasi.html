@@ -2,24 +2,25 @@
 <html>
 	<head>
 		<script src="scripts/jquery-3.2.1.min.js"></script>
+		<script src="scripts/bootstrap.min.js"></script>
 		<link rel="stylesheet" href="stylesheets/bootstrap.css">
 		<meta charset="UTF-8">
 		<title>Fan Zona</title>
 		<script>
 			$(document).ready(function(){
 				$.ajax({
-					url : "http://localhost:8080/officialAd/getOfficialAds"
+					url : "http://localhost:8080/userAd/getUserAds"
 				}).then(
 						function(data) {
 							for (i = 0; i < data.length; i++) {
 								
 								newRow = 
 									"<tr>"
-										+ "<td>slika</td>"
 										+ "<td>" + data[i].name + "</td>"
-										+ "<td>" + data[i].price + "</td>"
 										+ "<td>" + data[i].description + "</td>"
-										+ "<td><input type=\"submit\" value=\"Rezervisi\"  class=\"btn btn-danger\" /></form></td>"
+										+ "<td>" + data[i].date.toString() + "</td>"
+										+ "<td>" + data[i].image + "</td>"
+										+ "<td><input type=\"submit\" value=\"Licitiraj\"  class=\"btn btn-danger\" /></form></td>"
 									+ "</tr>"
 								$("#tableBody").append(newRow)
 							}
@@ -59,10 +60,10 @@
 			        <div class="nav nav-pills bg-dark flex-row justify-content-end">
 						<ul class="nav nav-tabs bg-danger flex-row">			
 							<li class="nav-item">
-								<a class="nav-link active bg-light text-danger" href="">Zvanicna prodavnica</a>				
+								<a class="nav-link text-white" href="fanZonaPage.html">Zvanicna prodavnica</a>				
 							</li>
 							<li class="nav-item">
-								<a class="nav-link text-white" href="polovniOglasi.html">Oglasi</a>
+								<a class="nav-link active bg-light text-danger" href="polovniOglasi.html">Oglasi</a>
 							</li>
 						</ul>
 					</div>
@@ -88,7 +89,7 @@
 							<figcaption class="figure-caption text-center">
 								<form action="createNewAd.html">
 	    							<input type="submit" value="Novi Oglas" class="btn btn-danger" />
-								</form>					
+								</form>	
 							</figcaption>
 						</figure>
 					</div>
@@ -96,11 +97,11 @@
 						<table class="table">
 						<thead class="thead-dark">
 							<tr>
-								<th>Slika</th>
 								<th>Naziv</th>
-								<th>Cena</th>
 								<th>Opis</th>
-								<th>Rezervacija</th>
+								<th>Datum</th>
+								<th>Slika</th>
+								<th>Licitacija</th>
 							</tr>
 						</thead>
 						<tbody id="tableBody">
@@ -110,6 +111,6 @@
 					<div class="col">
 						
 					</div>
-			</div>		
+			</div>	
 	</body>
 </html>
