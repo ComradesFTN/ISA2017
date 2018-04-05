@@ -24,4 +24,21 @@ public class UserAdServiceImpl implements UserAdService{
 		return userAdRepository.save(userAd);
 	}
 
+	@Override
+	public UserAd findOne(Long id) {
+		return userAdRepository.findOne(id);
+	}
+
+	@Override
+	public UserAd delete(Long id) {
+		UserAd userAd = userAdRepository.findOne(id);
+		if(userAd == null){
+			throw new IllegalArgumentException("Tried to delete"
+					+ "non-existant userAd");
+		}
+		userAdRepository.delete(userAd);
+		return userAd;
+	}
+	
+
 }

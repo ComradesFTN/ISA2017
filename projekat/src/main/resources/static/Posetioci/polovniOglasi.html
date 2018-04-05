@@ -13,16 +13,17 @@
 				}).then(
 						function(data) {
 							for (i = 0; i < data.length; i++) {
-								
-								newRow = 
-									"<tr>"
-										+ "<td>" + data[i].name + "</td>"
-										+ "<td>" + data[i].description + "</td>"
-										+ "<td>" + data[i].date.toString() + "</td>"
-										+ "<td>" + data[i].image + "</td>"
-										+ "<td><input type=\"submit\" value=\"Licitiraj\"  class=\"btn btn-danger\" /></form></td>"
-									+ "</tr>"
-								$("#tableBody").append(newRow)
+								if(data[i].aproved){
+									newRow = 
+										"<tr>"
+											+ "<td>" + data[i].name + "</td>"
+											+ "<td>" + data[i].description + "</td>"
+											+ "<td>" + data[i].date.toString() + "</td>"
+											+ "<td>" + data[i].image + "</td>"
+											+ "<td><input type=\"submit\" value=\"Licitiraj\"  class=\"btn btn-danger\" /></form></td>"
+										+ "</tr>"
+									$("#tableBody").append(newRow)
+								}
 							}
 						});
 			});

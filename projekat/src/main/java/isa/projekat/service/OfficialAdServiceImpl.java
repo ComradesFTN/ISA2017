@@ -24,4 +24,20 @@ public class OfficialAdServiceImpl implements OfficialAdService{
 		return officialAdRepository.save(officialAd);
 	}
 
+	@Override
+	public OfficialAd findOne(Long id) {
+		return officialAdRepository.findOne(id);
+	}
+
+	@Override
+	public OfficialAd delete(Long id) {
+		OfficialAd officialAd = officialAdRepository.findOne(id);
+		if(officialAd == null){
+			throw new IllegalArgumentException("Tried to delete"
+					+ "non-existant userAd");
+		}
+		officialAdRepository.delete(officialAd);
+		return officialAd;
+	}
+
 }

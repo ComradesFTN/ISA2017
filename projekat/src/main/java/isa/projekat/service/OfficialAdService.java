@@ -10,4 +10,8 @@ public interface OfficialAdService {
 
 	OfficialAd save(OfficialAd officialAd);
 
+	OfficialAd findOne(Long id);
+
+	OfficialAd delete(Long id);
+
 }

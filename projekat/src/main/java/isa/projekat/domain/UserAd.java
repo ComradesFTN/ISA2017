@@ -27,15 +27,21 @@ public class UserAd {
 	@Column(name="Opis", columnDefinition="VARCHAR(200)")
 	private String description;
 	
+	@Column(name="Odobrenje", columnDefinition="BOOLEAN")
+	private Boolean aproved=false;
+
 	public UserAd() {
 	}
 
-	public UserAd(long id, String image, String name, String date, String description) {
+	
+
+	public UserAd(long id, String image, String name, String date, String description, Boolean aproved) {
 		this.id = id;
 		this.image = image;
 		this.name = name;
 		this.date = date;
 		this.description = description;
+		this.aproved = aproved;
 	}
 
 	public long getId() {
@@ -76,5 +82,13 @@ public class UserAd {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	
+	public Boolean getAproved() {
+		return aproved;
+	}
+
+	public void setAproved(Boolean aproved) {
+		this.aproved = aproved;
 	}
 }

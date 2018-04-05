@@ -10,5 +10,9 @@ public interface UserAdService {
 	List<UserAd> findAll();
 
 	UserAd save(UserAd userAd);
+
+	UserAd findOne(Long id);
+
+	UserAd delete(Long id);
 	
 }
