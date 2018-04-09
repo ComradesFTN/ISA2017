@@ -12,18 +12,35 @@
 					url : "http://localhost:8080/userAd/getUserAds"
 				}).then(
 						function(data) {
+							var provera ="Bez";
 							for (i = 0; i < data.length; i++) {
-								
-								newRow = 
-									"<tr>"
-										+ "<td>" + data[i].name + "</td>"
-										+ "<td>" + data[i].description + "</td>"
-										+ "<td>" + data[i].date.toString() + "</td>"
-										+ "<td>" + data[i].image + "</td>"
-										+ "<td><button   class=\"btn btn-danger yes\" href='/userAd/" + data[i].id + "' >Da</button></td>"
-										+ "<td><button   class=\"btn btn-danger no\" href='/userAd/" + data[i].id + "'>Ne</button></td>"
-									+ "</tr>"
-								$("#tableBody").append(newRow)
+								if(data[i].aproved){
+									
+								}else{
+									if(data[i].image.toString().indexOf(provera) != -1){
+										newRow = 
+											"<tr>"
+												+ "<td>" + data[i].name + "</td>"
+												+ "<td>" + data[i].description + "</td>"
+												+ "<td>" + data[i].date.toString() + "</td>"
+												+ "<td>Bez slike</td>"
+												+ "<td><button   class=\"btn btn-danger yes\" href='/userAd/" + data[i].id + "' >Da</button></td>"
+												+ "<td><button   class=\"btn btn-danger no\" href='/userAd/" + data[i].id + "'>Ne</button></td>"
+											+ "</tr>"
+										$("#tableBody").append(newRow)
+									}else{
+										newRow = 
+											"<tr>"
+												+ "<td>" + data[i].name + "</td>"
+												+ "<td>" + data[i].description + "</td>"
+												+ "<td>" + data[i].date.toString() + "</td>"
+												+ "<td><img height=\"50\" width=\"50\" src=\"../" + data[i].image + "\" /></td>"
+												+ "<td><button   class=\"btn btn-danger yes\" href='/userAd/" + data[i].id + "' >Da</button></td>"
+												+ "<td><button   class=\"btn btn-danger no\" href='/userAd/" + data[i].id + "'>Ne</button></td>"
+											+ "</tr>"
+										$("#tableBody").append(newRow)
+									}
+								}
 							}
 						});
 			});

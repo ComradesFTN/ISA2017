@@ -67,7 +67,8 @@
 			  <div class="form-group row">
 			    <label for="inputImage" class="col-sm-2 col-form-label">Slika</label>
 			    <div class="col-sm-10">
-			      <input type="text" class="ml-2" id="inputImage" placeholder="Slika">
+			      <input type="file" onchange="previewFile()"><br>
+				  <img src="" height="200" alt="Pregled slike...">
 			    </div>
 			  </div>
 			  
@@ -86,24 +87,60 @@
 			</form>
 		</div>
 		<script>
+		var file;
+		var reader;
+		function previewFile() {
+			  var preview = document.querySelector('img');
+			  file    = document.querySelector('input[type=file]').files[0];
+			  reader  = new FileReader();
+
+			  reader.addEventListener("load", function () {
+			    preview.src = reader.result;
+			  }, false);
+
+			  if (file) {
+			    reader.readAsDataURL(file);
+			  }
+			}
 			$("input[type='submit']").click(function(event) {
 				event.preventDefault();
+				if(reader!=null){
+					var splitImage = reader.result.split('base64,');
 					var formData = JSON.stringify({
 						name:$("#inputName").val(),
 						description:$("#inputDescription").val(),
-						image:$("#inputImage").val(),
+						image:splitImage[1],
 						date:$("#inputDate").val(),
 					});
-					$.ajax({
-						url: "http://localhost:8080/userAd",
-						type: 'POST',
-						data: formData,
-						contentType: "application/json",
-						success: function(){
-							console.log("Ajax zahtev za registraciju.");
-							window.location.href = "http://localhost:8080/Posetioci/polovniOglasi.html";
-						}
+						$.ajax({
+							url: "http://localhost:8080/userAd",
+							type: 'POST',
+							data: formData,
+							contentType: "application/json",
+							success: function(){
+								console.log("Ajax zahtev za registraciju.");
+								alert("Vas oglas je poslat, molimo sacekajte da administrator odobri vas oglas.");
+								window.location.href = "http://localhost:8080/Posetioci/polovniOglasi.html";
+							}
+						});
+				}else{
+					var formData = JSON.stringify({
+						name:$("#inputName").val(),
+						description:$("#inputDescription").val(),
+						date:$("#inputDate").val(),
 					});
+						$.ajax({
+							url: "http://localhost:8080/userAd",
+							type: 'POST',
+							data: formData,
+							contentType: "application/json",
+							success: function(){
+								console.log("Ajax zahtev za registraciju.");
+								alert("Vas oglas je poslat, molimo sacekajte da administrator odobri vas oglas.");
+								window.location.href = "http://localhost:8080/Posetioci/polovniOglasi.html";
+							}
+						});
+				}
 			});
 		</script>
 	</body>

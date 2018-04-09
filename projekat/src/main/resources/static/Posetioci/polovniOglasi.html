@@ -12,17 +12,30 @@
 					url : "http://localhost:8080/userAd/getUserAds"
 				}).then(
 						function(data) {
+							var provera ="Bez";
 							for (i = 0; i < data.length; i++) {
 								if(data[i].aproved){
-									newRow = 
-										"<tr>"
-											+ "<td>" + data[i].name + "</td>"
-											+ "<td>" + data[i].description + "</td>"
-											+ "<td>" + data[i].date.toString() + "</td>"
-											+ "<td>" + data[i].image + "</td>"
-											+ "<td><input type=\"submit\" value=\"Licitiraj\"  class=\"btn btn-danger\" /></form></td>"
-										+ "</tr>"
-									$("#tableBody").append(newRow)
+									if(data[i].image.toString().indexOf(provera) != -1){
+										newRow = 
+											"<tr>"
+												+ "<td>" + data[i].name + "</td>"
+												+ "<td>" + data[i].description + "</td>"
+												+ "<td>" + data[i].date.toString() + "</td>"
+												+ "<td>Bez slike</td>"
+												+ "<td><input type=\"submit\" value=\"Licitiraj\"  class=\"btn btn-danger\" /></form></td>"
+											+ "</tr>"
+										$("#tableBody").append(newRow)
+									}else{
+										newRow = 
+											"<tr>"
+												+ "<td>" + data[i].name + "</td>"
+												+ "<td>" + data[i].description + "</td>"
+												+ "<td>" + data[i].date.toString() + "</td>"
+												+ "<td><img height=\"50\" width=\"50\" src=\"../" + data[i].image + "\" /></td>"
+												+ "<td><input type=\"submit\" value=\"Licitiraj\"  class=\"btn btn-danger\" /></form></td>"
+											+ "</tr>"
+										$("#tableBody").append(newRow)
+									}
 								}
 							}
 						});

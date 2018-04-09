@@ -1,6 +1,11 @@
 package isa.projekat.controller;
 
+import java.awt.image.BufferedImage;
+import java.io.FileOutputStream;
+import java.util.Base64;
 import java.util.List;
+
+import javax.xml.bind.DatatypeConverter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,7 +36,7 @@ public class UserAdController {
 	public ResponseEntity<UserAd> aproveUserAd(@PathVariable Long id) {
 		UserAd userAd = userAdService.findOne(id);
 		userAd.setAproved(true);
-		userAdService.save(userAd);
+		userAdService.save(userAd,true);
 		return new ResponseEntity<>(userAd, HttpStatus.OK);
 	}
 	
@@ -43,7 +48,7 @@ public class UserAdController {
 	
 	@RequestMapping(method = RequestMethod.POST, consumes = "application/json")
 	public ResponseEntity<UserAd> addUserAd(@RequestBody UserAd userAd) {
-		UserAd newUserAd = userAdService.save(userAd);
+		UserAd newUserAd = userAdService.save(userAd, false);
 		return new ResponseEntity<>(newUserAd, HttpStatus.OK);
 	}
 

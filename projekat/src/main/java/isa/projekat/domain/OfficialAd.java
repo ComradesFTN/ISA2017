@@ -13,8 +13,8 @@ public class OfficialAd {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long id;
 	
-	@Column(name="Slika", columnDefinition="VARCHAR(40)")
-	private String image;
+	@Column(name="Slika", columnDefinition="VARCHAR(300)")
+	private String image="Bez slike";
 	
 	@Column(name="Naziv", columnDefinition="VARCHAR(40)")
 	private String name;

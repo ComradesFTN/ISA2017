@@ -1,5 +1,9 @@
 package isa.projekat.service;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Base64;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +14,7 @@ import isa.projekat.repository.UserAdRepository;
 
 @Service
 public class UserAdServiceImpl implements UserAdService{
-
+	
 	@Autowired
 	public UserAdRepository userAdRepository; 
 	
@@ -20,7 +24,15 @@ public class UserAdServiceImpl implements UserAdService{
 	}
 
 	@Override
-	public UserAd save(UserAd userAd) {
+	public UserAd save(UserAd userAd, Boolean aprove) {
+		if(aprove==false) {
+			if(userAd.getImage()!="Bez slike") {
+				String pathFile = "C:\\Users\\HP\\git\\ISA2017\\projekat\\src\\main\\resources\\static\\Posetioci\\Slike\\slikaOglas"+System.currentTimeMillis()+".jpg";
+				decoder(userAd.getImage(), pathFile);
+				String splitPath[] = pathFile.split("static\\\\");
+				userAd.setImage(splitPath[1]);
+			}
+		}
 		return userAdRepository.save(userAd);
 	}
 
@@ -38,6 +50,18 @@ public class UserAdServiceImpl implements UserAdService{
 		}
 		userAdRepository.delete(userAd);
 		return userAd;
+	}
+		
+	public static void decoder(String base64Image, String pathFile) {
+		try (FileOutputStream imageOutFile = new FileOutputStream(pathFile)) {
+			// Converting a Base64 String into Image byte array
+			byte[] imageByteArray = Base64.getDecoder().decode(base64Image);
+			imageOutFile.write(imageByteArray);
+		} catch (FileNotFoundException e) {
+			System.out.println("Image not found" + e);
+		} catch (IOException ioe) {
+			System.out.println("Exception while reading the Image " + ioe);
+		}
 	}
 	
 

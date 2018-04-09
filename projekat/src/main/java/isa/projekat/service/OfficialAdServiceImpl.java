@@ -1,5 +1,9 @@
 package isa.projekat.service;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Base64;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +25,12 @@ public class OfficialAdServiceImpl implements OfficialAdService{
 
 	@Override
 	public OfficialAd save(OfficialAd officialAd) {
+		if(officialAd.getImage()!="Bez slike") {
+			String pathFile = "C:\\Users\\HP\\git\\ISA2017\\projekat\\src\\main\\resources\\static\\AdminFanZone\\Slike\\zvanicniOglas"+System.currentTimeMillis()+".jpg";
+			decoder(officialAd.getImage(), pathFile);
+			String splitPath[] = pathFile.split("static\\\\");
+			officialAd.setImage(splitPath[1]);
+		}
 		return officialAdRepository.save(officialAd);
 	}
 
@@ -38,6 +48,18 @@ public class OfficialAdServiceImpl implements OfficialAdService{
 		}
 		officialAdRepository.delete(officialAd);
 		return officialAd;
+	}
+	
+	public static void decoder(String base64Image, String pathFile) {
+		try (FileOutputStream imageOutFile = new FileOutputStream(pathFile)) {
+			// Converting a Base64 String into Image byte array
+			byte[] imageByteArray = Base64.getDecoder().decode(base64Image);
+			imageOutFile.write(imageByteArray);
+		} catch (FileNotFoundException e) {
+			System.out.println("Image not found" + e);
+		} catch (IOException ioe) {
+			System.out.println("Exception while reading the Image " + ioe);
+		}
 	}
 
 }
