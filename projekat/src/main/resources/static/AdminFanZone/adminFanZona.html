@@ -21,7 +21,7 @@
 											+ "<td>" + data[i].price + "</td>"
 											+ "<td>" + data[i].description + "</td>"
 											+ "<td><button   class=\"btn btn-danger delete\" href='/officialAd/" + data[i].id + "' >Ukloni</button></td>"
-											+ "<td><button   class=\"btn btn-danger edit\" href='/officialAd/" + data[i].id + "' >Izmeni</button></td>"
+											+ "<td><a href='updateOfficialAd.html?id=" + data[i].id + "' >Izmeni</a></td>"
 										+ "</tr>"
 									$("#tableBody").append(newRow)
 								}else{
@@ -32,7 +32,7 @@
 											+ "<td>" + data[i].price + "</td>"
 											+ "<td>" + data[i].description + "</td>"
 											+ "<td><button   class=\"btn btn-danger delete\" href='/officialAd/" + data[i].id + "' >Ukloni</button></td>"
-											+ "<td><button   class=\"btn btn-danger edit\" href='/officialAd/" + data[i].id + "' >Izmeni</button></td>"
+											+ "<td><a href='updateOfficialAd.html?id=" + data[i].id + "' >Izmeni</a></td>"
 										+ "</tr>"
 									$("#tableBody").append(newRow)
 								}
@@ -58,6 +58,47 @@
 				        }
 					});
 				}
+			});
+			
+			$(document).on("click", ".searchButton", function(event){
+				event.preventDefault(); 
+				$.ajax({
+					url : "http://localhost:8080/officialAd/getOfficialAds"
+				}).then(
+						function(data) {
+							$("#tableBody").empty();
+							var provera ="Bez";
+							var provera2=$('#searchField').val();
+							for (i = 0; i < data.length; i++) {
+								if(data[i].image.toString().indexOf(provera) != -1){
+									if(data[i].name.toString().indexOf(provera2) != -1){
+										newRow = 
+											"<tr>"
+												+ "<td>Bez slike</td>"
+												+ "<td>" + data[i].name + "</td>"
+												+ "<td>" + data[i].price + "</td>"
+												+ "<td>" + data[i].description + "</td>"
+												+ "<td><button   class=\"btn btn-danger delete\" href='/officialAd/" + data[i].id + "' >Ukloni</button></td>"
+												+ "<td><a href='updateOfficialAd.html?id=" + data[i].id + "' >Izmeni</a></td>"
+											+ "</tr>"
+										$("#tableBody").append(newRow)
+									}
+								}else{
+									if(data[i].name.toString().indexOf(provera2) != -1){
+										newRow =
+											"<tr>"
+												+ "<td><img height=\"50\" width=\"50\" src=\"../" + data[i].image + "\" /></td>"
+												+ "<td>" + data[i].name + "</td>"
+												+ "<td>" + data[i].price + "</td>"
+												+ "<td>" + data[i].description + "</td>"
+												+ "<td><button   class=\"btn btn-danger delete\" href='/officialAd/" + data[i].id + "' >Ukloni</button></td>"
+												+ "<td><a href='updateOfficialAd.html?id=" + data[i].id + "' >Izmeni</a></td>"
+											+ "</tr>"
+										$("#tableBody").append(newRow)
+									}
+								}
+							}
+						});
 			});
 		</script>			
 	</head>
@@ -106,8 +147,8 @@
 			            <li class="nav-item">
 							<nav class="navbar navbar-light bg-dark">
 	  							<form class="form-inline">
-					    			<input class="form-control mr-sm-2" type="search" placeholder="Trazi" aria-label="Search">
-					    			<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Trazi</button>
+					    			<input class="form-control mr-sm-2" id="searchField" type="text" placeholder="Trazi po nazivu">
+					    			<button class="btn btn-outline-success my-2 my-sm-0 searchButton" type="submit">Trazi</button>
 	  							</form>
 							</nav>
 			            </li>

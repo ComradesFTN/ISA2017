@@ -40,6 +40,44 @@
 							}
 						});
 			});
+			$(document).on("click", ".searchButton", function(event){
+				event.preventDefault();
+				$.ajax({
+					url : "http://localhost:8080/userAd/getUserAds"
+				}).then(
+						function(data) {
+							$("#tableBody").empty();
+							var provera ="Bez";
+							var provera2=$('#searchField').val();
+							for (i = 0; i < data.length; i++) {
+								if(data[i].image.toString().indexOf(provera) != -1){
+									if(data[i].name.toString().indexOf(provera2) != -1){
+										newRow = 
+											"<tr>"
+											+ "<td>" + data[i].name + "</td>"
+											+ "<td>" + data[i].description + "</td>"
+											+ "<td>" + data[i].date.toString() + "</td>"
+											+ "<td>Bez slike</td>"
+											+ "<td><input type=\"submit\" value=\"Licitiraj\"  class=\"btn btn-danger\" /></form></td>"
+										+ "</tr>"
+										$("#tableBody").append(newRow)
+									}
+								}else{
+									if(data[i].name.toString().indexOf(provera2) != -1){
+										newRow =
+											"<tr>"
+											+ "<td>" + data[i].name + "</td>"
+											+ "<td>" + data[i].description + "</td>"
+											+ "<td>" + data[i].date.toString() + "</td>"
+											+ "<td><img height=\"50\" width=\"50\" src=\"../" + data[i].image + "\" /></td>"
+											+ "<td><input type=\"submit\" value=\"Licitiraj\"  class=\"btn btn-danger\" /></form></td>"
+										+ "</tr>"
+										$("#tableBody").append(newRow)
+									}
+								}
+							}
+						});
+			});
 		</script>			
 	</head>
 	<body>			
@@ -87,8 +125,8 @@
 			            <li class="nav-item">
 							<nav class="navbar navbar-light bg-dark">
 	  							<form class="form-inline">
-					    			<input class="form-control mr-sm-2" type="search" placeholder="Trazi" aria-label="Search">
-					    			<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Trazi</button>
+					    			<input class="form-control mr-sm-2" id="searchField" type="text" placeholder="Trazi po nazivu">
+					    			<button class="btn btn-outline-success my-2 my-sm-0 searchButton" type="submit">Trazi</button>
 	  							</form>
 							</nav>
 			            </li>

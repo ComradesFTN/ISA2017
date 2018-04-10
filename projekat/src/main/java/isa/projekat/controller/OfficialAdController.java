@@ -44,5 +44,12 @@ public class OfficialAdController {
 		OfficialAd deleted = officialAdService.delete(id);
 		return new ResponseEntity<>(deleted, HttpStatus.OK);
 	}
+	
+	@RequestMapping(value = "/{id}",method = RequestMethod.PUT)
+	public ResponseEntity<OfficialAd> editOfficialAd(@PathVariable Long id,@RequestBody OfficialAd officialAd) {
+		officialAd.setId(id);
+		OfficialAd editedOfficialAd = officialAdService.save(officialAd);
+		return new ResponseEntity<>(editedOfficialAd, HttpStatus.OK);
+	}
 
 }

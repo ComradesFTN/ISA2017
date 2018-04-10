@@ -104,6 +104,18 @@
 			}
 			$("input[type='submit']").click(function(event) {
 				event.preventDefault();
+				function validate(){
+					if ($('#inputName').val() == "" || $('#inputDescription').val() == "" || $('#inputDate').val() == "") {
+				        alert("Pri kreiranju oglasa, obavezna polja su naziv, opis i datum.");
+				        $('#inputName').focus();
+				        return false;
+				    }
+					
+					return true;
+				}  
+				if(!validate()){
+					return;
+				}
 				if(reader!=null){
 					var splitImage = reader.result.split('base64,');
 					var formData = JSON.stringify({

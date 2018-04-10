@@ -66,7 +66,7 @@
 			  </div>
 			  
 			  <div class="form-group row">
-			    <label for=""inputPrice"" class="col-sm-2 col-form-label">Cena</label>
+			    <label for="inputPrice" class="col-sm-2 col-form-label">Cena</label>
 			    <div class="col-sm-10">
 			      <input type="number" class="ml-2" id="inputPrice" placeholder="Cena">
 			    </div>
@@ -104,6 +104,22 @@
 			}
 			$("input[type='submit']").click(function(event) {
 				event.preventDefault();
+				function validate() {
+				    if ($('#inputName').val() == "" || $('#inputDescription').val() == "") {
+				        alert("Pri kreiranju oglasa, obavezna polja su naziv, opis i cena.");
+				        $('#inputName').focus();
+				        return false;
+				    }
+				    if($('#inputPrice').val()==""){
+				    	alert("Cena mora biti broj bez dodatnih znakova!");
+					    $('#inputPrice').focus();
+					    return false;
+				    }
+				    return true;
+				}
+				if(!validate()) {
+					return;
+				}
 				if(reader!=null){
 					var splitImage = reader.result.split('base64,');
 					var formData = JSON.stringify({
@@ -123,24 +139,23 @@
 						}
 					});
 				}else{
-					event.preventDefault();
-						var formData = JSON.stringify({
-							name:$("#inputName").val(),
-							description:$("#inputDescription").val(),
-							price:$("#inputPrice").val(),
-						});
-						$.ajax({
-							url: "http://localhost:8080/officialAd",
-							type: 'POST',
-							data: formData,
-							contentType: "application/json",
-							success: function(){
-								console.log("Ajax zahtev za registraciju.");
-								window.location.href = "http://localhost:8080/AdminFanZone/adminFanZona.html";
-							}
-						});
-				}
-			});
+					var formData = JSON.stringify({
+					name:$("#inputName").val(),
+					description:$("#inputDescription").val(),
+					price:$("#inputPrice").val(),
+				});
+				$.ajax({
+					url: "http://localhost:8080/officialAd",
+					type: 'POST',
+					data: formData,
+					contentType: "application/json",
+					success: function(){							
+						console.log("Ajax zahtev za registraciju.");
+						window.location.href = "http://localhost:8080/AdminFanZone/adminFanZona.html";
+					}
+				});
+			  }
+		   });
 		</script>
 	</body>
 </html>
