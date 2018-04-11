@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script src="scripts/jquery-3.2.1.min.js"></script>
+		<script src="scripts/bootstrap.js"></script>	
+		<link rel="stylesheet" href="stylesheets/bootstrap.css">
+		<meta charset="UTF-8">		
+		<title>Pozoriste</title>	
+		<script>
+			$(document).ready(function(){				
+				var id = getUrlParameter('id');	
+				$("#home").attr("href", "cinemaDetails.html?id="+id);
+				$.ajax({
+					url : "http://localhost:8080/cinemas/"+id
+				}).then(
+						function(data) {
+							$('#name').text(data.name);
+							$('#adress').text(data.adress);
+							rating=data.rating;
+							ratingText="";
+							for(j = 0; j < 5; j++){
+								if(rating<0.5){
+									ratingText+="\u2606";
+								}
+								else{
+									ratingText+="\u2605";
+									rating-=1;
+								}
+							}
+							$('#rating').text(ratingText);
+							$('#description').text(data.description);
+						});
+			});
+			
+			var getUrlParameter = function getUrlParameter(sParam) {
+			    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+			        sURLVariables = sPageURL.split('&'),
+			        sParameterName,
+			        i;
+
+			    for (i = 0; i < sURLVariables.length; i++) {
+			        sParameterName = sURLVariables[i].split('=');
+
+			        if (sParameterName[0] === sParam) {
+			            return sParameterName[1] === undefined ? true : sParameterName[1];
+			        }
+			    }
+			};
+		</script>
+	</head>
+	<body class="bg-light">			
+		<div class="nav nav-tabs bg-danger">
+			<ul class="nav nav-tabs mr-auto bg-danger">
+				<li class="nav-item">
+					<a class="nav-link text-white" href="homePage.html">Home</a>
+				</li>					
+				<li class="nav-item">
+					<a class="nav-link text-white" href="theatresPage.html">Pozorista</a>				
+				</li>
+				<li class="nav-item">
+					<a class="nav-link active text-danger" href="cinemasPage.html">Bioskopi</a>
+				</li>			
+			</ul>
+			<a class="nav-link mr-0 text-white" href="../NeregistrovaniKorisnici/login.html">Odjava</a>
+		</div>
+		<nav class="navbar bg-dark justify-content-center">
+		    <div>
+		        <div class="nav nav-pills bg-dark flex-row">
+					<ul class="nav nav-tabs bg-danger flex-row ">	
+						<li class="nav-item">
+							<a class="nav-link text-white" id="home" href="#">Home</a>				
+						</li>		
+						<li class="nav-item">
+							<a class="nav-link active text-danger">Repertoar</a>				
+						</li>
+						<li class="nav-item">
+							<a class="nav-link text-white" href="cinemaPopusti.html">Popusti</a>
+						</li>
+					</ul>
+				</div>
+		    </div>
+		</nav>
+		<div class="container border border-danger bg-white">			
+			<ul class="row list-inline">
+				<li class="col-lg-12 margin-bottom-0">
+					<div class="shop-item margin-bottom-0 clearfix">
+						<div class="col-md-3 text-center">
+							<img class="img-responsive" src="http://www.arenacineplex.com/images/icons_66x96/1522659600patuljci.jpg" alt="" width="190" height="285">
+						</div>
+						<div class="col-md-5">
+							ovde neki opis
+						</div>
+						<div class="col-md-4 text-center">
+							ovde ce biti vreme
+						</div>
+					</div>
+				</li>
+				<div class="col-md-12"><hr></div>		
+				<li class="col-lg-12 margin-bottom-0">nesto pisem ovde</li>
+				<div class="col-md-12"><hr></div>	
+				<li class="col-lg-12 margin-bottom-0">nesto pisem ovde</li>	
+			</ul>			
+		</div>
+	</body>
+</html>
