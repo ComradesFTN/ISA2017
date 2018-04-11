@@ -130,4 +130,9 @@ public class IndexController {
 	public String polovniOglasi() {
 		return "Posetioci/polovniOglasi";
 	}
+	
+	@GetMapping("/Posetioci/createNewAd")
+	public String createNewAd() {
+		return "Posetioci/createNewAd";
+	}
 }
