@@ -56,14 +56,53 @@ public class IndexController {
 		return "Posetioci/homePage";
 	}
 	
-	@GetMapping("Posetioci/settings")
-	public String settingsPage() {
-		return "Posetioci/settings";
+	@GetMapping("/AdminPozoristaBioskopi/cinemasPage")
+	public String AdminCinema() {
+		return "AdminPozoristaBioskopi/cinemasPage";
 	}
 	
-	@GetMapping("NeregistrovaniKorisnici/registration")
-	public String registration() {
-		return "NeregistrovaniKorisnici/registration";
+	@GetMapping("/AdminPozoristaBioskopi/cinemaDetails")
+	public String AdminCinemaDetails() {
+		return "AdminPozoristaBioskopi/cinemaDetails";
 	}
-
+	
+	@GetMapping("/AdminPozoristaBioskopi/cinemaRepertoar")
+	public String AdminCinemaRepertoar() {
+		return "AdminPozoristaBioskopi/cinemaRepertoar";
+	}
+	
+	@GetMapping("/AdminPozoristaBioskopi/theatresPage")
+	public String AdminTheater() {
+		return "AdminPozoristaBioskopi/theatresPage";
+	}
+	
+	@GetMapping("/AdminPozoristaBioskopi/theaterDetails")
+	public String AdminTheaterDetails() {
+		return "AdminPozoristaBioskopi/theaterDetails";
+	}
+	
+	@GetMapping("/AdminPozoristaBioskopi/theaterRepertoar")
+	public String AdminTheaterRepertoar() {
+		return "AdminPozoristaBioskopi/theaterRepertoar";
+	}
+	
+	@GetMapping("/AdminPozoristaBioskopi/homePage")
+	public String PozBioHomePage() {
+		return "AdminPozoristaBioskopi/homePage";
+	}
+	
+	@GetMapping("/NeregistrovaniKorisnici/cinemaDetails")
+	public String cinemaDetails() {
+		return "NeregistrovaniKorisnici/cinemaDetails";
+	}
+	
+	@GetMapping("/NeregistrovaniKorisnici/theaterDetails")
+	public String theaterDetails() {
+		return "NeregistrovaniKorisnici/theaterDetails";
+	}
+	
+	@GetMapping("/AdminFanZone/createNewOfficialAd")
+	public String createNewOfficialAd() {
+		return "AdminFanZone/createNewOfficialAd";
+	}
 }
