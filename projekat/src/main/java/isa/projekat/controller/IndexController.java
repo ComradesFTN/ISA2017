@@ -35,6 +35,26 @@ public class IndexController {
 	public String cinema() {
 		return "NeregistrovaniKorisnici/cinemasPage";
 	}
+
+	@GetMapping("/Posetioci/fanZonaPage")
+	public String fanZonaPage() {
+		return "Posetioci/fanZonaPage";
+	}
+
+	@GetMapping("/AdminFanZone/adminFanZona")
+	public String adminFanZona() {
+		return "AdminFanZone/adminFanZona";
+	}
+
+	@GetMapping("/NeregistrovaniKorisnici/theatresPage")
+	public String theatres() {
+		return "NeregistrovaniKorisnici/theatresPage";
+	}
+	
+	@GetMapping("Posetioci/homePage")
+	public String homePage() {
+		return "Posetioci/homePage";
+	}
 	
 	@GetMapping("/AdminPozoristaBioskopi/cinemasPage")
 	public String AdminCinema() {
@@ -79,26 +99,6 @@ public class IndexController {
 	@GetMapping("/NeregistrovaniKorisnici/theaterDetails")
 	public String theaterDetails() {
 		return "NeregistrovaniKorisnici/theaterDetails";
-	}
-
-	@GetMapping("/Posetioci/fanZonaPage")
-	public String fanZonaPage() {
-		return "Posetioci/fanZonaPage";
-	}
-
-	@GetMapping("/AdminFanZone/adminFanZona")
-	public String adminFanZona() {
-		return "AdminFanZone/adminFanZona";
-	}
-
-	@GetMapping("/NeregistrovaniKorisnici/theatresPage")
-	public String theatres() {
-		return "NeregistrovaniKorisnici/theatresPage";
-	}
-	
-	@GetMapping("Posetioci/homePage")
-	public String homePage() {
-		return "Posetioci/homePage";
 	}
 
 }
