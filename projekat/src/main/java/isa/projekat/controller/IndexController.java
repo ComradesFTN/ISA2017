@@ -101,4 +101,8 @@ public class IndexController {
 		return "NeregistrovaniKorisnici/theaterDetails";
 	}
 	
+	@GetMapping("/AdminFanZone/createNewOfficialAd")
+	public String createNewOfficialAd() {
+		return "AdminFanZone/createNewOfficialAd";
+	}
 }
