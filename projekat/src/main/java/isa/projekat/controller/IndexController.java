@@ -105,4 +105,14 @@ public class IndexController {
 	public String createNewOfficialAd() {
 		return "AdminFanZone/createNewOfficialAd";
 	}
+	
+	@GetMapping("Posetioci/settings")
+	public String settingsPage() {
+		return "Posetioci/settings";
+	}
+	
+	@GetMapping("NeregistrovaniKorisnici/registration")
+	public String registration() {
+		return "NeregistrovaniKorisnici/registration";
+	}
 }
