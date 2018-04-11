@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -30,6 +31,25 @@ public class OfficialAdController {
 	public ResponseEntity<OfficialAd> addOfficialAd(@RequestBody OfficialAd officialAd) {
 		OfficialAd newOfficialAd = officialAdService.save(officialAd);
 		return new ResponseEntity<>(newOfficialAd, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET )
+	public ResponseEntity<OfficialAd> getOfficialAd(@PathVariable Long id) {
+		OfficialAd officialAd = officialAdService.findOne(id);
+		return new ResponseEntity<>(officialAd, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	public ResponseEntity<OfficialAd> deleteOfficialAd(@PathVariable Long id) {
+		OfficialAd deleted = officialAdService.delete(id);
+		return new ResponseEntity<>(deleted, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/{id}",method = RequestMethod.PUT)
+	public ResponseEntity<OfficialAd> editOfficialAd(@PathVariable Long id,@RequestBody OfficialAd officialAd) {
+		officialAd.setId(id);
+		OfficialAd editedOfficialAd = officialAdService.save(officialAd);
+		return new ResponseEntity<>(editedOfficialAd, HttpStatus.OK);
 	}
 
 }

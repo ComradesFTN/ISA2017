@@ -9,6 +9,10 @@ public interface UserAdService {
 
 	List<UserAd> findAll();
 
-	UserAd save(UserAd userAd);
+	UserAd save(UserAd userAd, Boolean aprove);
+
+	UserAd findOne(Long id);
+
+	UserAd delete(Long id);
 	
 }

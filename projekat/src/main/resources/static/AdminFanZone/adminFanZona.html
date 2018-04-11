@@ -4,8 +4,8 @@
 		<script src="scripts/jquery-3.2.1.min.js"></script>
 		<link rel="stylesheet" href="stylesheets/bootstrap.css">
 		<meta charset="UTF-8">
-		<title>Fan Zona</title>
-		<script>
+		<title>Fan Zona Admin</title>
+		  <script>
 			$(document).ready(function(){
 				$.ajax({
 					url : "http://localhost:8080/officialAd/getOfficialAds"
@@ -20,25 +20,48 @@
 											+ "<td>" + data[i].name + "</td>"
 											+ "<td>" + data[i].price + "</td>"
 											+ "<td>" + data[i].description + "</td>"
-											+ "<td><input type=\"submit\" value=\"Rezervisi\"  class=\"btn btn-danger\" /></form></td>"
+											+ "<td><button   class=\"btn btn-danger delete\" href='/officialAd/" + data[i].id + "' >Ukloni</button></td>"
+											+ "<td><a href='updateOfficialAd.html?id=" + data[i].id + "' >Izmeni</a></td>"
 										+ "</tr>"
 									$("#tableBody").append(newRow)
 								}else{
-									newRow = 
+									newRow =
 										"<tr>"
 											+ "<td><img height=\"50\" width=\"50\" src=\"../" + data[i].image + "\" /></td>"
 											+ "<td>" + data[i].name + "</td>"
 											+ "<td>" + data[i].price + "</td>"
 											+ "<td>" + data[i].description + "</td>"
-											+ "<td><input type=\"submit\" value=\"Rezervisi\"  class=\"btn btn-danger\" /></form></td>"
+											+ "<td><button   class=\"btn btn-danger delete\" href='/officialAd/" + data[i].id + "' >Ukloni</button></td>"
+											+ "<td><a href='updateOfficialAd.html?id=" + data[i].id + "' >Izmeni</a></td>"
 										+ "</tr>"
 									$("#tableBody").append(newRow)
 								}
 							}
 						});
 			});
+			$(document).on("click", ".delete", function(event){
+				//ne salji get zahtev
+				event.preventDefault(); 
+				
+				var confirmed = confirm("Da li ste sigurni da zelite da obrisete ovaj oglas?");
+				if(confirmed){
+				
+					var url = $(this).attr("href")
+					//red koji se treba izbrisati ako je brisanje na serveru bilo uspesno
+					tr_parent = $(this).closest("tr")
+					$.ajax({
+			        	url: url,
+			        	type: "DELETE",
+			        	success: function(){
+			        		//ukloni i na strani 
+							tr_parent.remove()
+				        }
+					});
+				}
+			});
+			
 			$(document).on("click", ".searchButton", function(event){
-				event.preventDefault();
+				event.preventDefault(); 
 				$.ajax({
 					url : "http://localhost:8080/officialAd/getOfficialAds"
 				}).then(
@@ -51,24 +74,26 @@
 									if(data[i].name.toString().indexOf(provera2) != -1){
 										newRow = 
 											"<tr>"
-											+ "<td>Bez slike</td>"
-											+ "<td>" + data[i].name + "</td>"
-											+ "<td>" + data[i].price + "</td>"
-											+ "<td>" + data[i].description + "</td>"
-											+ "<td><input type=\"submit\" value=\"Rezervisi\"  class=\"btn btn-danger\" /></form></td>"
-										+ "</tr>"
+												+ "<td>Bez slike</td>"
+												+ "<td>" + data[i].name + "</td>"
+												+ "<td>" + data[i].price + "</td>"
+												+ "<td>" + data[i].description + "</td>"
+												+ "<td><button   class=\"btn btn-danger delete\" href='/officialAd/" + data[i].id + "' >Ukloni</button></td>"
+												+ "<td><a href='updateOfficialAd.html?id=" + data[i].id + "' >Izmeni</a></td>"
+											+ "</tr>"
 										$("#tableBody").append(newRow)
 									}
 								}else{
 									if(data[i].name.toString().indexOf(provera2) != -1){
 										newRow =
 											"<tr>"
-											+ "<td><img height=\"50\" width=\"50\" src=\"../" + data[i].image + "\" /></td>"
-											+ "<td>" + data[i].name + "</td>"
-											+ "<td>" + data[i].price + "</td>"
-											+ "<td>" + data[i].description + "</td>"
-											+ "<td><input type=\"submit\" value=\"Rezervisi\"  class=\"btn btn-danger\" /></form></td>"
-										+ "</tr>"
+												+ "<td><img height=\"50\" width=\"50\" src=\"../" + data[i].image + "\" /></td>"
+												+ "<td>" + data[i].name + "</td>"
+												+ "<td>" + data[i].price + "</td>"
+												+ "<td>" + data[i].description + "</td>"
+												+ "<td><button   class=\"btn btn-danger delete\" href='/officialAd/" + data[i].id + "' >Ukloni</button></td>"
+												+ "<td><a href='updateOfficialAd.html?id=" + data[i].id + "' >Izmeni</a></td>"
+											+ "</tr>"
 										$("#tableBody").append(newRow)
 									}
 								}
@@ -109,10 +134,10 @@
 			        <div class="nav nav-pills bg-dark flex-row justify-content-end">
 						<ul class="nav nav-tabs bg-danger flex-row">			
 							<li class="nav-item">
-								<a class="nav-link active bg-light text-danger" href="">Zvanicna prodavnica</a>				
+								<a class="nav-link active bg-light text-danger" href="adminFanZona.html">Zvanicna prodavnica</a>				
 							</li>
 							<li class="nav-item">
-								<a class="nav-link text-white" href="polovniOglasi.html">Oglasi</a>
+								<a class="nav-link text-white" href="adminUsedAd.html">Oglasi</a>
 							</li>
 						</ul>
 					</div>
@@ -135,6 +160,11 @@
 				 	<div class="col mt-5">
 						<figure class="figure">
 							<img height="250" width="380" hspace="20" src="FanZone.jpg" class="figure-img img-responsive " /> 
+							<figcaption class="figure-caption text-center">
+								<form action="createNewOfficialAd.html">
+	    							<input type="submit" value="Novi Oglas" class="btn btn-danger" />
+								</form>					
+							</figcaption>
 						</figure>
 					</div>
 					<div class="col-6">
@@ -145,7 +175,8 @@
 								<th>Naziv</th>
 								<th>Cena</th>
 								<th>Opis</th>
-								<th>Rezervacija</th>
+								<th>Ukloni</th>
+								<th>Izmeni</th>
 							</tr>
 						</thead>
 						<tbody id="tableBody">
@@ -155,6 +186,6 @@
 					<div class="col">
 						
 					</div>
-			</div>
+			</div>		
 	</body>
 </html>

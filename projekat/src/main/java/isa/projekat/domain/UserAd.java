@@ -1,7 +1,5 @@
 package isa.projekat.domain;
 
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,8 +13,8 @@ public class UserAd {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long id;
 	
-	@Column(name="Slika", columnDefinition="VARCHAR(40)")
-	private String image;
+	@Column(name="Slika", columnDefinition="VARCHAR(300)")
+	private String image="Bez slike";
 	
 	@Column(name="Naziv", columnDefinition="VARCHAR(40)")
 	private String name;
@@ -27,15 +25,21 @@ public class UserAd {
 	@Column(name="Opis", columnDefinition="VARCHAR(200)")
 	private String description;
 	
+	@Column(name="Odobrenje", columnDefinition="BOOLEAN")
+	private Boolean aproved=false;
+
 	public UserAd() {
 	}
 
-	public UserAd(long id, String image, String name, String date, String description) {
+	
+
+	public UserAd(long id, String image, String name, String date, String description, Boolean aproved) {
 		this.id = id;
 		this.image = image;
 		this.name = name;
 		this.date = date;
 		this.description = description;
+		this.aproved = aproved;
 	}
 
 	public long getId() {
@@ -76,5 +80,13 @@ public class UserAd {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	
+	public Boolean getAproved() {
+		return aproved;
+	}
+
+	public void setAproved(Boolean aproved) {
+		this.aproved = aproved;
 	}
 }
