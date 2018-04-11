@@ -27,7 +27,7 @@ public class UserAdServiceImpl implements UserAdService{
 	public UserAd save(UserAd userAd, Boolean aprove) {
 		if(aprove==false) {
 			if(userAd.getImage()!="Bez slike") {
-				String pathFile = "C:\\Users\\HP\\git\\ISA2017\\projekat\\src\\main\\resources\\static\\Posetioci\\Slike\\slikaOglas"+System.currentTimeMillis()+".jpg";
+				String pathFile = "C:\\Users\\HP\\git\\ISA2017\\projekat\\src\\main\\resources\\static\\imagesAd\\slikaOglas"+System.currentTimeMillis()+".jpg";
 				decoder(userAd.getImage(), pathFile);
 				String splitPath[] = pathFile.split("static\\\\");
 				userAd.setImage(splitPath[1]);
