@@ -3907,7 +3907,7 @@ tbody.collapse.show {
 .nav-pills .nav-link.active,
 .nav-pills .show > .nav-link {
   color: #fff;
-  background-color: #007bff;
+  background-color: #f8f9fa;
 }
 
 .nav-fill .nav-item {
