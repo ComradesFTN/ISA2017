@@ -46,7 +46,7 @@
 				var confirmed = confirm("Da li ste sigurni da zelite da obrisete ovaj oglas?");
 				if(confirmed){
 				
-					var url = $(this).attr("th:href")
+					var url = $(this).attr("href")
 					//red koji se treba izbrisati ako je brisanje na serveru bilo uspesno
 					tr_parent = $(this).closest("tr")
 					$.ajax({
@@ -78,7 +78,7 @@
 												+ "<td>" + data[i].name + "</td>"
 												+ "<td>" + data[i].price + "</td>"
 												+ "<td>" + data[i].description + "</td>"
-												+ "<td><button   class=\"btn btn-danger delete\" th:href='/officialAd/" + data[i].id + "' >Ukloni</button></td>"
+												+ "<td><button   class=\"btn btn-danger delete\" href='/officialAd/" + data[i].id + "' >Ukloni</button></td>"
 												+ "<td><a th:href='updateOfficialAd.html?id=" + data[i].id + "' >Izmeni</a></td>"
 											+ "</tr>"
 										$("#tableBody").append(newRow)
@@ -91,7 +91,7 @@
 												+ "<td>" + data[i].name + "</td>"
 												+ "<td>" + data[i].price + "</td>"
 												+ "<td>" + data[i].description + "</td>"
-												+ "<td><button   class=\"btn btn-danger delete\" th:href='/officialAd/" + data[i].id + "' >Ukloni</button></td>"
+												+ "<td><button   class=\"btn btn-danger delete\" href='/officialAd/" + data[i].id + "' >Ukloni</button></td>"
 												+ "<td><a th:href='updateOfficialAd.html?id=" + data[i].id + "' >Izmeni</a></td>"
 											+ "</tr>"
 										$("#tableBody").append(newRow)

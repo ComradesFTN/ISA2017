@@ -125,4 +125,9 @@ public class IndexController {
 	public String updateOfficialAd() {
 		return "AdminFanZone/updateOfficialAd";
 	}
+	
+	@GetMapping("/Posetioci/polovniOglasi")
+	public String polovniOglasi() {
+		return "Posetioci/polovniOglasi";
+	}
 }

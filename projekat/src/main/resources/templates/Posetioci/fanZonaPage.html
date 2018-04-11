@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 	<head>
-		<script src="scripts/jquery-3.2.1.min.js"></script>
-		<link rel="stylesheet" href="stylesheets/bootstrap.css">
+		<script th:src="@{/scripts/jquery-3.2.1.min.js}"></script>
+		<link rel="stylesheet" th:href="@{/stylesheets/bootstrap.css}">
 		<meta charset="UTF-8">
 		<title>Fan Zona</title>
 		<script>
@@ -11,17 +11,67 @@
 					url : "http://localhost:8080/officialAd/getOfficialAds"
 				}).then(
 						function(data) {
+							var provera ="Bez";
 							for (i = 0; i < data.length; i++) {
-								
-								newRow = 
-									"<tr>"
-										+ "<td>slika</td>"
-										+ "<td>" + data[i].name + "</td>"
-										+ "<td>" + data[i].price + "</td>"
-										+ "<td>" + data[i].description + "</td>"
-										+ "<td><input type=\"submit\" value=\"Rezervisi\"  class=\"btn btn-danger\" /></form></td>"
-									+ "</tr>"
-								$("#tableBody").append(newRow)
+								if(data[i].image.toString().indexOf(provera) != -1){
+									newRow = 
+										"<tr>"
+											+ "<td>Bez slike</td>"
+											+ "<td>" + data[i].name + "</td>"
+											+ "<td>" + data[i].price + "</td>"
+											+ "<td>" + data[i].description + "</td>"
+											+ "<td><input type=\"submit\" value=\"Rezervisi\"  class=\"btn btn-danger\" /></form></td>"
+										+ "</tr>"
+									$("#tableBody").append(newRow)
+								}else{
+									newRow = 
+										"<tr>"
+											+ "<td><img height=\"50\" width=\"50\" src=\"../" + data[i].image + "\" /></td>"
+											+ "<td>" + data[i].name + "</td>"
+											+ "<td>" + data[i].price + "</td>"
+											+ "<td>" + data[i].description + "</td>"
+											+ "<td><input type=\"submit\" value=\"Rezervisi\"  class=\"btn btn-danger\" /></form></td>"
+										+ "</tr>"
+									$("#tableBody").append(newRow)
+								}
+							}
+						});
+			});
+			$(document).on("click", ".searchButton", function(event){
+				event.preventDefault();
+				$.ajax({
+					url : "http://localhost:8080/officialAd/getOfficialAds"
+				}).then(
+						function(data) {
+							$("#tableBody").empty();
+							var provera ="Bez";
+							var provera2=$('#searchField').val();
+							for (i = 0; i < data.length; i++) {
+								if(data[i].image.toString().indexOf(provera) != -1){
+									if(data[i].name.toString().indexOf(provera2) != -1){
+										newRow = 
+											"<tr>"
+											+ "<td>Bez slike</td>"
+											+ "<td>" + data[i].name + "</td>"
+											+ "<td>" + data[i].price + "</td>"
+											+ "<td>" + data[i].description + "</td>"
+											+ "<td><input type=\"submit\" value=\"Rezervisi\"  class=\"btn btn-danger\" /></form></td>"
+										+ "</tr>"
+										$("#tableBody").append(newRow)
+									}
+								}else{
+									if(data[i].name.toString().indexOf(provera2) != -1){
+										newRow =
+											"<tr>"
+											+ "<td><img height=\"50\" width=\"50\" src=\"../" + data[i].image + "\" /></td>"
+											+ "<td>" + data[i].name + "</td>"
+											+ "<td>" + data[i].price + "</td>"
+											+ "<td>" + data[i].description + "</td>"
+											+ "<td><input type=\"submit\" value=\"Rezervisi\"  class=\"btn btn-danger\" /></form></td>"
+										+ "</tr>"
+										$("#tableBody").append(newRow)
+									}
+								}
 							}
 						});
 			});
@@ -49,10 +99,10 @@
 					<a class="nav-link text-white" href="cinemasPage.html">Podesavanja</a>
 				</li>	
 				<li class="nav-item">
-					<a class="nav-link active text-danger" href="fanZonaPage.html">Fan Zona</a>
+					<a class="nav-link active text-danger" href="fanZonaPage">Fan Zona</a>
 				</li>				
 			</ul>
-			<a class="nav-link mr-0 text-white" href="login.html">Odjava</a>
+			<a class="nav-link mr-0 text-white" href="/index.html">Odjava</a>
 		</div>
 		<nav class="navbar navbar-expand-md bg-dark">
 			    <div class="mx-auto order-0 w-50">
@@ -62,7 +112,7 @@
 								<a class="nav-link active bg-light text-danger" href="">Zvanicna prodavnica</a>				
 							</li>
 							<li class="nav-item">
-								<a class="nav-link text-white" href="polovniOglasi.html">Oglasi</a>
+								<a class="nav-link text-white" href="polovniOglasi">Oglasi</a>
 							</li>
 						</ul>
 					</div>
@@ -72,8 +122,8 @@
 			            <li class="nav-item">
 							<nav class="navbar navbar-light bg-dark">
 	  							<form class="form-inline">
-					    			<input class="form-control mr-sm-2" type="search" placeholder="Trazi" aria-label="Search">
-					    			<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Trazi</button>
+					    			<input class="form-control mr-sm-2" id="searchField" type="text" placeholder="Trazi po nazivu">
+					    			<button class="btn btn-outline-success my-2 my-sm-0 searchButton" type="submit">Trazi</button>
 	  							</form>
 							</nav>
 			            </li>
