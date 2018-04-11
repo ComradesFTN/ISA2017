@@ -4,7 +4,6 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -14,6 +13,16 @@ public class IndexController {
 
 	@RequestMapping("/")
 	public String index(HttpSession session) {
+		return "index";
+	}
+	
+	@RequestMapping("/index")
+	public String indexLogOut(HttpSession session) {
+		if(session != null) {
+			session.invalidate();
+			System.out.println("Sesija nukovana.");
+		}
+
 		return "index";
 	}
 

@@ -31,12 +31,15 @@
 					<a class="nav-link text-white" href="fanZonaPage.html">Fan Zona</a>
 				</li>					
 			</ul>
-			<a class="nav-link mr-0 text-white" href="login.html">Odjava</a>
+			<a class="nav-link mr-0 text-white" href="/index.html">Odjava</a>
 			
 		</div>
 		
 		<br/>
-	  	<p th:text="${session.loggedUser.getFirstName()}" th:unless="${session == null}"> nesto!</p>
-		
+	  	<p th:text="${session.loggedUser.getFirstName()}" th:unless="${session == null}"></p>
+	  	<p th:text="${session.loggedUser.getLastName()}" th:unless="${session == null}"></p>
+		<p th:text="${session.loggedUser.getEmail()}" th:unless="${session == null}"></p>
+		<p th:text="${session.loggedUser.getPhone()}" th:unless="${session == null}"></p>
+		<p th:text="${session.loggedUser.getCity()}" th:unless="${session == null}"></p>
 	</body>
 </html>
