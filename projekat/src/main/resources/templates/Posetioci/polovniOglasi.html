@@ -1,77 +1,28 @@
-
 <!DOCTYPE html>
 <html>
 	<head>
 		<script src="scripts/jquery-3.2.1.min.js"></script>
+		<script src="scripts/bootstrap.min.js"></script>
 		<link rel="stylesheet" href="stylesheets/bootstrap.css">
 		<meta charset="UTF-8">
 		<title>Fan Zona</title>
 		<script>
 			$(document).ready(function(){
 				$.ajax({
-					url : "http://localhost:8080/officialAd/getOfficialAds"
+					url : "http://localhost:8080/userAd/getUserAds"
 				}).then(
 						function(data) {
-							var provera ="Bez";
 							for (i = 0; i < data.length; i++) {
-								if(data[i].image.toString().indexOf(provera) != -1){
+								if(data[i].aproved){
 									newRow = 
 										"<tr>"
-											+ "<td>Bez slike</td>"
 											+ "<td>" + data[i].name + "</td>"
-											+ "<td>" + data[i].price + "</td>"
 											+ "<td>" + data[i].description + "</td>"
-											+ "<td><input type=\"submit\" value=\"Rezervisi\"  class=\"btn btn-danger\" /></form></td>"
+											+ "<td>" + data[i].date.toString() + "</td>"
+											+ "<td>" + data[i].image + "</td>"
+											+ "<td><input type=\"submit\" value=\"Licitiraj\"  class=\"btn btn-danger\" /></form></td>"
 										+ "</tr>"
 									$("#tableBody").append(newRow)
-								}else{
-									newRow = 
-										"<tr>"
-											+ "<td><img height=\"50\" width=\"50\" src=\"../" + data[i].image + "\" /></td>"
-											+ "<td>" + data[i].name + "</td>"
-											+ "<td>" + data[i].price + "</td>"
-											+ "<td>" + data[i].description + "</td>"
-											+ "<td><input type=\"submit\" value=\"Rezervisi\"  class=\"btn btn-danger\" /></form></td>"
-										+ "</tr>"
-									$("#tableBody").append(newRow)
-								}
-							}
-						});
-			});
-			$(document).on("click", ".searchButton", function(event){
-				event.preventDefault();
-				$.ajax({
-					url : "http://localhost:8080/officialAd/getOfficialAds"
-				}).then(
-						function(data) {
-							$("#tableBody").empty();
-							var provera ="Bez";
-							var provera2=$('#searchField').val();
-							for (i = 0; i < data.length; i++) {
-								if(data[i].image.toString().indexOf(provera) != -1){
-									if(data[i].name.toString().indexOf(provera2) != -1){
-										newRow = 
-											"<tr>"
-											+ "<td>Bez slike</td>"
-											+ "<td>" + data[i].name + "</td>"
-											+ "<td>" + data[i].price + "</td>"
-											+ "<td>" + data[i].description + "</td>"
-											+ "<td><input type=\"submit\" value=\"Rezervisi\"  class=\"btn btn-danger\" /></form></td>"
-										+ "</tr>"
-										$("#tableBody").append(newRow)
-									}
-								}else{
-									if(data[i].name.toString().indexOf(provera2) != -1){
-										newRow =
-											"<tr>"
-											+ "<td><img height=\"50\" width=\"50\" src=\"../" + data[i].image + "\" /></td>"
-											+ "<td>" + data[i].name + "</td>"
-											+ "<td>" + data[i].price + "</td>"
-											+ "<td>" + data[i].description + "</td>"
-											+ "<td><input type=\"submit\" value=\"Rezervisi\"  class=\"btn btn-danger\" /></form></td>"
-										+ "</tr>"
-										$("#tableBody").append(newRow)
-									}
 								}
 							}
 						});
@@ -110,10 +61,10 @@
 			        <div class="nav nav-pills bg-dark flex-row justify-content-end">
 						<ul class="nav nav-tabs bg-danger flex-row">			
 							<li class="nav-item">
-								<a class="nav-link active bg-light text-danger" href="">Zvanicna prodavnica</a>				
+								<a class="nav-link text-white" href="fanZonaPage.html">Zvanicna prodavnica</a>				
 							</li>
 							<li class="nav-item">
-								<a class="nav-link text-white" href="polovniOglasi.html">Oglasi</a>
+								<a class="nav-link active bg-light text-danger" href="polovniOglasi.html">Oglasi</a>
 							</li>
 						</ul>
 					</div>
@@ -123,8 +74,8 @@
 			            <li class="nav-item">
 							<nav class="navbar navbar-light bg-dark">
 	  							<form class="form-inline">
-					    			<input class="form-control mr-sm-2" id="searchField" type="text" placeholder="Trazi po nazivu">
-					    			<button class="btn btn-outline-success my-2 my-sm-0 searchButton" type="submit">Trazi</button>
+					    			<input class="form-control mr-sm-2" type="search" placeholder="Trazi" aria-label="Search">
+					    			<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Trazi</button>
 	  							</form>
 							</nav>
 			            </li>
@@ -136,17 +87,22 @@
 				 	<div class="col mt-5">
 						<figure class="figure">
 							<img height="250" width="380" hspace="20" src="FanZone.jpg" class="figure-img img-responsive " /> 
+							<figcaption class="figure-caption text-center">
+								<form action="createNewAd.html">
+	    							<input type="submit" value="Novi Oglas" class="btn btn-danger" />
+								</form>	
+							</figcaption>
 						</figure>
 					</div>
 					<div class="col-6">
 						<table class="table">
 						<thead class="thead-dark">
 							<tr>
-								<th>Slika</th>
 								<th>Naziv</th>
-								<th>Cena</th>
 								<th>Opis</th>
-								<th>Rezervacija</th>
+								<th>Datum</th>
+								<th>Slika</th>
+								<th>Licitacija</th>
 							</tr>
 						</thead>
 						<tbody id="tableBody">
@@ -156,6 +112,6 @@
 					<div class="col">
 						
 					</div>
-			</div>
+			</div>	
 	</body>
 </html>

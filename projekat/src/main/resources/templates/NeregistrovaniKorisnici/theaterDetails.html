@@ -1,11 +1,10 @@
-
 <!DOCTYPE html>
 <html>
 	<head>
 		<script src="scripts/jquery-3.2.1.min.js"></script>
 		<link rel="stylesheet" href="stylesheets/bootstrap.css">
 		<meta charset="UTF-8">
-		<title>Bioskop</title>	
+		<title>Pozoriste</title>	
 		<style>
 		a.nav-link.disabled:hover{
 			color:#6c757d;
@@ -14,8 +13,12 @@
 		<script>
 			$(document).ready(function(){				
 				var id = getUrlParameter('id');	
+				$('#name').text('Pozoriste mladih');
+				$('#adress').text('Bogu iza nogu');
+				$('#rating').text("5");
+				$('#description').text("Neki text bafjlskdfjlksdjlfkjsdlkfjlskdfjlksdjfklsdjlfksdjlfksdjlkfjsdlkfjsdlkfjlskdfjlskdfjlksdjflksdjflsdjfklsdjlfksdjklfsdjklfsdjklfsdjlkfjsdlkfjsdlkfdsjlkafjsdlkfjalskjf kldsjflkajsdlf jalskfdj lksjalfk jsdlkafj lskaj lfkdsjalk jlskdafj lksadjlf jsalkfj klsdajf lksdjklf jlskdafjlksdajljsdlkafjlskafjlksdajflksdjalksdjlkajasdlfksjalfkjdslkafjlskdajlksdajflksdajlk");
 				$.ajax({
-					url : "http://localhost:8080/cinemas/"+id
+					url : "http://localhost:8080/theatres/"+id
 				}).then(
 						function(data) {
 							$('#name').text(data.name);
@@ -56,10 +59,10 @@
 		<div class="nav nav-tabs bg-danger">
 			<ul class="nav nav-tabs mr-auto bg-danger">			
 				<li class="nav-item">
-					<a class="nav-link text-white" href="theatresPage.html">Pozorista</a>				
+					<a class="nav-link active text-danger" href="theatresPage.html">Pozorista</a>				
 				</li>
 				<li class="nav-item">
-					<a class="nav-link active text-danger" href="cinemasPage.html">Bioskopi</a>
+					<a class="nav-link text-white" href="cinemasPage.html">Bioskopi</a>
 				</li>			
 			</ul>
 			<a class="nav-link mr-0 text-white" href="login.html">Prijava</a>
@@ -69,10 +72,10 @@
 		        <div class="nav nav-pills bg-dark flex-row">
 					<ul class="nav nav-tabs bg-danger flex-row ">	
 						<li class="nav-item">
-							<a class="nav-link active text-danger">Home</a>				
+							<a class="nav-link active text-danger" href="#">Home</a>				
 						</li>		
 						<li class="nav-item">
-							<a class="nav-link disabled">Repertoar</a>				
+							<a class="nav-link disabled ">Repertoar</a>				
 						</li>
 						<li class="nav-item">
 							<a class="nav-link disabled">Popusti</a>
@@ -84,7 +87,7 @@
 		<div class="container border border-danger bg-white" style="height: 600px">			
 			<div class="row">
 				<div class="col-5 mt-3 text-center">	
-					<img class="w-50 mt-3" src="images/cinema.jpg"/> 
+					<img class="w-50 mt-3" src="images/theatre.jpg"/> 
 					<div class="container border border-info mt-5" id="map">ovde ce biti mapa (za koriscenje gmap ima neki freetrial valjda koliko sam proucavao pa cemo to na kraju ubaciti)</div>									
 				</div>
 				<div class="col-7 text-center">		

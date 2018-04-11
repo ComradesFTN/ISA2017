@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 	<head>
@@ -12,67 +11,17 @@
 					url : "http://localhost:8080/officialAd/getOfficialAds"
 				}).then(
 						function(data) {
-							var provera ="Bez";
 							for (i = 0; i < data.length; i++) {
-								if(data[i].image.toString().indexOf(provera) != -1){
-									newRow = 
-										"<tr>"
-											+ "<td>Bez slike</td>"
-											+ "<td>" + data[i].name + "</td>"
-											+ "<td>" + data[i].price + "</td>"
-											+ "<td>" + data[i].description + "</td>"
-											+ "<td><input type=\"submit\" value=\"Rezervisi\"  class=\"btn btn-danger\" /></form></td>"
-										+ "</tr>"
-									$("#tableBody").append(newRow)
-								}else{
-									newRow = 
-										"<tr>"
-											+ "<td><img height=\"50\" width=\"50\" src=\"../" + data[i].image + "\" /></td>"
-											+ "<td>" + data[i].name + "</td>"
-											+ "<td>" + data[i].price + "</td>"
-											+ "<td>" + data[i].description + "</td>"
-											+ "<td><input type=\"submit\" value=\"Rezervisi\"  class=\"btn btn-danger\" /></form></td>"
-										+ "</tr>"
-									$("#tableBody").append(newRow)
-								}
-							}
-						});
-			});
-			$(document).on("click", ".searchButton", function(event){
-				event.preventDefault();
-				$.ajax({
-					url : "http://localhost:8080/officialAd/getOfficialAds"
-				}).then(
-						function(data) {
-							$("#tableBody").empty();
-							var provera ="Bez";
-							var provera2=$('#searchField').val();
-							for (i = 0; i < data.length; i++) {
-								if(data[i].image.toString().indexOf(provera) != -1){
-									if(data[i].name.toString().indexOf(provera2) != -1){
-										newRow = 
-											"<tr>"
-											+ "<td>Bez slike</td>"
-											+ "<td>" + data[i].name + "</td>"
-											+ "<td>" + data[i].price + "</td>"
-											+ "<td>" + data[i].description + "</td>"
-											+ "<td><input type=\"submit\" value=\"Rezervisi\"  class=\"btn btn-danger\" /></form></td>"
-										+ "</tr>"
-										$("#tableBody").append(newRow)
-									}
-								}else{
-									if(data[i].name.toString().indexOf(provera2) != -1){
-										newRow =
-											"<tr>"
-											+ "<td><img height=\"50\" width=\"50\" src=\"../" + data[i].image + "\" /></td>"
-											+ "<td>" + data[i].name + "</td>"
-											+ "<td>" + data[i].price + "</td>"
-											+ "<td>" + data[i].description + "</td>"
-											+ "<td><input type=\"submit\" value=\"Rezervisi\"  class=\"btn btn-danger\" /></form></td>"
-										+ "</tr>"
-										$("#tableBody").append(newRow)
-									}
-								}
+								
+								newRow = 
+									"<tr>"
+										+ "<td>slika</td>"
+										+ "<td>" + data[i].name + "</td>"
+										+ "<td>" + data[i].price + "</td>"
+										+ "<td>" + data[i].description + "</td>"
+										+ "<td><input type=\"submit\" value=\"Rezervisi\"  class=\"btn btn-danger\" /></form></td>"
+									+ "</tr>"
+								$("#tableBody").append(newRow)
 							}
 						});
 			});
@@ -123,8 +72,8 @@
 			            <li class="nav-item">
 							<nav class="navbar navbar-light bg-dark">
 	  							<form class="form-inline">
-					    			<input class="form-control mr-sm-2" id="searchField" type="text" placeholder="Trazi po nazivu">
-					    			<button class="btn btn-outline-success my-2 my-sm-0 searchButton" type="submit">Trazi</button>
+					    			<input class="form-control mr-sm-2" type="search" placeholder="Trazi" aria-label="Search">
+					    			<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Trazi</button>
 	  							</form>
 							</nav>
 			            </li>
