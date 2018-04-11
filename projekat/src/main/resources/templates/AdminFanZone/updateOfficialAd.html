@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-		<script src="scripts/jquery-3.2.1.min.js"></script>
-		<link rel="stylesheet" href="stylesheets/bootstrap.css">
+		<script th:src="@{/scripts/jquery-3.2.1.min.js}"></script>
+		<link rel="stylesheet" th:href="@{/stylesheets/bootstrap.css}">
 		<meta charset="UTF-8">
 		<title>Kreiranje novog oglasa</title>			
 	</head>
@@ -29,7 +29,7 @@
 					<a class="nav-link text-white" href="cinemasPage.html">Podesavanja</a>
 				</li>	
 				<li class="nav-item">
-					<a class="nav-link active text-danger" href="fanZonaPage.html">Fan Zona</a>
+					<a class="nav-link active text-danger" href="adminFanZona">Fan Zona</a>
 				</li>				
 			</ul>
 			<a class="nav-link mr-0 text-white" href="login.html">Odjava</a>
@@ -39,10 +39,10 @@
 			        <div class="nav nav-pills bg-dark flex-row justify-content-center">
 						<ul class="nav nav-tabs bg-danger flex-row">			
 							<li class="nav-item">
-								<a class="nav-link text-white" href="adminFanZona.html">Zvanicna prodavnica</a>				
+								<a class="nav-link text-white" href="adminFanZona">Zvanicna prodavnica</a>				
 							</li>
 							<li class="nav-item">
-								<a class="nav-link text-white" href="adminUsedAd.html">Oglasi</a>
+								<a class="nav-link text-white" href="adminUsedAd">Oglasi</a>
 							</li>
 						</ul>
 					</div>
@@ -198,7 +198,7 @@
 					contentType: "application/json",
 					success: function(){							
 						console.log("Ajax zahtev za registraciju.");
-						window.location.href = "http://localhost:8080/AdminFanZone/adminFanZona.html";
+						window.location.href = "http://localhost:8080/AdminFanZone/adminFanZona";
 					}
 				});
 			  }

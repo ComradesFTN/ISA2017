@@ -26,10 +26,10 @@ public class OfficialAdServiceImpl implements OfficialAdService{
 	@Override
 	public OfficialAd save(OfficialAd officialAd) {
 		if(officialAd.getImage()!="Bez slike") {
-			if(!officialAd.getImage().contains("AdminFanZone")) {
+			if(!officialAd.getImage().contains("imagesAd")) {
 				if(this.findOne(officialAd.getId())!=null) {
 					if(this.findOne(officialAd.getId()).getImage().contains("Bez")) {
-						String pathFile = "C:\\Users\\HP\\git\\ISA2017\\projekat\\src\\main\\resources\\static\\AdminFanZone\\Slike\\zvanicniOglas"+System.currentTimeMillis()+".jpg";
+						String pathFile = "C:\\Users\\HP\\git\\ISA2017\\projekat\\src\\main\\resources\\static\\imagesAd\\zvanicniOglas"+System.currentTimeMillis()+".jpg";
 						decoder(officialAd.getImage(), pathFile);
 						String splitPath[] = pathFile.split("static\\\\");
 						officialAd.setImage(splitPath[1]);
@@ -41,7 +41,7 @@ public class OfficialAdServiceImpl implements OfficialAdService{
 						officialAd.setImage(splitPath[1]);
 					}
 				}else {
-					String pathFile = "C:\\Users\\HP\\git\\ISA2017\\projekat\\src\\main\\resources\\static\\AdminFanZone\\Slike\\zvanicniOglas"+System.currentTimeMillis()+".jpg";
+					String pathFile = "C:\\Users\\HP\\git\\ISA2017\\projekat\\src\\main\\resources\\static\\imagesAd\\zvanicniOglas"+System.currentTimeMillis()+".jpg";
 					decoder(officialAd.getImage(), pathFile);
 					String splitPath[] = pathFile.split("static\\\\");
 					officialAd.setImage(splitPath[1]);
