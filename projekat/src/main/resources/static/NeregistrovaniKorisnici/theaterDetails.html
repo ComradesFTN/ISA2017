@@ -13,10 +13,6 @@
 		<script>
 			$(document).ready(function(){				
 				var id = getUrlParameter('id');	
-				$('#name').text('Pozoriste mladih');
-				$('#adress').text('Bogu iza nogu');
-				$('#rating').text("5");
-				$('#description').text("Neki text bafjlskdfjlksdjlfkjsdlkfjlskdfjlksdjfklsdjlfksdjlfksdjlkfjsdlkfjsdlkfjlskdfjlskdfjlksdjflksdjflsdjfklsdjlfksdjklfsdjklfsdjklfsdjlkfjsdlkfjsdlkfdsjlkafjsdlkfjalskjf kldsjflkajsdlf jalskfdj lksjalfk jsdlkafj lskaj lfkdsjalk jlskdafj lksadjlf jsalkfj klsdajf lksdjklf jlskdafjlksdajljsdlkafjlskafjlksdajflksdjalksdjlkajasdlfksjalfkjdslkafjlskdajlksdajflksdajlk");
 				$.ajax({
 					url : "http://localhost:8080/theatres/"+id
 				}).then(
@@ -72,7 +68,7 @@
 		        <div class="nav nav-pills bg-dark flex-row">
 					<ul class="nav nav-tabs bg-danger flex-row ">	
 						<li class="nav-item">
-							<a class="nav-link active text-danger" href="#">Home</a>				
+							<a class="nav-link active text-danger">Home</a>				
 						</li>		
 						<li class="nav-item">
 							<a class="nav-link disabled ">Repertoar</a>				

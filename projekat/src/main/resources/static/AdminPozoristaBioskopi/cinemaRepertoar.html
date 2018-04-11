@@ -2,17 +2,14 @@
 <html>
 	<head>
 		<script src="scripts/jquery-3.2.1.min.js"></script>
+		<script src="scripts/bootstrap.js"></script>	
 		<link rel="stylesheet" href="stylesheets/bootstrap.css">
-		<meta charset="UTF-8">
-		<title>Bioskop</title>	
-		<style>
-		a.nav-link.disabled:hover{
-			color:#6c757d;
-		}
-		</style>
+		<meta charset="UTF-8">		
+		<title>Pozoriste</title>	
 		<script>
 			$(document).ready(function(){				
 				var id = getUrlParameter('id');	
+				$("#home").attr("href", "cinemaDetails.html?id="+id);
 				$.ajax({
 					url : "http://localhost:8080/cinemas/"+id
 				}).then(
@@ -53,7 +50,10 @@
 	</head>
 	<body class="bg-light">			
 		<div class="nav nav-tabs bg-danger">
-			<ul class="nav nav-tabs mr-auto bg-danger">			
+			<ul class="nav nav-tabs mr-auto bg-danger">
+				<li class="nav-item">
+					<a class="nav-link text-white" href="homePage.html">Home</a>
+				</li>					
 				<li class="nav-item">
 					<a class="nav-link text-white" href="theatresPage.html">Pozorista</a>				
 				</li>
@@ -61,40 +61,45 @@
 					<a class="nav-link active text-danger" href="cinemasPage.html">Bioskopi</a>
 				</li>			
 			</ul>
-			<a class="nav-link mr-0 text-white" href="login.html">Prijava</a>
+			<a class="nav-link mr-0 text-white" href="../NeregistrovaniKorisnici/login.html">Odjava</a>
 		</div>
 		<nav class="navbar bg-dark justify-content-center">
 		    <div>
 		        <div class="nav nav-pills bg-dark flex-row">
 					<ul class="nav nav-tabs bg-danger flex-row ">	
 						<li class="nav-item">
-							<a class="nav-link active text-danger">Home</a>				
+							<a class="nav-link text-white" id="home" href="#">Home</a>				
 						</li>		
 						<li class="nav-item">
-							<a class="nav-link disabled">Repertoar</a>				
+							<a class="nav-link active text-danger">Repertoar</a>				
 						</li>
 						<li class="nav-item">
-							<a class="nav-link disabled">Popusti</a>
+							<a class="nav-link text-white" href="cinemaPopusti.html">Popusti</a>
 						</li>
 					</ul>
 				</div>
 		    </div>
 		</nav>
-		<div class="container border border-danger bg-white" style="height: 600px">			
-			<div class="row">
-				<div class="col-5 mt-3 text-center">	
-					<img class="w-50 mt-3" src="images/cinema.jpg"/> 
-					<div class="container border border-info mt-5" id="map">ovde ce biti mapa (za koriscenje gmap ima neki freetrial valjda koliko sam proucavao pa cemo to na kraju ubaciti)</div>									
-				</div>
-				<div class="col-7 text-center">		
-					<h2 class="mt-3" id="name"></h2>
-					<ul class="list-unstyled text-left">
-						<li><h4 class="mt-3" id="adress"/></li>
-						<li class="mt-3" id="rating"/>
-						<li class="mt-3 border border-info" id="description" style="word-wrap: break-word;"/>								
-					</ul>			
-				</div>
-			</div>
+		<div class="container border border-danger bg-white">			
+			<ul class="row list-inline">
+				<li class="col-lg-12 margin-bottom-0">
+					<div class="shop-item margin-bottom-0 clearfix">
+						<div class="col-md-3 text-center">
+							<img class="img-responsive" src="http://www.arenacineplex.com/images/icons_66x96/1522659600patuljci.jpg" alt="" width="190" height="285">
+						</div>
+						<div class="col-md-5">
+							ovde neki opis
+						</div>
+						<div class="col-md-4 text-center">
+							ovde ce biti vreme
+						</div>
+					</div>
+				</li>
+				<div class="col-md-12"><hr></div>		
+				<li class="col-lg-12 margin-bottom-0">nesto pisem ovde</li>
+				<div class="col-md-12"><hr></div>	
+				<li class="col-lg-12 margin-bottom-0">nesto pisem ovde</li>	
+			</ul>			
 		</div>
 	</body>
 </html>

@@ -4,17 +4,13 @@
 		<script src="scripts/jquery-3.2.1.min.js"></script>
 		<link rel="stylesheet" href="stylesheets/bootstrap.css">
 		<meta charset="UTF-8">
-		<title>Bioskop</title>	
-		<style>
-		a.nav-link.disabled:hover{
-			color:#6c757d;
-		}
-		</style>
+		<title>Pozoriste</title>	
 		<script>
 			$(document).ready(function(){				
 				var id = getUrlParameter('id');	
+				$("#repertoar").attr("href", "theaterRepertoar.html?id="+id);
 				$.ajax({
-					url : "http://localhost:8080/cinemas/"+id
+					url : "http://localhost:8080/theatres/"+id
 				}).then(
 						function(data) {
 							$('#name').text(data.name);
@@ -53,15 +49,18 @@
 	</head>
 	<body class="bg-light">			
 		<div class="nav nav-tabs bg-danger">
-			<ul class="nav nav-tabs mr-auto bg-danger">			
+			<ul class="nav nav-tabs mr-auto bg-danger">
 				<li class="nav-item">
-					<a class="nav-link text-white" href="theatresPage.html">Pozorista</a>				
+					<a class="nav-link text-white" href="homePage.html">Home</a>
+				</li>					
+				<li class="nav-item">
+					<a class="nav-link active text-danger" href="theatresPage.html">Pozorista</a>				
 				</li>
 				<li class="nav-item">
-					<a class="nav-link active text-danger" href="cinemasPage.html">Bioskopi</a>
+					<a class="nav-link text-white" href="cinemasPage.html">Bioskopi</a>
 				</li>			
 			</ul>
-			<a class="nav-link mr-0 text-white" href="login.html">Prijava</a>
+			<a class="nav-link mr-0 text-white" href="../NeregistrovaniKorisnici/login.html">Odjava</a>
 		</div>
 		<nav class="navbar bg-dark justify-content-center">
 		    <div>
@@ -71,10 +70,10 @@
 							<a class="nav-link active text-danger">Home</a>				
 						</li>		
 						<li class="nav-item">
-							<a class="nav-link disabled">Repertoar</a>				
+							<a class="nav-link text-white" id="repertoar" href="#">Repertoar</a>				
 						</li>
 						<li class="nav-item">
-							<a class="nav-link disabled">Popusti</a>
+							<a class="nav-link text-white" href="theaterPopusti.html">Popusti</a>
 						</li>
 					</ul>
 				</div>
@@ -83,7 +82,7 @@
 		<div class="container border border-danger bg-white" style="height: 600px">			
 			<div class="row">
 				<div class="col-5 mt-3 text-center">	
-					<img class="w-50 mt-3" src="images/cinema.jpg"/> 
+					<img class="w-50 mt-3" src="images/theatre.jpg"/> 
 					<div class="container border border-info mt-5" id="map">ovde ce biti mapa (za koriscenje gmap ima neki freetrial valjda koliko sam proucavao pa cemo to na kraju ubaciti)</div>									
 				</div>
 				<div class="col-7 text-center">		

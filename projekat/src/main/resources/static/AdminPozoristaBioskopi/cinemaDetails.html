@@ -5,14 +5,10 @@
 		<link rel="stylesheet" href="stylesheets/bootstrap.css">
 		<meta charset="UTF-8">
 		<title>Bioskop</title>	
-		<style>
-		a.nav-link.disabled:hover{
-			color:#6c757d;
-		}
-		</style>
 		<script>
 			$(document).ready(function(){				
 				var id = getUrlParameter('id');	
+				$("#repertoar").attr("href", "cinemaRepertoar.html?id="+id);
 				$.ajax({
 					url : "http://localhost:8080/cinemas/"+id
 				}).then(
@@ -53,7 +49,10 @@
 	</head>
 	<body class="bg-light">			
 		<div class="nav nav-tabs bg-danger">
-			<ul class="nav nav-tabs mr-auto bg-danger">			
+			<ul class="nav nav-tabs mr-auto bg-danger">	
+				<li class="nav-item">
+					<a class="nav-link text-white" href="homePage.html">Home</a>
+				</li>				
 				<li class="nav-item">
 					<a class="nav-link text-white" href="theatresPage.html">Pozorista</a>				
 				</li>
@@ -61,7 +60,7 @@
 					<a class="nav-link active text-danger" href="cinemasPage.html">Bioskopi</a>
 				</li>			
 			</ul>
-			<a class="nav-link mr-0 text-white" href="login.html">Prijava</a>
+			<a class="nav-link mr-0 text-white" href="../NeregistrovaniKorisnici/login.html">Odjava</a>
 		</div>
 		<nav class="navbar bg-dark justify-content-center">
 		    <div>
@@ -71,10 +70,10 @@
 							<a class="nav-link active text-danger">Home</a>				
 						</li>		
 						<li class="nav-item">
-							<a class="nav-link disabled">Repertoar</a>				
+							<a class="nav-link text-white" id="repertoar" href="#">Repertoar</a>				
 						</li>
 						<li class="nav-item">
-							<a class="nav-link disabled">Popusti</a>
+							<a class="nav-link text-white" href="cinemaPopusti.html">Popusti</a>
 						</li>
 					</ul>
 				</div>
