@@ -100,5 +100,7 @@ public class IndexController {
 	public String theaterDetails() {
 		return "NeregistrovaniKorisnici/theaterDetails";
 	}
+	
+	//kolo vodi vasa
 
 }
