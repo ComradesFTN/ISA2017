@@ -41,10 +41,10 @@ public class Movie {
 	private String description;
 	
 	@Column(name="Poster", columnDefinition="VARCHAR(200)")
-	private String poster;  //za sada samo string kad skontamo kako da napravimo image stavicemo
+	private String poster="Bez slike";
 	
 	@Column(name="Trajanje", columnDefinition="NUMERIC")
-	private String length;
+	private int length;
 	
 	@ElementCollection
 	@CollectionTable(name = "SpisakSala",joinColumns = @JoinColumn(name = "movie_id", referencedColumnName = "id"))
@@ -131,11 +131,11 @@ public class Movie {
 		this.poster = poster;
 	}
 
-	public String getLength() {
+	public int getLength() {
 		return length;
 	}
 
-	public void setLength(String length) {
+	public void setLength(int length) {
 		this.length = length;
 	}
 
