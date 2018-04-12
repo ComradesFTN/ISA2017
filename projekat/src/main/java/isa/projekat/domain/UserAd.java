@@ -27,19 +27,23 @@ public class UserAd {
 	
 	@Column(name="Odobrenje", columnDefinition="BOOLEAN")
 	private Boolean aproved=false;
+	
+	@Column(name="Rezervisan_od", columnDefinition="INT")
+	private long rezervisan=0;
 
 	public UserAd() {
 	}
 
-	
-
-	public UserAd(long id, String image, String name, String date, String description, Boolean aproved) {
+	public UserAd(long id, String image, String name, String date, String description, Boolean aproved,
+			long rezervisan) {
+		super();
 		this.id = id;
 		this.image = image;
 		this.name = name;
 		this.date = date;
 		this.description = description;
 		this.aproved = aproved;
+		this.rezervisan = rezervisan;
 	}
 
 	public long getId() {
@@ -89,4 +93,14 @@ public class UserAd {
 	public void setAproved(Boolean aproved) {
 		this.aproved = aproved;
 	}
+
+	public long getRezervisan() {
+		return rezervisan;
+	}
+
+	public void setRezervisan(long rezervisan) {
+		this.rezervisan = rezervisan;
+	}
+	
+	
 }

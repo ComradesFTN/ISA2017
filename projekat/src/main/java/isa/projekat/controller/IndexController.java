@@ -135,4 +135,9 @@ public class IndexController {
 	public String createNewAd() {
 		return "Posetioci/createNewAd";
 	}
+	
+	@GetMapping("/Posetioci/myReservations")
+	public String myReservations() {
+		return "Posetioci/myReservations";
+	}
 }
