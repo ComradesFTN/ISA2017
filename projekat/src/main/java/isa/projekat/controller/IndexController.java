@@ -140,4 +140,10 @@ public class IndexController {
 	public String myReservations() {
 		return "Posetioci/myReservations";
 	}
+	
+	@GetMapping("/AdminPozoristaBioskopi/createNewMovie")
+	public String createNewMovie() {
+		return "AdminPozoristaBioskopi/createNewMovie";
+	}
+	
 }

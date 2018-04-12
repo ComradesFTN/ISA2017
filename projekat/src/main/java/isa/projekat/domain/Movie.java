@@ -25,10 +25,8 @@ public class Movie {
 	@Column(name="Naziv", columnDefinition="VARCHAR(40)")
 	private String name;
 	
-    @ElementCollection
-    @CollectionTable(name = "SpisakGlumacaFilma",joinColumns = @JoinColumn(name = "movie_id", referencedColumnName = "id"))
-    @Column(name = "Glumac", columnDefinition="VARCHAR(40)")
-	List<String> actors= new ArrayList<String>();
+	@Column(name="Glumci", columnDefinition="VARCHAR(40)")
+	private String actors;
 	
 	@Column(name="Zanr", columnDefinition="VARCHAR(40)")
 	private String genre;
@@ -37,7 +35,7 @@ public class Movie {
 	private String directorName;
 	
 	@Column(name="Rejting", columnDefinition="NUMERIC")
-	private int rating;
+	private int rating=-1;
 	
 	@Column(name="PromotivniOpis", columnDefinition="VARCHAR(200)")
 	private String description;
@@ -85,11 +83,11 @@ public class Movie {
 		this.name = name;
 	}
 
-	public List<String> getActors() {
+	public String getActors() {
 		return actors;
 	}
 
-	public void setActors(List<String> actors) {
+	public void setActors(String actors) {
 		this.actors = actors;
 	}
 
