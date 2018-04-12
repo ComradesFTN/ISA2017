@@ -25,7 +25,8 @@ public class OfficialAdServiceImpl implements OfficialAdService{
 
 	@Override
 	public OfficialAd save(OfficialAd officialAd) {
-		if(officialAd.getImage()!="Bez slike") {
+		if(!officialAd.getImage().contains("Bez")) {
+			System.out.println("h"+officialAd.getImage()+"h");
 			if(!officialAd.getImage().contains("imagesAd")) {
 				if(this.findOne(officialAd.getId())!=null) {
 					if(this.findOne(officialAd.getId()).getImage().contains("Bez")) {

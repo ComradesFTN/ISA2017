@@ -25,15 +25,22 @@ public class OfficialAd {
 	@Column(name="Opis", columnDefinition="VARCHAR(200)")
 	private String description;
 	
+	@Column(name="Rezervisan_od", columnDefinition="NUMERIC")
+	private long reserved=0;
+	
 	public OfficialAd() {
 	}
 
-	public OfficialAd(String image, String name, float price, String description) {
+	public OfficialAd(long id, String image, String name, float price, String description, long reserved) {
+		super();
+		this.id = id;
 		this.image = image;
 		this.name = name;
 		this.price = price;
 		this.description = description;
+		this.reserved = reserved;
 	}
+
 
 	public long getId() {
 		return id;
@@ -73,6 +80,14 @@ public class OfficialAd {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	
+	public long getReserved() {
+		return reserved;
+	}
+
+	public void setReserved(long reserved) {
+		this.reserved = reserved;
 	}
 
 }

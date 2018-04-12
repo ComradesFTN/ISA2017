@@ -39,6 +39,14 @@ public class OfficialAdController {
 		return new ResponseEntity<>(officialAd, HttpStatus.OK);
 	}
 	
+	@RequestMapping(value = "/{id}/{userId}", method = RequestMethod.PUT )
+	public ResponseEntity<OfficialAd> reserveOfficialAd(@PathVariable Long id, @PathVariable Long userId) {
+		OfficialAd officialAd = officialAdService.findOne(id);
+		officialAd.setReserved(userId);
+		OfficialAd reservedOfficialAd = officialAdService.save(officialAd);
+		return new ResponseEntity<>(reservedOfficialAd, HttpStatus.OK);
+	}
+	
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<OfficialAd> deleteOfficialAd(@PathVariable Long id) {
 		OfficialAd deleted = officialAdService.delete(id);

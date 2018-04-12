@@ -14,25 +14,29 @@
 							var provera ="Bez";
 							for (i = 0; i < data.length; i++) {
 								if(data[i].image.toString().indexOf(provera) != -1){
-									newRow = 
-										"<tr>"
-											+ "<td>Bez slike</td>"
-											+ "<td>" + data[i].name + "</td>"
-											+ "<td>" + data[i].price + "</td>"
-											+ "<td>" + data[i].description + "</td>"
-											+ "<td><input type=\"submit\" value=\"Rezervisi\"  class=\"btn btn-danger\" /></form></td>"
-										+ "</tr>"
-									$("#tableBody").append(newRow)
+									if(data[i].reserved==0){
+										newRow = 
+											"<tr>"
+												+ "<td>Bez slike</td>"
+												+ "<td>" + data[i].name + "</td>"
+												+ "<td>" + data[i].price + "</td>"
+												+ "<td>" + data[i].description + "</td>"
+												+ "<td><button   class=\"btn btn-danger reserve\" href='/officialAd/" + data[i].id + "' >Rezervisi</button></td>"
+											+ "</tr>"
+										$("#tableBody").append(newRow)
+									}
 								}else{
-									newRow = 
-										"<tr>"
-											+ "<td><img height=\"50\" width=\"50\" src=\"../" + data[i].image + "\" /></td>"
-											+ "<td>" + data[i].name + "</td>"
-											+ "<td>" + data[i].price + "</td>"
-											+ "<td>" + data[i].description + "</td>"
-											+ "<td><input type=\"submit\" value=\"Rezervisi\"  class=\"btn btn-danger\" /></form></td>"
-										+ "</tr>"
-									$("#tableBody").append(newRow)
+									if(data[i].reserved==0){
+										newRow = 
+											"<tr>"
+												+ "<td><img height=\"50\" width=\"50\" src=\"../" + data[i].image + "\" /></td>"
+												+ "<td>" + data[i].name + "</td>"
+												+ "<td>" + data[i].price + "</td>"
+												+ "<td>" + data[i].description + "</td>"
+												+ "<td><button   class=\"btn btn-danger reserve\" href='/officialAd/" + data[i].id + "' >Rezervisi</button></td>"
+											+ "</tr>"
+										$("#tableBody").append(newRow)
+									}
 								}
 							}
 						});
@@ -49,32 +53,57 @@
 							for (i = 0; i < data.length; i++) {
 								if(data[i].image.toString().indexOf(provera) != -1){
 									if(data[i].name.toString().indexOf(provera2) != -1){
-										newRow = 
-											"<tr>"
-											+ "<td>Bez slike</td>"
-											+ "<td>" + data[i].name + "</td>"
-											+ "<td>" + data[i].price + "</td>"
-											+ "<td>" + data[i].description + "</td>"
-											+ "<td><input type=\"submit\" value=\"Rezervisi\"  class=\"btn btn-danger\" /></form></td>"
-										+ "</tr>"
-										$("#tableBody").append(newRow)
+										if(data[i].reserved==0){
+											newRow = 
+												"<tr>"
+													+ "<td>Bez slike</td>"
+													+ "<td>" + data[i].name + "</td>"
+													+ "<td>" + data[i].price + "</td>"
+													+ "<td>" + data[i].description + "</td>"
+													+ "<td><button   class=\"btn btn-danger reserve\" href='/officialAd/" + data[i].id + "' >Rezervisi</button></td>"
+												+ "</tr>"
+											$("#tableBody").append(newRow)
+										}
 									}
 								}else{
 									if(data[i].name.toString().indexOf(provera2) != -1){
-										newRow =
-											"<tr>"
-											+ "<td><img height=\"50\" width=\"50\" src=\"../" + data[i].image + "\" /></td>"
-											+ "<td>" + data[i].name + "</td>"
-											+ "<td>" + data[i].price + "</td>"
-											+ "<td>" + data[i].description + "</td>"
-											+ "<td><input type=\"submit\" value=\"Rezervisi\"  class=\"btn btn-danger\" /></form></td>"
-										+ "</tr>"
-										$("#tableBody").append(newRow)
+										if(data[i].reserved==0){
+											newRow = 
+												"<tr>"
+													+ "<td><img height=\"50\" width=\"50\" src=\"../" + data[i].image + "\" /></td>"
+													+ "<td>" + data[i].name + "</td>"
+													+ "<td>" + data[i].price + "</td>"
+													+ "<td>" + data[i].description + "</td>"
+													+ "<td><button   class=\"btn btn-danger reserve\" href='/officialAd/" + data[i].id + "' >Rezervisi</button></td>"
+												+ "</tr>"
+											$("#tableBody").append(newRow)
+										}
 									}
 								}
 							}
 						});
 			});
+			
+			$(document).on("click", ".reserve", function(event){
+				event.preventDefault(); 
+				var confirmed = confirm("Da li ste sigurni da zelite da rezervisete ovaj oglas?");
+				if(confirmed){
+				
+					var userId = 1
+					var url = $(this).attr("href")
+					//red koji se treba izbrisati ako je brisanje na serveru bilo uspesno
+					tr_parent = $(this).closest("tr")
+					$.ajax({
+			        	url: url+"/"+userId,
+			        	type: 'PUT',
+			        	success: function(){
+			        		//ukloni i na strani 
+							tr_parent.remove()
+				        }
+					});
+				}
+			});
+			
 		</script>			
 	</head>
 	<body>			
@@ -104,31 +133,31 @@
 			</ul>
 			<a class="nav-link mr-0 text-white" href="/index.html">Odjava</a>
 		</div>
-		<nav class="navbar navbar-expand-md bg-dark">
-			    <div class="mx-auto order-0 w-50">
-			        <div class="nav nav-pills bg-dark flex-row justify-content-end">
-						<ul class="nav nav-tabs bg-danger flex-row">			
+		<nav class="navbar bg-dark row">
+			<div class="col-sm">
+						
+			</div>	    
+			<div class="col">
+				<div class="nav nav-pills bg-dark">
+						<ul class="nav nav-tabs bg-danger">			
 							<li class="nav-item">
-								<a class="nav-link active bg-light text-danger" href="">Zvanicna prodavnica</a>				
+								<a class="nav-link active bg-light text-danger" href="fanZonaPage">Zvanicna prodavnica</a>				
 							</li>
 							<li class="nav-item">
 								<a class="nav-link text-white" href="polovniOglasi">Oglasi</a>
 							</li>
+							<li class="nav-item">
+								<a class="nav-link text-white" href="myReservations">Moje rezervacije</a>
+							</li>
 						</ul>
 					</div>
-			    </div>
-			    <div class="navbar-collapse collapse w-25 order-3 dual-collapse2">
-			        <ul class="navbar-nav ml-auto flex-row">
-			            <li class="nav-item">
-							<nav class="navbar navbar-light bg-dark">
-	  							<form class="form-inline">
-					    			<input class="form-control mr-sm-2" id="searchField" type="text" placeholder="Trazi po nazivu">
-					    			<button class="btn btn-outline-success my-2 my-sm-0 searchButton" type="submit">Trazi</button>
-	  							</form>
-							</nav>
-			            </li>
-			        </ul>
-			    </div>
+			</div> 
+			<div class="col-6-sm">
+	  			<form class="form-inline">
+					   <input class="form-control mr-sm-2" id="searchField" type="text" placeholder="Trazi po nazivu">
+					  <button class="btn btn-outline-success my-2 my-sm-0 searchButton" type="submit">Trazi</button>
+	  			</form>
+			</div>   
 		</nav>
 			<div>
 				 <div class="row">
