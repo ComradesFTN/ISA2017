@@ -7,9 +7,10 @@
 		<meta charset="UTF-8">		
 		<title>Pozoriste</title>	
 		<script>
+		var id;
 			$(document).ready(function(){	
 				$("#director").text("proba");
-				var id = getUrlParameter('id');	
+				id = getUrlParameter('id');	
 				$("#home").attr("href", "cinemaDetails.html?id="+id);
 				$.ajax({
 					url : "http://localhost:8080/cinemas/"+id+"/getMovies"
@@ -67,6 +68,10 @@
 							
 						});
 			});
+			
+			$(document).on("click", "#add", function(event){
+				window.location.href = "http://localhost:8080/AdminPozoristaBioskopi/createNewMovie.html?id="+id";
+			}
 			
 			var getUrlParameter = function getUrlParameter(sParam) {
 			    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
