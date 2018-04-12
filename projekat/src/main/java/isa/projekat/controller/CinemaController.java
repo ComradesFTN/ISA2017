@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import isa.projekat.domain.Cinema;
 import isa.projekat.domain.Movie;
 import isa.projekat.service.CinemaService;
+import isa.projekat.service.MovieService;
 
 @RestController
 @RequestMapping(value = "/cinemas")
@@ -21,6 +22,9 @@ public class CinemaController {
 
 	@Autowired
 	private CinemaService cinemaService;
+	
+	@Autowired
+	private MovieService movieService;
 
 	@RequestMapping(value = "getCinemas", method = RequestMethod.GET )
 	public ResponseEntity<List<Cinema>> getCinemas() {
@@ -51,6 +55,15 @@ public class CinemaController {
 	public ResponseEntity<List<Movie>> getCinemaMovies(@PathVariable Long id) {
 		List<Movie> movies = cinemaService.findOne(id).getMovies();
 		return new ResponseEntity<>(movies, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/{cinema_id}/addMovie/{movie_id}", method = RequestMethod.GET )
+	public ResponseEntity<Movie> addMovie(@PathVariable Long cinema_id,@PathVariable Long movie_id) {
+		Cinema cinema = cinemaService.findOne(cinema_id);
+		Movie movie = movieService.findOne(movie_id);
+		cinema.getMovies().add(movie);
+		cinemaService.save(cinema);
+		return new ResponseEntity<>(movie, HttpStatus.OK);
 	}
 	
 }
