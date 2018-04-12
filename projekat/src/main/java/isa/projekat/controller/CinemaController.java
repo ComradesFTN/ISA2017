@@ -57,7 +57,7 @@ public class CinemaController {
 		return new ResponseEntity<>(movies, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/{cinema_id}/addMovie/{movie_id}", method = RequestMethod.GET )
+	@RequestMapping(value = "/{cinema_id}/addMovie/{movie_id}", method = RequestMethod.PUT )
 	public ResponseEntity<Movie> addMovie(@PathVariable Long cinema_id,@PathVariable Long movie_id) {
 		Cinema cinema = cinemaService.findOne(cinema_id);
 		Movie movie = movieService.findOne(movie_id);

@@ -26,17 +26,7 @@
 										ratingText+="\u2605";
 										rating-=1;
 									}
-								}	
-								glumci="";
-								
-								for(j = 0; j < data[i].actors.length; j++){
-									if(j+1==data[i].actors.length){
-										glumci+=data[i].actors[j];
-									}
-									else{
-										glumci+=data[i].actors[j]+",";
-									}
-								}
+								}									
 								listaTermina="";
 								for(l=0;l<data[i].term.length;l++){
 									for(p=0;p<data[i].auditoriums.length;p++){
@@ -59,7 +49,7 @@
 								 '   								<li><h1 class="mt-1">'+data[i].name+'</h1></li>  '  + 
 								 '   								<li class="mt-4"><b>Režiser: </b>'+data[i].directorName+'</li>  '  + 
 								 '   								<li><b>Žanr: </b>'+data[i].genre+'</li>  '  + 
-								 '   								<li><b>Glumci: </b>'+glumci+'</li>		  '  + 
+								 '   								<li><b>Glumci: </b>'+data[i].actors+'</li>		  '  + 
 								 '   								<li><b>Trajanje: </b>'+data[i].length+'min</li>	  '  + 
 								 '   								<li><b>Rejting: </b>'+ratingText+'</li>  '  + 
 								 '   								<li><b>Opis: </b>'+data[i].description+'</li>				  '  + 
