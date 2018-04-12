@@ -59,5 +59,6 @@ public class OfficialAdController {
 		OfficialAd editedOfficialAd = officialAdService.save(officialAd);
 		return new ResponseEntity<>(editedOfficialAd, HttpStatus.OK);
 	}
+	//test
 
 }
