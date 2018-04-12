@@ -70,8 +70,8 @@
 			});
 			
 			$(document).on("click", "#add", function(event){
-				window.location.href = "http://localhost:8080/AdminPozoristaBioskopi/createNewMovie.html?id="+id";
-			}
+				window.location.href = 'http://localhost:8080/AdminPozoristaBioskopi/createNewMovie.html?id='+id;
+			});
 			
 			var getUrlParameter = function getUrlParameter(sParam) {
 			    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
@@ -121,21 +121,22 @@
 				</div>
 		    </div>
 		</nav>
-	<div class="row">
-		<div class="col mt-5">
-			<figure class="figure">
-				<img height="250" width="380" hspace="20"
-					th:src="@{/images/movie.jpg}" class="figure-img img-responsive " />
-				<figcaption class="figure-caption text-center">
-					<button class="btn btn-danger" id="add">Dodaj film</button>
-				</figcaption>
-			</figure>
+		<div class="row">
+			<div class="col mt-5">
+				<figure class="figure">
+					<img height="250" width="380" hspace="20"
+						th:src="@{/images/movie.jpg}" class="figure-img img-responsive " />
+					<figcaption class="figure-caption text-center">
+						<button class="btn btn-danger" id="add">Dodaj film</button>
+					</figcaption>
+				</figure>
+			</div>
+			<div class="container border border-danger bg-white col-6">
+				<hr class="margin-bottom-20">			
+				<ul class="row list-inline" id="filmovi">				
+				</ul>			
+			</div>
+			<div class="col"/>					
 		</div>
-		<div class="container border border-danger bg-white col-6">
-			<hr class="margin-bottom-20">			
-			<ul class="row list-inline" id="filmovi">				
-			</ul>			
-		</div>
-	</div>
 	</body>
 </html>

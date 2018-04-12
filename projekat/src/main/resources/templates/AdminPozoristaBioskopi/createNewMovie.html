@@ -8,23 +8,23 @@
 		<title>Novi film</title>
 		<script>
 			var termini;
+			var input="";
 			$(document).ready(function(){				
 				var id = getUrlParameter('id');	
 				$("#repertoar").attr("href", "cinemaRepertoar.html?id="+id);
 				$.ajax({
 					url : "http://localhost:8080/cinemas/"+id
 				}).then(
-						function(data) {	
-							input = "";
+						function(data) {
 							for(j = 0; j<data.auditoriums.length; j++){
 								input+=' <input type="checkbox" class="ml-2" id="inputSala'+data.auditoriums[j].id+'"> '+data.auditoriums[j].name+'<br/>';
 							}
 							$("#Sale").append(input);
 						});
 				$("#Add").click(function(){
-					var provera = /([1]?[0-9]|2[0-3]):[0-5][0-9]/;
-					input=$(#inputTerm).val();
-					var dobar = provera.test(input);
+					var provera = '([1]?[0-9]|2[0-3]):[0-5][0-9]';
+					var box=$("#inputTerm").val();
+					var dobar = provera.test(box);
 					var termin="";
 					if(dobar){						
 						termin='<br/>'+input+'<br/>';
@@ -102,20 +102,27 @@
 				}else{
 					var formData = JSON.stringify({
 						name:$("#inputName").val(),
+						directorName:$("#inputDirectorName").val(),
+						genre:$("#inputGenre").val(),
+						length:$("#inputLength").val(),
 						description:$("#inputDescription").val(),
-						date:$("#inputDate").val(),
+						auditoriums:sale
 					});
-						$.ajax({
-							url: "http://localhost:8080/userAd",
-							type: 'POST',
-							data: formData,
-							contentType: "application/json",
-							success: function(){
-								console.log("Ajax zahtev za registraciju.");
-								alert("Vas oglas je poslat, molimo sacekajte da administrator odobri vas oglas.");
-								window.location.href = "http://localhost:8080/Posetioci/polovniOglasi.html";
+					$.ajax({
+						url: "http://localhost:8080/movies",
+						type: 'POST',
+						data: formData,
+						contentType: "application/json",
+						success: function(data){
+							$.ajax({
+								url: "http://localhost:8080/cinemas/"+id+"/addMovie/"+data.id,
+								type: 'PUT',
 							}
-						});
+							success: function(){
+								window.location.href = "http://localhost:8080/AdminPozoristaBioskopi/cinemaRepertoar.html?id="+id";
+							}
+						}
+					});
 				}
 			});
 			
