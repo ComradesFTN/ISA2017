@@ -5,6 +5,8 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,8 +21,8 @@ import isa.projekat.repository.UserRepository;
 import isa.projekat.service.EmailService;
 import isa.projekat.service.UserService;
 
-@RestController
-@RequestMapping(value = "/users")
+@Controller
+//@RequestMapping(value = "/users")
 public class UserController {
 	
 	@Autowired
@@ -29,10 +31,7 @@ public class UserController {
 	@Autowired
 	private EmailService emailService;
 
-	@Autowired
-	private UserRepository userRepository;
-
-	@RequestMapping(method = RequestMethod.POST, consumes = "application/json")
+	@RequestMapping(method = RequestMethod.POST, consumes = "application/json", value = "/users")
 	public ResponseEntity<User> addUser(@RequestBody User user) {
 		User newUser = userService.save(user); // TODO proveri da li ima email isti pre toga
 
@@ -44,7 +43,7 @@ public class UserController {
 		return new ResponseEntity<>(newUser, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/registrationConfirm", method = RequestMethod.GET)
+	@RequestMapping(value = "/users/registrationConfirm", method = RequestMethod.GET)
 	public RedirectView confirmRegistration(@RequestParam("token") String token) {
 
 		VerificationToken verificationToken = userService.getVerificationToken(token);
@@ -54,13 +53,6 @@ public class UserController {
 		}
 
 		User user = verificationToken.getUser();
-		/*
-		 * Calendar cal = Calendar.getInstance(); if
-		 * ((verificationToken.getExpiryDate().getTime() - cal.getTime().getTime()) <=
-		 * 0) { System.out.println("Istekao token"); return "redirect:/badUser.html"; }
-		 */
-		// TODO Ako bude bilo vremena dodati kao neki tajmer umesto ovog gore da token
-		// ima expiry date, inace ko ga jebe
 
 		user.setEnabled(true);
 		userService.save(user);
@@ -68,7 +60,7 @@ public class UserController {
 
 	}
 
-	@RequestMapping(value = "/login", method = RequestMethod.POST, consumes = "application/json")
+	@RequestMapping(value = "users/login", method = RequestMethod.POST, consumes = "application/json")
 	public ResponseEntity<UserDTO> loginProcess(@RequestBody UserDTO userDTO, HttpSession session) {
 		String email = userDTO.getEmail();
 		String pass = userDTO.getPassword();
@@ -89,7 +81,11 @@ public class UserController {
 
 		
 	}
-
 	
+	@RequestMapping(method = RequestMethod.POST, consumes = "application/json", value = "/userEdit")
+	public ResponseEntity<User> updateUser(@RequestBody User user) {
+		userService.save(user);
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
 	
 }

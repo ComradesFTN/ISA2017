@@ -34,11 +34,126 @@
 			<a class="nav-link mr-0 text-white" href="/index.html">Odjava</a>
 			
 		</div>
-		
-		mm da?
+		<div class="container mx-auto">
+		<form class="mt-5 text-center needs-validation" id="editForm">
+			<div class="form-row">
+				<div class="form-group col-md-2">
+					<label for="name">Ime</label>
+				    <input class="form-control text-center w-26 mx-auto" type="text" id="name" th:value="${session.loggedUser.getFirstName()}" required>
+				</div>
+				<div class="form-group col-md-2">
+				    <label for="lastname">Prezime</label>
+				    <input class="form-control text-center w-26 mx-auto" type="text" id="lastname" th:value="${session.loggedUser.getLastName()}" required>
+				</div>
+				<div class="form-group col-md-2">
+					<label for="grad">Grad</label>
+					<input class="form-control text-center w-26 mx-auto" type="text" id="grad" th:value="${session.loggedUser.getCity()}" required><br/>
+				</div>
+			</div>
+			<div class="form-row">
+				<div class="form-group col-md-2">
+						<label for="email">Email</label>
+						<input class="form-control text-center w-26 mx-auto" type="email" name="email" id="email" th:value="${session.loggedUser.getEmail()}" required><br/>
+				</div>
+				<div class="form-group col-md-2">
+					<label for="brtel">Broj telefona</label> 
+					<input class="form-control text-center w-26 mx-auto" type="text" id="brtel" th:value="${session.loggedUser.getPhone()}" required><br/>
+				</div>
+			</div>
+			<div class="form-row">
+				<div class="form-group col-md-2">
+					<label for="password">Lozinka</label>
+				    <input class="form-control text-center w-26 mx-auto" type="password"  id="pass" required>
+				</div>
+				<div class="form-group col-md-2">
+				    <label for="repeatedPassword">Ponovite lozinku</label>
+				    <input class="form-control text-center w-26 mx-auto" type="password"  id="repPass" required>				    
+				</div>
+			</div>
+			<input type="submit" class="btn btn-primary bg-danger" value="Update settings">
+		</form>	
+		</div>
+		<script>
+			function validateForm() {
+				
+				var pass = $("#pass").val();
+				var repPass = $("#repPass").val();
+				if ($)
+				if (pass != repPass) {
+					alert("Lozinke moraju biti iste.");
+					$("#pass").val("");
+					$("#repPass").val("");
+					return false;
+				}
+				if (document.getElementById("name").validity.valueMissing) {
+					alert("Popunite ime.")
+					return false;
+				}
+				if (document.getElementById("lastname").validity.valueMissing) {
+					alert("Popunite prezime.")
+					return false;
+				}
+				if (document.getElementById("grad").validity.valueMissing) {
+					alert("Popunite polje grad.")
+					return false;
+				}
+				if (document.getElementById("email").validity.valueMissing) {
+					alert("Popunite polje email.")
+					return false;
+				}
+				if (document.getElementById("brtel").validity.valueMissing) {
+					alert("Popunite polje broj telefona.")
+					return false;
+				}
+				if (document.getElementById("pass").validity.valueMissing) {
+					alert("Popunite polje lozinke.")
+					return false;
+				}
+				if (document.getElementById("repPass").validity.valueMissing) {
+					alert("Popunite polje ponovljene lozinke.")
+					return false;
+				}
+				return true;
+				}
+			
+				$("input[type='submit']").click(function(event) {
+					event.preventDefault();
+					if(validateForm()) {
+						var formData = JSON.stringify({
+							email:$('input[name="email"]').val(),
+							password:$("#pass").val(),
+							firstName:$("#name").val(),
+							lastName:$("#lastname").val(),
+							city:$("#grad").val(),
+							phone:$("#brtel").val(),
+						});
+						$.ajax({
+							url: "/userEdit",
+							type: 'POST',
+							data: formData,
+							contentType: "application/json",
+							datatype: "text/html",
+							success: function(data){
+								console.log("Ajax zahtev za update user infoa.");
+								SuccessRedirect();
+							}
+						});
+					}					
+				});
+				
+				function SuccessRedirect() {
+					$.ajax({
+						type: "GET",
+						url: "/Posetioci/homePage",
+						success: function() {
+							console.log("Uspesno azuriranje korisnikovih detalja.");
+						}
+					});
+				}
+				
+			
+		</script>
 		<!-- 
-		1. Procitaj: http://www.baeldung.com/hibernate-save-persist-update-merge-saveorupdate
-		2. Uzmi istu formu od registration.html i kopiraj vamo.
 		3. Popuni tu formu pomocu sesije i thymeleafa.
 		4. profit -->
 	</body>
