@@ -21,4 +21,6 @@ public interface UserService {
 	List<User> save(List<User> users);
 	
 	User getUserByEmail(String email);
+	
+	User updateUser(User user);
 }

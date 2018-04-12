@@ -84,7 +84,7 @@ public class UserController {
 	
 	@RequestMapping(method = RequestMethod.POST, consumes = "application/json", value = "/userEdit")
 	public ResponseEntity<User> updateUser(@RequestBody User user) {
-		userService.save(user);
+		userService.updateUser(user);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	

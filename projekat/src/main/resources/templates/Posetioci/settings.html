@@ -73,7 +73,7 @@
 			<input type="submit" class="btn btn-primary bg-danger" value="Update settings">
 		</form>	
 		</div>
-		<script>
+		<script th:inline="javascript">
 			function validateForm() {
 				
 				var pass = $("#pass").val();
@@ -119,7 +119,10 @@
 				$("input[type='submit']").click(function(event) {
 					event.preventDefault();
 					if(validateForm()) {
-						var formData = JSON.stringify({
+						/*<![CDATA[*/
+						var formData = JSON.stringify({		
+						    id:/*[[${session.loggedUser.getId()}]]*/ 'id',
+						    enabled:true,
 							email:$('input[name="email"]').val(),
 							password:$("#pass").val(),
 							firstName:$("#name").val(),
@@ -127,6 +130,7 @@
 							city:$("#grad").val(),
 							phone:$("#brtel").val(),
 						});
+						/*]]>*/
 						$.ajax({
 							url: "/userEdit",
 							type: 'POST',
@@ -135,26 +139,17 @@
 							datatype: "text/html",
 							success: function(data){
 								console.log("Ajax zahtev za update user infoa.");
-								SuccessRedirect();
+								window.location.href = "http://localhost:8080/Posetioci/homePage.html";
+								
 							}
 						});
 					}					
 				});
 				
-				function SuccessRedirect() {
-					$.ajax({
-						type: "GET",
-						url: "/Posetioci/homePage",
-						success: function() {
-							console.log("Uspesno azuriranje korisnikovih detalja.");
-						}
-					});
-				}
-				
 			
 		</script>
 		<!-- 
-		3. Popuni tu formu pomocu sesije i thymeleafa.
+		TODO: kad vratis na homepage, on vrati stariju sesiju, dakle treba da se updatuju podaci u sesiji nekako
 		4. profit -->
 	</body>
 </html>
