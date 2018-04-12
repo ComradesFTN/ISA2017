@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import isa.projekat.domain.Cinema;
+import isa.projekat.domain.Movie;
 import isa.projekat.service.CinemaService;
 
 @RestController
@@ -37,6 +38,19 @@ public class CinemaController {
 	public ResponseEntity<Cinema> addCinema(@RequestBody Cinema cinema) {
 		Cinema newCinema = cinemaService.save(cinema);
 		return new ResponseEntity<>(newCinema, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/{id}",method = RequestMethod.PUT)
+	public ResponseEntity<Cinema> editCinema(@PathVariable Long id,@RequestBody Cinema cinema) {
+		cinema.setId(id);
+		Cinema editedCinema = cinemaService.save(cinema);
+		return new ResponseEntity<>(editedCinema, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/{id}/getMovies", method = RequestMethod.GET )
+	public ResponseEntity<List<Movie>> getCinemaMovies(@PathVariable Long id) {
+		List<Movie> movies = cinemaService.findOne(id).getMovies();
+		return new ResponseEntity<>(movies, HttpStatus.OK);
 	}
 	
 }

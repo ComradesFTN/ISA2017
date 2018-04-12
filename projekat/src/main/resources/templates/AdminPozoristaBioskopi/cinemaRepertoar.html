@@ -2,33 +2,79 @@
 <html xmlns:th="http://www.thymeleaf.org">
 	<head>
 		<script th:src="@{/scripts/jquery-3.2.1.min.js}"></script>
-		<script src="scripts/bootstrap.js"></script>	
+		<script th:src="@{/scripts/bootstrap.js}"></script>	
 		<link rel="stylesheet" th:href="@{/stylesheets/bootstrap.css}">
 		<meta charset="UTF-8">		
 		<title>Pozoriste</title>	
 		<script>
-			$(document).ready(function(){				
+			$(document).ready(function(){	
+				$("#director").text("proba");
 				var id = getUrlParameter('id');	
 				$("#home").attr("href", "cinemaDetails.html?id="+id);
 				$.ajax({
-					url : "http://localhost:8080/cinemas/"+id
+					url : "http://localhost:8080/cinemas/"+id+"/getMovies"
 				}).then(
 						function(data) {
-							$('#name').text(data.name);
-							$('#adress').text(data.adress);
-							rating=data.rating;
-							ratingText="";
-							for(j = 0; j < 5; j++){
-								if(rating<0.5){
-									ratingText+="\u2606";
+							for (i = 0; i < data.length; i++) {
+								rating=data[i].rating;
+								ratingText="";
+								for(j = 0; j < 5; j++){
+									if(rating<0.5){
+										ratingText+="\u2606";
+									}
+									else{
+										ratingText+="\u2605";
+										rating-=1;
+									}
+								}	
+								glumci="";
+								
+								for(j = 0; j < data[i].actors.length; j++){
+									if(j+1==data[i].actors.length){
+										glumci+=data[i].actors[j];
+									}
+									else{
+										glumci+=data[i].actors[j]+",";
+									}
 								}
-								else{
-									ratingText+="\u2605";
-									rating-=1;
+								listaTermina="";
+								for(l=0;l<data[i].term.length;l++){
+									for(p=0;p<data[i].auditoriums.length;p++){
+										listaTermina+=  '   							<div class="card box-shadow bg-dark border-danger text-info mx-auto" style="width: 5rem;">  '  + 
+										 '   								<h3 class="text-warning mt-1">'+data[i].term[l]+'</h3>  '  + 
+										 '   								<span>300din</span>  '  + 
+										 '   								<span class="mb-2">'+data[i].auditoriums[p].name+'</span>  '  + 
+										 '   							</div>  ';
+									}
 								}
+															
+								
+								newli = '   <li class="col-lg-12 margin-bottom-0">  '  + 
+								 '   					<div class="margin-bottom-0 row clearfix">  '  + 
+								 '   						<div class="col-md-3 text-center">  '  + 
+								 '   							<img class="img-responsive" src="http://www.arenacineplex.com/images/icons_66x96/1522659600patuljci.jpg" alt="" width="190" height="285">  '  + 
+								 '   						</div>  '  + 
+								 '   						<div class="col-md-5">							  '  + 
+								 '   							<ul class="list-unstyled text-left">  '  + 
+								 '   								<li><h1 class="mt-1">'+data[i].name+'</h1></li>  '  + 
+								 '   								<li class="mt-4"><b>Režiser: </b>'+data[i].directorName+'</li>  '  + 
+								 '   								<li><b>Žanr: </b>'+data[i].genre+'</li>  '  + 
+								 '   								<li><b>Glumci: </b>'+glumci+'</li>		  '  + 
+								 '   								<li><b>Trajanje: </b>'+data[i].length+'min</li>	  '  + 
+								 '   								<li><b>Rejting: </b>'+ratingText+'</li>  '  + 
+								 '   								<li><b>Opis: </b>'+data[i].description+'</li>				  '  + 
+								 '   							</ul>		  '  + 
+								 '   						</div>  '  + 
+								 '   						<div class="col-md-4 text-center">  '  + 
+								 '   							<h4>Termini projekcija</h4>  '  + 
+								 									listaTermina +
+								 '   						</div>  '  + 
+								 '   					</div>  '  + 
+								 '   				</li>  '  + 
+								 '  				<div class="col-md-12"><hr></div>  ' ; 
+							$("#filmovi").append(newli);
 							}
-							$('#rating').text(ratingText);
-							$('#description').text(data.description);
+							
 						});
 			});
 			
@@ -80,25 +126,9 @@
 				</div>
 		    </div>
 		</nav>
-		<div class="container border border-danger bg-white">			
-			<ul class="row list-inline">
-				<li class="col-lg-12 margin-bottom-0">
-					<div class="shop-item margin-bottom-0 clearfix">
-						<div class="col-md-3 text-center">
-							<img class="img-responsive" src="http://www.arenacineplex.com/images/icons_66x96/1522659600patuljci.jpg" alt="" width="190" height="285">
-						</div>
-						<div class="col-md-5">
-							ovde neki opis
-						</div>
-						<div class="col-md-4 text-center">
-							ovde ce biti vreme
-						</div>
-					</div>
-				</li>
-				<div class="col-md-12"><hr></div>		
-				<li class="col-lg-12 margin-bottom-0">nesto pisem ovde</li>
-				<div class="col-md-12"><hr></div>	
-				<li class="col-lg-12 margin-bottom-0">nesto pisem ovde</li>	
+		<div class="container border border-danger bg-white">
+			<hr class="margin-bottom-20">			
+			<ul class="row list-inline" id="filmovi">				
 			</ul>			
 		</div>
 	</body>

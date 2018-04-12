@@ -96,6 +96,16 @@ public class Cinema {
 	public void setMovies(List<Movie> movies) {
 		this.movies = movies;
 	}
+
+	public List<Auditorium> getAuditoriums() {
+		return auditoriums;
+	}
+
+	public void setAuditoriums(List<Auditorium> auditoriums) {
+		this.auditoriums = auditoriums;
+	}
+	
+	
 	
 	
 	
