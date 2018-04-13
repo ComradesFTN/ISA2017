@@ -160,4 +160,9 @@ public class IndexController {
 	public String makeBid() {
 		return "Posetioci/makeBid";
 	}
+	
+	@GetMapping("Posetioci/dodajPrijatelje")
+	public String addFriends() {
+		return "Posetioci/dodajPrijatelje";
+	}
 }
