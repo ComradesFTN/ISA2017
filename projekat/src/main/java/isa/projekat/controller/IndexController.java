@@ -146,4 +146,9 @@ public class IndexController {
 		return "AdminPozoristaBioskopi/createNewMovie";
 	}
 	
+	@GetMapping("NeregistrovaniKorisnici/emailConfirm")
+	public String emailConfirm() {
+		return "NeregistrovaniKorisnici/emailConfirm";
+	}
+	
 }
