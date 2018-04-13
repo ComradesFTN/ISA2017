@@ -151,4 +151,9 @@ public class IndexController {
 		return "NeregistrovaniKorisnici/emailConfirm";
 	}
 	
+	@GetMapping("Posetioci/friends")
+	public String friends() {
+		return "Posetioci/friends";
+	}
+	
 }

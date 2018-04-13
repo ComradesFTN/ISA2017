@@ -1,10 +1,20 @@
 package isa.projekat.domain;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 
 @Entity(name = "Korisnik")
 public class User {
@@ -33,6 +43,10 @@ public class User {
 
 	@Column(name = "Potvrdjen")
 	private boolean enabled;
+	
+	@ElementCollection
+	@CollectionTable(name = "ListaPrijatelja",joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
+	Set<User> friendsList = new HashSet<User>();
 	
 	public User() {
 		this.enabled = false;
@@ -101,7 +115,14 @@ public class User {
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}
-	
+
+	public Set<User> getFriendsList() {
+		return friendsList;
+	}
+
+	public void setFriendsList(Set<User> friendsList) {
+		this.friendsList = friendsList;
+	}
 	
 
 }
