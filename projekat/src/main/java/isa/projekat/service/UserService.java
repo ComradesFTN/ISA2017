@@ -22,5 +22,7 @@ public interface UserService {
 	
 	User getUserByEmail(String email);
 	
+	User findUserByFirstName(String firstName);
+	
 	User updateUser(User user);
 }

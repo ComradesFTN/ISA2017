@@ -1,5 +1,6 @@
 package isa.projekat.controller;
 
+import javax.json.Json;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -16,6 +18,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import isa.projekat.domain.User;
 import isa.projekat.domain.VerificationToken;
+import isa.projekat.domain.dto.SearchNameDTO;
 import isa.projekat.domain.dto.UserDTO;
 import isa.projekat.repository.UserRepository;
 import isa.projekat.service.EmailService;
@@ -87,6 +90,19 @@ public class UserController {
 		userService.updateUser(user);
 		session.setAttribute("loggedUser", user);
 		return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
+	@RequestMapping(method = RequestMethod.POST, consumes = "application/json", value = "/userSearchFriends")
+	public ResponseEntity<SearchNameDTO> searchByName(@RequestBody SearchNameDTO searchNameDTO) {
+		String firstName = searchNameDTO.getFirstName();
+		User user = userService.findUserByFirstName(firstName);
+		if(user == null) {
+			System.out.println("User not found.");
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		} else {
+			return new ResponseEntity<>(HttpStatus.OK);
+		}
+		//System.out.println("Ime je " + firstName);
 	}
 	
 }

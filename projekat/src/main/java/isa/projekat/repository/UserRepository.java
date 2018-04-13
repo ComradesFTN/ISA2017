@@ -11,6 +11,8 @@ import isa.projekat.domain.User;
 public interface UserRepository extends JpaRepository<User, Long> {
 	public User findByEmail(String email);
 	
+	public User findUserByFirstName(String firstName);
+	
 	//@Modifying
 	//@Query("update Korisnik u set u.email = ?2, u.lozinka = ?3, u.ime = ?4, u.prezime = ?5, u.grad = ?6, u.broj_telefona= ?7 where u.id = ?1")
 	//public User updateUser(long id, String email, String password, String firstName, String lastName, String city, String phone);
