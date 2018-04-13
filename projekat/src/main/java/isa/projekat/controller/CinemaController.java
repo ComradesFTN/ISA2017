@@ -1,5 +1,6 @@
 package isa.projekat.controller;
 
+import java.util.HashSet;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,8 +53,8 @@ public class CinemaController {
 	}
 	
 	@RequestMapping(value = "/{id}/getMovies", method = RequestMethod.GET )
-	public ResponseEntity<List<Movie>> getCinemaMovies(@PathVariable Long id) {
-		List<Movie> movies = cinemaService.findOne(id).getMovies();
+	public ResponseEntity<HashSet<Movie>> getCinemaMovies(@PathVariable Long id) {
+		HashSet<Movie> movies = (HashSet<Movie>) cinemaService.findOne(id).getMovies();
 		return new ResponseEntity<>(movies, HttpStatus.OK);
 	}
 	

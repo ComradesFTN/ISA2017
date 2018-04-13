@@ -1,7 +1,7 @@
 package isa.projekat.domain;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
@@ -13,7 +13,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
 
 @Entity(name="Film") 
 public class Movie {  
@@ -51,21 +50,21 @@ public class Movie {
 	@AttributeOverrides({
         @AttributeOverride(name = "id", column = @Column(name = "sala_id"))
 })
-	List<Auditorium> auditoriums= new ArrayList<Auditorium>();
+	Set<Auditorium> auditoriums= new HashSet<Auditorium>();
 	
 	@ElementCollection
 	@CollectionTable(name = "SpisakTermina",joinColumns = @JoinColumn(name = "movie_id", referencedColumnName = "id"))
 	@Column(name = "Termin", columnDefinition="VARCHAR(40)")
-	List<String> term= new ArrayList<String>();
+	Set<String> term= new HashSet<String>();
 	
 	@ElementCollection
 	@CollectionTable(name = "SpisakProjekcijaFilma",joinColumns = @JoinColumn(name = "movie_id", referencedColumnName = "id"))
 	@AttributeOverrides({
-        @AttributeOverride(name = "SalaId", column = @Column(name = "sala_id")),
+        @AttributeOverride(name = "SalaId", column = @Column(name = "auditorium_id")),
         @AttributeOverride(name = "Datum", column = @Column(name = "date")),
         @AttributeOverride(name = "Termin", column = @Column(name = "term"))
 })
-	List<Projection> projections= new ArrayList<Projection>();	
+	Set<Projection> projections= new HashSet<Projection>();	
 
 	public long getId() {
 		return id;
@@ -137,30 +136,30 @@ public class Movie {
 
 	public void setLength(int length) {
 		this.length = length;
-	}
+	}	
 
-	public List<Auditorium> getAuditoriums() {
-		return auditoriums;
-	}
-
-	public void setAuditoriums(List<Auditorium> auditoriums) {
-		this.auditoriums = auditoriums;
-	}
-
-	public List<String> getTerm() {
+	public Set<String> getTerm() {
 		return term;
 	}
 
-	public void setTerm(List<String> term) {
+	public void setTerm(Set<String> term) {
 		this.term = term;
 	}
 
-	public List<Projection> getProjections() {
+	public Set<Projection> getProjections() {
 		return projections;
 	}
 
-	public void setProjections(List<Projection> projections) {
+	public void setProjections(Set<Projection> projections) {
 		this.projections = projections;
+	}
+
+	public Set<Auditorium> getAuditoriums() {
+		return auditoriums;
+	}
+
+	public void setAuditoriums(Set<Auditorium> auditoriums) {
+		this.auditoriums = auditoriums;
 	}
 	
 	

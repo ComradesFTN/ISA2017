@@ -1,7 +1,7 @@
 package isa.projekat.domain;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
@@ -38,17 +38,15 @@ public class Cinema {
 	@AttributeOverrides({
         @AttributeOverride(name = "id", column = @Column(name = "movie_id"))
 })
-	List<Movie> movies= new ArrayList<Movie>();
+	Set<Movie> movies= new HashSet<Movie>();
 	
 	@ElementCollection
 	@CollectionTable(name = "BioskopSale",joinColumns = @JoinColumn(name = "cinema_id", referencedColumnName = "id"))
 	@AttributeOverrides({
         @AttributeOverride(name = "id", column = @Column(name = "auditorium_id"))
 })
-	List<Auditorium> auditoriums= new ArrayList<Auditorium>();
+	Set<Auditorium> auditoriums= new HashSet<Auditorium>();
 
-	
-	
 	public long getId() {
 		return id;
 	}
@@ -89,25 +87,21 @@ public class Cinema {
 		this.description = description;
 	}
 
-	public List<Movie> getMovies() {
+	public Set<Movie> getMovies() {
 		return movies;
 	}
 
-	public void setMovies(List<Movie> movies) {
+	public void setMovies(Set<Movie> movies) {
 		this.movies = movies;
 	}
 
-	public List<Auditorium> getAuditoriums() {
+	public Set<Auditorium> getAuditoriums() {
 		return auditoriums;
 	}
 
-	public void setAuditoriums(List<Auditorium> auditoriums) {
+	public void setAuditoriums(Set<Auditorium> auditoriums) {
 		this.auditoriums = auditoriums;
-	}
-	
-	
-	
-	
+	}		
 	
 	
 }
