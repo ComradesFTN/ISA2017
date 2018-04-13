@@ -86,7 +86,7 @@
 			  </div>
 			</form>
 		</div>
-		<script>
+		<script th:inline="javascript">
 		var file;
 		var reader;
 		function previewFile() {
@@ -118,12 +118,15 @@
 				}
 				if(reader!=null){
 					var splitImage = reader.result.split('base64,');
+					/*<![CDATA[*/
 					var formData = JSON.stringify({
 						name:$("#inputName").val(),
+						creatorId:/*[[${session.loggedUser.getId()}]]*/ 'id',
 						description:$("#inputDescription").val(),
 						image:splitImage[1],
 						date:$("#inputDate").val(),
 					});
+					/*]]>*/
 						$.ajax({
 							url: "http://localhost:8080/userAd",
 							type: 'POST',
@@ -136,11 +139,14 @@
 							}
 						});
 				}else{
+					/*<![CDATA[*/
 					var formData = JSON.stringify({
 						name:$("#inputName").val(),
+						creatorId:/*[[${session.loggedUser.getId()}]]*/ 'id',
 						description:$("#inputDescription").val(),
 						date:$("#inputDate").val(),
 					});
+					/*]]>*/
 						$.ajax({
 							url: "http://localhost:8080/userAd",
 							type: 'POST',

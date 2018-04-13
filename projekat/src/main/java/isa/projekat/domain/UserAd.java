@@ -1,10 +1,18 @@
 package isa.projekat.domain;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 
 @Entity(name="PolovniOglas")
 public class UserAd {
@@ -27,19 +35,33 @@ public class UserAd {
 	
 	@Column(name="Odobrenje", columnDefinition="BOOLEAN")
 	private Boolean aproved=false;
+	
+	@Column(name="Napravljen_od", columnDefinition="NUMERIC")
+	private long creatorId;
 
+	@ElementCollection
+	@CollectionTable(name = "Ponude",joinColumns = @JoinColumn(name = "userAd_id", referencedColumnName = "id"))
+	@AttributeOverrides({
+        @AttributeOverride(name = "userId", column = @Column(name = "Ponudjac")),
+        @AttributeOverride(name = "price", column = @Column(name = "Cena")),
+})
+	Set<Bid> bids= new HashSet<Bid>();	
+	
+	
 	public UserAd() {
 	}
 
-	public UserAd(long id, String image, String name, String date, String description, Boolean aproved) {
-		super();
+	public UserAd(long id, String image, String name, String date, String description, Boolean aproved,
+			long creatorId) {
 		this.id = id;
 		this.image = image;
 		this.name = name;
 		this.date = date;
 		this.description = description;
 		this.aproved = aproved;
+		this.creatorId = creatorId;
 	}
+
 
 	public long getId() {
 		return id;
@@ -88,5 +110,12 @@ public class UserAd {
 	public void setAproved(Boolean aproved) {
 		this.aproved = aproved;
 	}
-	
+
+	public long getCreatorId() {
+		return creatorId;
+	}
+
+	public void setCreatorId(long creatorId) {
+		this.creatorId = creatorId;
+	}
 }

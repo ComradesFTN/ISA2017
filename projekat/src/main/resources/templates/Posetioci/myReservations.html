@@ -5,16 +5,18 @@
 		<link rel="stylesheet" th:href="@{/stylesheets/bootstrap.css}">
 		<meta charset="UTF-8">
 		<title>Fan Zona</title>
-		<script>
+		<script th:inline="javascript">
 			$(document).ready(function(){
 				$.ajax({
 					url : "http://localhost:8080/officialAd/getOfficialAds"
 				}).then(
 						function(data) {
+							/*<![CDATA[*/
+							var userId = /*[[${session.loggedUser.getId()}]]*/ 'id' 
 							var provera ="Bez";
 							for (i = 0; i < data.length; i++) {
 								if(data[i].image.toString().indexOf(provera) != -1){
-									if(data[i].reserved!=0){<!--!!!!VAZNO!!!!! Ovde ne ide ako je !=0 nego ako je jednaka id-u trenutnog korisnika!!!!!!-->
+									if(data[i].reserved==userId){<!--!!!!VAZNO!!!!! Ovde ne ide ako je !=0 nego ako je jednaka id-u trenutnog korisnika!!!!!!-->
 										newRow = 
 											"<tr>"
 												+ "<td>Bez slike</td>"
@@ -26,7 +28,7 @@
 										$("#tableBody").append(newRow)
 									}
 								}else{
-									if(data[i].reserved!=0){ <!--!!!!VAZNO!!!!! Ovde ne ide ako je !=0 nego ako je jednaka id-u trenutnog korisnika!!!!!!-->
+									if(data[i].reserved==userId){ <!--!!!!VAZNO!!!!! Ovde ne ide ako je !=0 nego ako je jednaka id-u trenutnog korisnika!!!!!!-->
 										newRow = 
 											"<tr>"
 												+ "<td><img height=\"50\" width=\"50\" src=\"../" + data[i].image + "\" /></td>"
@@ -40,6 +42,7 @@
 								}
 							}
 						});
+				/*]]>*/
 			});
 			$(document).on("click", ".searchButton", function(event){
 				event.preventDefault();
@@ -53,7 +56,7 @@
 							for (i = 0; i < data.length; i++) {
 								if(data[i].image.toString().indexOf(provera) != -1){
 									if(data[i].name.toString().indexOf(provera2) != -1){
-										if(data[i].reserved!=0){ <!--!!!!VAZNO!!!!! Ovde ne ide ako je !=0 nego ako je jednaka id-u trenutnog korisnika!!!!!!-->
+										if(data[i].reserved==userId){ <!--!!!!VAZNO!!!!! Ovde ne ide ako je !=0 nego ako je jednaka id-u trenutnog korisnika!!!!!!-->
 											newRow = 
 												"<tr>"
 													+ "<td>Bez slike</td>"
@@ -67,7 +70,7 @@
 									}
 								}else{
 									if(data[i].name.toString().indexOf(provera2) != -1){
-										if(data[i].reserved!=0){ <!--!!!!VAZNO!!!!! Ovde ne ide ako je !=0 nego ako je jednaka id-u trenutnog korisnika!!!!!!-->
+										if(data[i].reserved==userId){ <!--!!!!VAZNO!!!!! Ovde ne ide ako je !=0 nego ako je jednaka id-u trenutnog korisnika!!!!!!-->
 											newRow = 
 												"<tr>"
 													+ "<td><img height=\"50\" width=\"50\" src=\"../" + data[i].image + "\" /></td>"

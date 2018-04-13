@@ -5,13 +5,15 @@
 		<link rel="stylesheet" th:href="@{/stylesheets/bootstrap.css}">
 		<meta charset="UTF-8">
 		<title>Fan Zona</title>
-		<script>
+		<script th:inline="javascript">
 			$(document).ready(function(){
 				$.ajax({
 					url : "http://localhost:8080/userAd/getUserAds"
 				}).then(
 						function(data) {
+							/*<![CDATA[*/
 							var provera ="Bez";
+							var userId = /*[[${session.loggedUser.getId()}]]*/ 'id'
 							for (i = 0; i < data.length; i++) {
 								if(data[i].aproved){
 									if(data[i].image.toString().indexOf(provera) != -1){
@@ -20,9 +22,13 @@
 												+ "<td>" + data[i].name + "</td>"
 												+ "<td>" + data[i].description + "</td>"
 												+ "<td>" + data[i].date.toString() + "</td>"
-												+ "<td>Bez slike</td>"
-												+ "<td><input type=\"submit\" value=\"Licitiraj\"  class=\"btn btn-danger\" /></form></td>"
-											+ "</tr>"
+												+ "<td>Bez slike</td>";
+												if(data[i].creatorId == userId){
+													newRow+= "<td><input type=\"submit\" value=\"Odaberi\"  class=\"btn btn-danger\" /></td>";
+												}else{
+													newRow+= "<td><input type=\"submit\" value=\"Licitiraj\"  class=\"btn btn-danger\" /></td>";
+												}
+											 newRow+="</tr>";
 										$("#tableBody").append(newRow)
 									}else{
 										newRow = 
@@ -30,13 +36,18 @@
 												+ "<td>" + data[i].name + "</td>"
 												+ "<td>" + data[i].description + "</td>"
 												+ "<td>" + data[i].date.toString() + "</td>"
-												+ "<td><img height=\"50\" width=\"50\" src=\"../" + data[i].image + "\" /></td>"
-												+ "<td><input type=\"submit\" value=\"Licitiraj\"  class=\"btn btn-danger\" /></form></td>"
-											+ "</tr>"
+												+ "<td><img height=\"50\" width=\"50\" src=\"../" + data[i].image + "\" /></td>";
+												if(data[i].creatorId == userId){
+													newRow+= "<td><input type=\"submit\" value=\"Odaberi\"  class=\"btn btn-danger\" /></td>";
+												}else{
+													newRow+= "<td><input type=\"submit\" value=\"Licitiraj\"  class=\"btn btn-danger\" /></td>";
+												}
+											 newRow+="</tr>";
 										$("#tableBody").append(newRow)
 									}
 								}
 							}
+							/*]]>*/
 						});
 			});
 			$(document).on("click", ".searchButton", function(event){
@@ -45,6 +56,7 @@
 					url : "http://localhost:8080/userAd/getUserAds"
 				}).then(
 						function(data) {
+							/*<![CDATA[*/
 							$("#tableBody").empty();
 							var provera ="Bez";
 							var provera2=$('#searchField').val();
@@ -57,7 +69,7 @@
 											+ "<td>" + data[i].description + "</td>"
 											+ "<td>" + data[i].date.toString() + "</td>"
 											+ "<td>Bez slike</td>"
-											+ "<td><input type=\"submit\" value=\"Licitiraj\"  class=\"btn btn-danger\" /></form></td>"
+											+ "<td><input type=\"submit\" value=\"Licitiraj\"  class=\"btn btn-danger\" /></td>"
 										+ "</tr>"
 										$("#tableBody").append(newRow)
 									}
@@ -69,12 +81,13 @@
 											+ "<td>" + data[i].description + "</td>"
 											+ "<td>" + data[i].date.toString() + "</td>"
 											+ "<td><img height=\"50\" width=\"50\" src=\"../" + data[i].image + "\" /></td>"
-											+ "<td><input type=\"submit\" value=\"Licitiraj\"  class=\"btn btn-danger\" /></form></td>"
+											+ "<td><input type=\"submit\" value=\"Licitiraj\"  class=\"btn btn-danger\" /></td>"
 										+ "</tr>"
 										$("#tableBody").append(newRow)
 									}
 								}
 							}
+							/*]]>*/
 						});
 			});
 		</script>			
