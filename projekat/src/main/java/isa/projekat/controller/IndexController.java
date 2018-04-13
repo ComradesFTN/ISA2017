@@ -155,5 +155,5 @@ public class IndexController {
 	public String friends() {
 		return "Posetioci/friends";
 	}
-	
+	//kita
 }
