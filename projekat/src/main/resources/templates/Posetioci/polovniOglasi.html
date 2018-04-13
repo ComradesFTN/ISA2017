@@ -24,7 +24,7 @@
 												+ "<td>" + data[i].date.toString() + "</td>"
 												+ "<td>Bez slike</td>";
 												if(data[i].creatorId == userId){
-													newRow+= "<td><input type=\"submit\" value=\"Odaberi\"  class=\"btn btn-danger\" /></td>";
+													newRow+= "<td><a href='chooseBid.html?id=" + data[i].id + "' >Odaberi</a></td>";
 												}else{
 													newRow+= "<td><a href='makeBid.html?id=" + data[i].id + "' >Licitiraj</a></td>";
 												}
@@ -38,7 +38,7 @@
 												+ "<td>" + data[i].date.toString() + "</td>"
 												+ "<td><img height=\"50\" width=\"50\" src=\"../" + data[i].image + "\" /></td>";
 												if(data[i].creatorId == userId){
-													newRow+= "<td><input type=\"submit\" value=\"Odaberi\"  class=\"btn btn-danger\" /></td>";
+													newRow+= "<td><a href='chooseBid.html?id=" + data[i].id + "' >Odaberi</a></td>";
 												}else{
 													newRow+= "<td><a href='makeBid.html?id=" + data[i].id + "' >Licitiraj</a></td>";
 												}
@@ -70,7 +70,7 @@
 											+ "<td>" + data[i].date.toString() + "</td>"
 											+ "<td>Bez slike</td>";
 											if(data[i].creatorId == userId){
-												newRow+= "<td><input type=\"submit\" value=\"Odaberi\"  class=\"btn btn-danger\" /></td>";
+												newRow+= "<td><a href='chooseBid.html?id=" + data[i].id + "' >Odaberi</a></td>";
 											}else{
 												newRow+= "<td><a href='makeBid.html?id=" + data[i].id + "' >Licitiraj</a></td>";
 											}
@@ -86,7 +86,7 @@
 											+ "<td>" + data[i].date.toString() + "</td>"
 											+ "<td><img height=\"50\" width=\"50\" src=\"../" + data[i].image + "\" /></td>";
 											if(data[i].creatorId == userId){
-												newRow+= "<td><input type=\"submit\" value=\"Odaberi\"  class=\"btn btn-danger\" /></td>";
+												newRow+= "<td><a href='chooseBid.html?id=" + data[i].id + "' >Odaberi</a></td>";
 											}else{
 												newRow+= "<td><a href='makeBid.html?id=" + data[i].id + "' >Licitiraj</a></td>";
 											}

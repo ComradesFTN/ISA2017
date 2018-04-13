@@ -118,4 +118,16 @@ public class UserAd {
 	public void setCreatorId(long creatorId) {
 		this.creatorId = creatorId;
 	}
+
+	public Set<Bid> getBids() {
+		return bids;
+	}
+
+	public void setBids(Set<Bid> bids) {
+		this.bids = bids;
+	}
+	
+	public void addBid(Bid bid) {
+		bids.add(bid);
+	}
 }

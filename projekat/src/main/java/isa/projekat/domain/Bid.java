@@ -7,9 +7,11 @@ public class Bid {
 	private int price;
 
 	public Bid(long userId, int price) {
-		super();
 		this.userId = userId;
 		this.price = price;
+	}
+
+	public Bid() {
 	}
 
 	public long getUserId() {

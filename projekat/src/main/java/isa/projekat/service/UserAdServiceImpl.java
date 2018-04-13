@@ -9,6 +9,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import isa.projekat.domain.Bid;
 import isa.projekat.domain.UserAd;
 import isa.projekat.repository.UserAdRepository;
 
@@ -35,7 +36,7 @@ public class UserAdServiceImpl implements UserAdService{
 		}
 		return userAdRepository.save(userAd);
 	}
-
+	
 	@Override
 	public UserAd findOne(Long id) {
 		return userAdRepository.findOne(id);

@@ -13,21 +13,7 @@
 					url : "http://localhost:8080/userAd/getUserAd/"+id
 				}).then(
 						function(data) {
-							/*<![CDATA[*/
-							var provera ="Bez";
-							podaci = data;
-							var userId = /*[[${session.loggedUser.getId()}]]*/ 'id'
 							
-							newRow = 
-								"<tr>"
-									+ "<td>" + data.name + "</td>"
-									+ "<td>" + data.description + "</td>"
-									+ "<td>" + data.date.toString() + "</td>"
-									+ "<td><img height=\"50\" width=\"50\" src=\"../" + data.image + "\" /></td>";
-								 newRow+="</tr>";
-							$("#tableBody").append(newRow)
-							
-							/*]]>*/
 						});
 			});
 			var getUrlParameter = function getUrlParameter(sParam) {
@@ -44,7 +30,7 @@
 			        }
 			    }
 			};
-			$(document).on("click", ".sendBid", function(event){
+			$(document).on("click", ".chooseBid", function(event){
 				event.preventDefault();
 				/*<![CDATA[*/
 				var currentUserId = /*[[${session.loggedUser.getId()}]]*/ 'id'
@@ -123,10 +109,8 @@
 						<table class="table">
 						<thead class="thead-dark">
 							<tr>
-								<th>Naziv</th>
-								<th>Opis</th>
-								<th>Datum</th>
-								<th>Slika</th>
+								<th>Cena u evrima</th>
+								<th>Odaberi</th>
 							</tr>
 						</thead>
 						<tbody id="tableBody">

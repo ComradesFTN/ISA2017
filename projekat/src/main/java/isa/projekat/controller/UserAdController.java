@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import isa.projekat.domain.Bid;
 import isa.projekat.domain.UserAd;
 import isa.projekat.service.UserAdService;
 
@@ -40,6 +41,12 @@ public class UserAdController {
 		return new ResponseEntity<>(userAd, HttpStatus.OK);
 	}
 	
+	@RequestMapping(value = "/getUserAd/{id}", method = RequestMethod.GET )
+	public ResponseEntity<UserAd> getUserAd(@PathVariable Long id) {
+		UserAd userAd = userAdService.findOne(id);
+		return new ResponseEntity<>(userAd, HttpStatus.OK);
+	}
+	
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<UserAd> disaproveUserAd(@PathVariable Long id) {
 		UserAd disaproved = userAdService.delete(id);
@@ -49,6 +56,14 @@ public class UserAdController {
 	@RequestMapping(method = RequestMethod.POST, consumes = "application/json")
 	public ResponseEntity<UserAd> addUserAd(@RequestBody UserAd userAd) {
 		UserAd newUserAd = userAdService.save(userAd, false);
+		return new ResponseEntity<>(newUserAd, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/makeBid/{id}",method = RequestMethod.POST, consumes = "application/json")
+	public ResponseEntity<UserAd> makeBid(@RequestBody Bid bid,@PathVariable Long id) {
+		UserAd userAd = userAdService.findOne(id);
+		userAd.addBid(bid);
+		UserAd newUserAd = userAdService.save(userAd, true);
 		return new ResponseEntity<>(newUserAd, HttpStatus.OK);
 	}
 
