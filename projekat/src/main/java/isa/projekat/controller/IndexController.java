@@ -155,5 +155,9 @@ public class IndexController {
 	public String friends() {
 		return "Posetioci/friends";
 	}
-	//kita
+	
+	@GetMapping("Posetioci/makeBid")
+	public String makeBid() {
+		return "Posetioci/makeBid";
+	}
 }

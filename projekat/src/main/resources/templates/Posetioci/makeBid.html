@@ -26,7 +26,7 @@
 												if(data[i].creatorId == userId){
 													newRow+= "<td><input type=\"submit\" value=\"Odaberi\"  class=\"btn btn-danger\" /></td>";
 												}else{
-													newRow+= "<td><a href='makeBid.html?id=" + data[i].id + "' >Licitiraj</a></td>";
+													newRow+= "<td><input type=\"submit\" value=\"Licitiraj\"  class=\"btn btn-danger\" /></td>";
 												}
 											 newRow+="</tr>";
 										$("#tableBody").append(newRow)
@@ -40,7 +40,7 @@
 												if(data[i].creatorId == userId){
 													newRow+= "<td><input type=\"submit\" value=\"Odaberi\"  class=\"btn btn-danger\" /></td>";
 												}else{
-													newRow+= "<td><a href='makeBid.html?id=" + data[i].id + "' >Licitiraj</a></td>";
+													newRow+= "<td><input type=\"submit\" value=\"Licitiraj\"  class=\"btn btn-danger\" /></td>";
 												}
 											 newRow+="</tr>";
 										$("#tableBody").append(newRow)
@@ -49,55 +49,6 @@
 							}
 							/*]]>*/
 						});
-			});
-			$(document).on("click", ".searchButton", function(event){
-				event.preventDefault();
-				$.ajax({
-					url : "http://localhost:8080/userAd/getUserAds"
-				}).then(
-						function(data) {
-							/*<![CDATA[*/
-							$("#tableBody").empty();
-							var provera ="Bez";
-							var provera2=$('#searchField').val();
-							for (i = 0; i < data.length; i++) {
-								if(data[i].image.toString().indexOf(provera) != -1){
-									if(data[i].name.toString().indexOf(provera2) != -1){
-										newRow = 
-											"<tr>"
-											+ "<td>" + data[i].name + "</td>"
-											+ "<td>" + data[i].description + "</td>"
-											+ "<td>" + data[i].date.toString() + "</td>"
-											+ "<td>Bez slike</td>";
-											if(data[i].creatorId == userId){
-												newRow+= "<td><input type=\"submit\" value=\"Odaberi\"  class=\"btn btn-danger\" /></td>";
-											}else{
-												newRow+= "<td><a href='makeBid.html?id=" + data[i].id + "' >Licitiraj</a></td>";
-											}
-										 newRow+="</tr>";
-										$("#tableBody").append(newRow)
-									}
-								}else{
-									if(data[i].name.toString().indexOf(provera2) != -1){
-										newRow =
-											"<tr>"
-											+ "<td>" + data[i].name + "</td>"
-											+ "<td>" + data[i].description + "</td>"
-											+ "<td>" + data[i].date.toString() + "</td>"
-											+ "<td><img height=\"50\" width=\"50\" src=\"../" + data[i].image + "\" /></td>";
-											if(data[i].creatorId == userId){
-												newRow+= "<td><input type=\"submit\" value=\"Odaberi\"  class=\"btn btn-danger\" /></td>";
-											}else{
-												newRow+= "<td><a href='makeBid.html?id=" + data[i].id + "' >Licitiraj</a></td>";
-											}
-										 newRow+="</tr>";
-										$("#tableBody").append(newRow)
-									}
-								}
-							}
-							/*]]>*/
-						});
-			});
 		</script>			
 	</head>
 	<body>			
@@ -148,10 +99,7 @@
 					</div>
 			</div> 
 			<div class="col-6-sm">
-	  			<form class="form-inline">
-					   <input class="form-control mr-sm-2" id="searchField" type="text" placeholder="Trazi po nazivu">
-					  <button class="btn btn-outline-success my-2 my-sm-0 searchButton" type="submit">Trazi</button>
-	  			</form>
+	  			
 			</div>   
 		</nav>
 			<div>
@@ -174,7 +122,6 @@
 								<th>Opis</th>
 								<th>Datum</th>
 								<th>Slika</th>
-								<th>Licitacija</th>
 							</tr>
 						</thead>
 						<tbody id="tableBody">
