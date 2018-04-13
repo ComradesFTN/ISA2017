@@ -13,7 +13,14 @@
 					url : "http://localhost:8080/userAd/getUserAd/"+id
 				}).then(
 						function(data) {
-							
+							for(i=0;i<data.bids.length;i++){
+								newRow = 
+									"<tr>"
+										+ "<td>" + data.bids[i].price + "</td>"
+										+ "<td><button   class=\"btn btn-danger reserve\" >Odaberi</button></td>"
+									+ "</tr>"
+								$("#tableBody").append(newRow)
+							}
 						});
 			});
 			var getUrlParameter = function getUrlParameter(sParam) {
@@ -116,13 +123,7 @@
 						<tbody id="tableBody">
 						</tbody>
 						</table>
-						<form class="form-inline">
-						<div class="form-group mb-2">
-						    <input type="text" readonly class="form-control-plaintext"  value="Napravi ponudu:">
-						</div>
-						    <input type="number" class="form-control" id="priceBid" placeholder="Cena">
-						  <button type="submit" class="btn btn-danger sendBid">Posalji ponudu</button>
-						</form>
+						
 					</div>
 					<div class="col">
 						
