@@ -49,7 +49,7 @@ public class MovieServiceImpl implements MovieService {
 				}
 			}
 		}
-		
+		System.out.println(movie.getId());
 		return movieRepository.save(movie);
 	}
 

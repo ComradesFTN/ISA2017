@@ -10,7 +10,7 @@ public class Projection {
 	@Temporal(TemporalType.DATE)
 	private Date date;
 	
-	private Long auditorium_id;	
+	private String auditorium_name;	
 	
 	private String term;
 
@@ -22,12 +22,12 @@ public class Projection {
 		this.date = date;
 	}
 
-	public Long getAuditorium_id() {
-		return auditorium_id;
+	public String getAuditorium_id() {
+		return auditorium_name;
 	}
 
-	public void setAuditorium_id(Long auditorium_id) {
-		this.auditorium_id = auditorium_id;
+	public void setAuditorium_id(String auditorium_name) {
+		this.auditorium_name = auditorium_name;
 	}
 
 	public String getTerm() {

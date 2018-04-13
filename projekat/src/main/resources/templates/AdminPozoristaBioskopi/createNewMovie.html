@@ -34,7 +34,7 @@
 						function(data) {
 							salePrve=data.auditoriums;
 							for(j = 0; j<data.auditoriums.length; j++){
-								input+=' <input type="checkbox" class="ml-2" id="inputSala'+data.auditoriums[j].id+'"> '+data.auditoriums[j].name+'<br/>';
+								input+=' <input type="checkbox" class="ml-2" id="input'+data.auditoriums[j].name+'"> '+data.auditoriums[j].name+'<br/>';
 							}
 							$("#Sale").append(input);
 						});
@@ -72,8 +72,8 @@
 					}
 					var sale = [];
 					for(j = 0; j<salePrve.length; j++){
-						if($("#inputSala"+salePrve[j].id).is(':checked')){
-							sale.push({"id":salePrve[j].id});
+						if($("#input"+salePrve[j].name).is(':checked')){
+							sale.push(salePrve[j]);
 						}
 					}
 					if(sale.length===0){
@@ -84,13 +84,14 @@
 						var splitImage = reader.result.split('base64,');					
 						var formData = JSON.stringify({
 							name:$("#inputName").val(),
+							actors:$("#inputActors").val(),
 							directorName:$("#inputDirectorName").val(),
 							genre:$("#inputGenre").val(),
 							length:$("#inputLength").val(),
 							description:$("#inputDescription").val(),
 							auditoriums:sale,
 							term:termini,
-							image:splitImage[1],
+							poster:splitImage[1],
 							
 						});
 							$.ajax({
@@ -111,6 +112,7 @@
 					}else{
 						var formData = JSON.stringify({
 							name:$("#inputName").val(),
+							actors:$("#inputActors").val(),
 							directorName:$("#inputDirectorName").val(),
 							genre:$("#inputGenre").val(),
 							length:$("#inputLength").val(),

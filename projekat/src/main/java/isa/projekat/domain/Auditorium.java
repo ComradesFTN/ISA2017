@@ -1,30 +1,22 @@
 package isa.projekat.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
-@Entity(name = "Sala")
 public class Auditorium {
-	
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private long id;
-	
-	@Column(name="Naziv", columnDefinition="VARCHAR(40)")
+
 	private String name;
+
+	private int size=0;
 	
-	@Column(name="Kapacitet")
-	private int size;
-
-	public long getId() {
-		return id;
+	public Auditorium(){
+		
 	}
-
-	public void setId(long id) {
-		this.id = id;
+	
+	public Auditorium(String name) {		
+		this.name = name;
+	}
+	
+	public Auditorium(String name, int size) {
+		this.name = name;
+		this.size = size;
 	}
 
 	public String getName() {

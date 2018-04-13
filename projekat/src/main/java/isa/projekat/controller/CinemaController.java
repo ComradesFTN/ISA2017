@@ -54,7 +54,7 @@ public class CinemaController {
 	
 	@RequestMapping(value = "/{id}/getMovies", method = RequestMethod.GET )
 	public ResponseEntity<HashSet<Movie>> getCinemaMovies(@PathVariable Long id) {
-		HashSet<Movie> movies = (HashSet<Movie>) cinemaService.findOne(id).getMovies();
+		HashSet<Movie> movies = new HashSet<Movie>(cinemaService.findOne(id).getMovies());
 		return new ResponseEntity<>(movies, HttpStatus.OK);
 	}
 	

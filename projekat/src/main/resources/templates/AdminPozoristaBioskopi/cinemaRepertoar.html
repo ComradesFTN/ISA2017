@@ -38,12 +38,17 @@
 										 '   							</div>  ';
 									}
 								}
-															
-								
+								poster="";						
+								if(data[i].poster===("Bez slike")){
+									poster='imagesMovies\\nemaslike.png';
+								}
+								else{
+									poster=data[i].poster;
+								}
 								newli = '   <li class="col-lg-12 margin-bottom-0">  '  + 
 								 '   					<div class="margin-bottom-0 row clearfix">  '  + 
 								 '   						<div class="col-md-3 text-center">  '  + 
-								 '   							<img class="img-responsive" src="http://www.arenacineplex.com/images/icons_66x96/1522659600patuljci.jpg" alt="" width="190" height="285">  '  + 
+								 '   							<img class="img-responsive" src="../'+poster+'" alt="" width="190" height="285">  '  + 
 								 '   						</div>  '  + 
 								 '   						<div class="col-md-5">							  '  + 
 								 '   							<ul class="list-unstyled text-left">  '  + 

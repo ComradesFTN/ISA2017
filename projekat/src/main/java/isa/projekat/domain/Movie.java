@@ -46,23 +46,24 @@ public class Movie {
 	private int length;
 	
 	@ElementCollection
-	@CollectionTable(name = "SpisakSala",joinColumns = @JoinColumn(name = "movie_id", referencedColumnName = "id"))
+	@CollectionTable(name = "FilmSale",joinColumns = @JoinColumn(name = "movie_id", referencedColumnName = "id"))
 	@AttributeOverrides({
-        @AttributeOverride(name = "id", column = @Column(name = "sala_id"))
+        @AttributeOverride(name = "name", column = @Column(name = "ImeSale")),
+        @AttributeOverride(name = "size", column = @Column(name = "Velicina"))
 })
 	Set<Auditorium> auditoriums= new HashSet<Auditorium>();
 	
 	@ElementCollection
-	@CollectionTable(name = "SpisakTermina",joinColumns = @JoinColumn(name = "movie_id", referencedColumnName = "id"))
+	@CollectionTable(name = "FilmTermini",joinColumns = @JoinColumn(name = "movie_id", referencedColumnName = "id"))
 	@Column(name = "Termin", columnDefinition="VARCHAR(40)")
 	Set<String> term= new HashSet<String>();
 	
 	@ElementCollection
 	@CollectionTable(name = "SpisakProjekcijaFilma",joinColumns = @JoinColumn(name = "movie_id", referencedColumnName = "id"))
 	@AttributeOverrides({
-        @AttributeOverride(name = "SalaId", column = @Column(name = "auditorium_id")),
-        @AttributeOverride(name = "Datum", column = @Column(name = "date")),
-        @AttributeOverride(name = "Termin", column = @Column(name = "term"))
+        @AttributeOverride(name = "auditorium_name", column = @Column(name = "ImeSale")),
+        @AttributeOverride(name = "date", column = @Column(name = "Datum")),
+        @AttributeOverride(name = "term", column = @Column(name = "Termin"))
 })
 	Set<Projection> projections= new HashSet<Projection>();	
 

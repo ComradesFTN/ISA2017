@@ -34,7 +34,7 @@ public class MovieController {
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, consumes = "application/json")
-	public ResponseEntity<Movie> addCinema(@RequestBody Movie movie) {
+	public ResponseEntity<Movie> addCinema(@RequestBody Movie movie) {		
 		Movie newMovie = movieService.save(movie);
 		return new ResponseEntity<>(newMovie, HttpStatus.OK);
 	}

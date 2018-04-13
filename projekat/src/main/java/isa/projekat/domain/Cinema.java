@@ -43,7 +43,8 @@ public class Cinema {
 	@ElementCollection
 	@CollectionTable(name = "BioskopSale",joinColumns = @JoinColumn(name = "cinema_id", referencedColumnName = "id"))
 	@AttributeOverrides({
-        @AttributeOverride(name = "id", column = @Column(name = "auditorium_id"))
+		@AttributeOverride(name = "name", column = @Column(name = "ImeSale")),
+        @AttributeOverride(name = "size", column = @Column(name = "Velicina"))
 })
 	Set<Auditorium> auditoriums= new HashSet<Auditorium>();
 
