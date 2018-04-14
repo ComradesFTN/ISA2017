@@ -1,5 +1,7 @@
 package isa.projekat.controller;
 
+import java.util.List;
+
 import javax.json.Json;
 import javax.servlet.http.HttpSession;
 
@@ -92,17 +94,10 @@ public class UserController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
-	@RequestMapping(method = RequestMethod.POST, consumes = "application/json", value = "/userSearchFriends")
-	public ResponseEntity<SearchNameDTO> searchByName(@RequestBody SearchNameDTO searchNameDTO) {
-		String firstName = searchNameDTO.getFirstName();
-		User user = userService.findUserByFirstName(firstName);
-		if(user == null) {
-			System.out.println("User not found.");
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		} else {
-			return new ResponseEntity<>(HttpStatus.OK);
-		}
-		//System.out.println("Ime je " + firstName);
+	@RequestMapping(method = RequestMethod.GET, value = "/getUsers")
+	public ResponseEntity<List<User>> getUsers() {
+		List<User> users = userService.findAll();
+		return new ResponseEntity<>(users, HttpStatus.OK);
 	}
 	
 }

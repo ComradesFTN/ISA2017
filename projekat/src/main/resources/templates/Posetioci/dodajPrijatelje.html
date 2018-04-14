@@ -35,6 +35,8 @@
 			<a class="nav-link mr-0 text-white" href="/index.html">Odjava</a>
 		</div>
 		<br/>
+		<div class="row">
+		<div class="col-md-3 col-md-offset-1">
 			<form id="searchFriendForm">
 				<div class="form-group">
 					<label for="firstName">Ime</label> 
@@ -54,57 +56,118 @@
 				</div>
 				<button type="submit" class="btn btn-danger">Trazi</button>
 			</form>
+		</div>
+
+					<div class="col-md-5 col-md-offset-2 mx-auto text-center">
+						<table class="table">
+						<thead class="thead-dark">
+							<tr>
+								<th>Ime</th>
+								<th>Prezime</th>
+								<th>Dodaj prijatelja</th>
+							</tr>
+						</thead>
+						<tbody id="tableBody">
+						</tbody>
+						</table>
+					</div>
+	</div>
+
 			
 		<script>
 		$("button[type='submit']").click(function(event) {
 			event.preventDefault();
-			if($("#firstNameCheck").is(":checked")) {
-				var formData = JSON.stringify({
-					firstName:$("#firstName").val(),
-				});
-				$.ajax({
-					url: "/userSearchFriends",
-					type: 'POST',
-					data: formData,
-					contentType: "application/json",
-					datatype: "text/html",
-					success: function(data){
-						console.log("Ajax zahtev za pretragu.");
-						$('#searchFriendForm')[0].reset();
-						
-					},
-				statusCode: {
-				    	400: function() {
-				    		alert("Nista.");
-				    	},
-						200: function() {
-							alert("Sad ces ga ispisati u tabeli.")
+			if(($("#lastNameCheck").is(":checked")) && $("#firstNameCheck").is(":checked")) {
+				if(($("#lastName").val() == "") && ($("#firstName").val() == "")) {
+					alert("Vrednost polja ne sme biti prazno ako je markirano za pretragu.");
+				} else {
+					var searchFirstName = $("#firstName").val();
+					var searchLastName = $("#lastName").val();
+					$.ajax({
+						url: "/getUsers",
+						type: 'GET',
+						success: function(data){
+							$('#searchFriendForm')[0].reset();
+							$("#tableBody").empty();
+							for(i = 0; i < data.length; i++) {
+								if((data[i].firstName.toString().indexOf(searchFirstName) != -1) && (data[i].firstName.toString().indexOf(searchLastName) != -1)) {
+									newRow = 
+										"<tr>"
+											+ "<td>" + data[i].firstName + "</td>"
+											+ "<td>" + data[i].lastName + "</td>"
+											+ "<td><button type=\"button\" class=\"btn btn-dark\">+</button></td>"
+										+ "</tr>"
+										$("#tableBody").append(newRow)
+								}
+							}						
+							
 						}
-				  	}
-				});
-			}
-			if($("#lastNameCheck").is(":checked")) {
-				alert("Ce doradimo za last name");
-			}
-			/* var formData = JSON.stringify({
-				firstName:$("#firstName").val(),
-				lastName:$("#lastName").val(),
-			});
-			$.ajax({
-				url: "/users/searchFriends",
-				type: 'POST',
-				data: formData,
-				contentType: "application/json",
-				datatype: "text/html",
-				success: function(data){
-					console.log("Ajax zahtev za pretragiju.");
-					//window.location.href = "http://localhost:8080/NeregistrovaniKorisnici/emailConfirm.html";
+					});
 				}
-			}); */
+			} else if($("#firstNameCheck").is(":checked")) {
+				if($("#firstName").val() == "") {
+					alert("Vrednost polja IME ne sme biti prazno ako je markirano za pretragu.");
+				} else {
+					var searchFirstName = $("#firstName").val();
+					$.ajax({
+						url: "/getUsers",
+						type: 'GET',
+						success: function(data){
+							$('#searchFriendForm')[0].reset();
+							$("#tableBody").empty();
+							for(i = 0; i < data.length; i++) {
+								if(data[i].firstName.toString().indexOf(searchFirstName) != -1) {
+									newRow = 
+										"<tr>"
+											+ "<td>" + data[i].firstName + "</td>"
+											+ "<td>" + data[i].lastName + "</td>"
+											+ "<td><button type=\"button\" class=\"btn btn-dark\">+</button></td>"
+										+ "</tr>"
+										$("#tableBody").append(newRow)
+								}
+							}						
+							
+						}
+					});
+				}
+				
+			} else if($("#lastNameCheck").is(":checked")) {
+				if($("#lastName").val() == "") {
+					alert("Vrednost polja PREZIME ne sme biti prazno ako je markirano za pretragu.");
+				} else {
+					var searchLastName = $("#lastName").val();
+					$.ajax({
+						url: "/getUsers",
+						type: 'GET',
+						success: function(data){
+							$('#searchFriendForm')[0].reset();
+							$("#tableBody").empty();
+							for(i = 0; i < data.length; i++) {
+								if(data[i].lastName.toString().indexOf(searchLastName) != -1) {
+									newRow = 
+										"<tr>"
+											+ "<td>" + data[i].firstName + "</td>"
+											+ "<td>" + data[i].lastName + "</td>"
+											+ "<td><button type=\"button\" class=\"btn btn-dark\">+</button></td>"
+										+ "</tr>"
+										$("#tableBody").append(newRow)
+								}
+							}						
+							
+						}
+					});
+				}
+			}
 			
 		});
 		
 		</script>
+		<!-- 
+		Napravis klasu za to dodavanje da pamti ko je tu koga dodao i onda disablujes to dugme, spajas user tablu i tu klasu sto cuva to
+		gledaj ponude u bazi podataka -->
+		
+
+
 			
 	</body>
 </html>
