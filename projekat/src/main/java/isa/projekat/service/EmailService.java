@@ -39,5 +39,32 @@ public class EmailService {
 
 		System.out.println("Email poslat!");
 	}
+	
+	@Async
+	public void sendBidSold(User user, String userAdName) throws MailException, InterruptedException {
+
+		SimpleMailMessage mail = new SimpleMailMessage();
+		mail.setTo(user.getEmail());
+		mail.setFrom(env.getProperty("spring.mail.username"));
+		mail.setSubject("Obavestenje o ponudi");
+		mail.setText("Postovani " + user.getFirstName() + ",\n\n Ponuda koju ste dali na oglas pod nazivom " + userAdName + " je prihvacena.");
+		javaMailSender.send(mail);
+
+		System.out.println("Email poslat!");
+	}
+	
+	@Async
+	public void sendBidRejected(User user, String userAdName) throws MailException, InterruptedException {
+		
+		SimpleMailMessage mail = new SimpleMailMessage();
+		mail.setTo(user.getEmail());
+		mail.setFrom(env.getProperty("spring.mail.username"));
+		mail.setSubject("Obavestenje o ponudi");
+		mail.setText("Postovani " + user.getFirstName() + ",\n\n Ponuda koju ste dali na oglas pod nazivom " + userAdName + " nije prihvacena.");
+		javaMailSender.send(mail);
+
+		System.out.println("Email poslat!");
+	}
+
 
 }

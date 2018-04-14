@@ -10,14 +10,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import isa.projekat.domain.Bid;
+import isa.projekat.domain.User;
 import isa.projekat.domain.UserAd;
 import isa.projekat.repository.UserAdRepository;
+import isa.projekat.repository.UserRepository;
 
 @Service
 public class UserAdServiceImpl implements UserAdService{
 	
 	@Autowired
 	public UserAdRepository userAdRepository; 
+	
+	@Autowired
+	public UserRepository userRepository;
 	
 	@Override
 	public List<UserAd> findAll() {
@@ -65,5 +70,10 @@ public class UserAdServiceImpl implements UserAdService{
 		}
 	}
 	
+	@Override
+	public User findUserById(Long id) {
+		User user = userRepository.findOne(id);
+		return user;
+	}
 
 }
