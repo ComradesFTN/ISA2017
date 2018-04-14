@@ -14,6 +14,7 @@
 			var salePrve=[];
 			var id;
 			var filmId;
+			var sale=[];
 			function previewFile() {
 				  var preview = document.querySelector('img');
 				  file    = document.querySelector('input[type=file]').files[0];
@@ -45,7 +46,8 @@
 							if(data.poster.toString().indexOf(provera) == -1){
 								$('#id_poster').attr("src","../"+data.image);
 							}
-							for(int i=0;i<data.term.length;i++){
+							sale=data.auditoriums;
+							for(i=0; i<data.term.length; i++){
 								box=data.term[i];
 								var terminId=termini.length-1;
 								termin='<li name='+box+'>'+box+'  <input type=button class="btn btn-danger brisi" value="-"></li>';				
@@ -56,9 +58,18 @@
 					url : "http://localhost:8080/cinemas/"+id
 				}).then(
 						function(data) {
-							salePrve=data.auditoriums;
+							salePrve=data.auditoriums;							
 							for(j = 0; j<data.auditoriums.length; j++){
-								input+=' <input type="checkbox" class="ml-2" id="input'+data.auditoriums[j].name+'" > '+data.auditoriums[j].name+'<br/>';
+								checked=""
+								/*function findSala(salaName){
+								    return $.grep(sale, function(){
+								      return this.name == salaName;
+								    });
+								};*/
+								if(findSala(data.auditoriums[i].name)){
+									checked="checked";
+								}
+								input+=' <input type="checkbox" class="ml-2" id="input'+data.auditoriums[j].name+'"'+checked+' > '+data.auditoriums[j].name+'<br/>';
 							}
 							$("#Sale").append(input);
 						});
@@ -92,7 +103,7 @@
 					if(!validate()){
 						return;
 					}
-					var sale = [];
+					sale = [];
 					for(j = 0; j<salePrve.length; j++){
 						if($("#input"+salePrve[j].name).is(':checked')){
 							sale.push(salePrve[j]);
