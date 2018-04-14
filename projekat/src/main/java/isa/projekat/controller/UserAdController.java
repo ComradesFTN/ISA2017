@@ -66,5 +66,16 @@ public class UserAdController {
 		UserAd newUserAd = userAdService.save(userAd, true);
 		return new ResponseEntity<>(newUserAd, HttpStatus.OK);
 	}
+	
+	@RequestMapping(value = "/editBid/{userAdId}/{bidderId}",method = RequestMethod.PUT)
+	public ResponseEntity<UserAd> editPriceBid(@PathVariable Long userAdId,@PathVariable Long bidderId,@RequestBody  Bid bid) {
+		UserAd userAd = userAdService.findOne(userAdId);
+		for(Bid b:userAd.getBids())
+			if(b.getUserId() == bidderId) {
+				b.setprice(bid.getprice());
+			}
+		UserAd editedUserAd = userAdService.save(userAd, true);
+		return new ResponseEntity<>(editedUserAd, HttpStatus.OK);
+	}
 
 }

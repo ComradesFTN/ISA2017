@@ -1,5 +1,6 @@
 package isa.projekat.domain;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -13,6 +14,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity(name="PolovniOglas")
 public class UserAd {
@@ -27,8 +30,9 @@ public class UserAd {
 	@Column(name="Naziv", columnDefinition="VARCHAR(40)")
 	private String name;
 	
+	@Temporal(TemporalType.DATE)
 	@Column(name="Datum", columnDefinition="DATE")
-	private String date;
+	private Date date;
 	
 	@Column(name="Opis", columnDefinition="VARCHAR(200)")
 	private String description;
@@ -51,7 +55,7 @@ public class UserAd {
 	public UserAd() {
 	}
 
-	public UserAd(long id, String image, String name, String date, String description, Boolean aproved,
+	public UserAd(long id, String image, String name, Date date, String description, Boolean aproved,
 			long creatorId) {
 		this.id = id;
 		this.image = image;
@@ -87,11 +91,11 @@ public class UserAd {
 		this.name = name;
 	}
 
-	public String getDate() {
+	public Date getDate() {
 		return date;
 	}
 
-	public void setDate(String date) {
+	public void setDate(Date date) {
 		this.date = date;
 	}
 

@@ -48,21 +48,43 @@
 				event.preventDefault();
 				/*<![CDATA[*/
 				var currentUserId = /*[[${session.loggedUser.getId()}]]*/ 'id'
-				var test = $("#priceBid").val()
-				var test2 = podaci.id
-				var formData = JSON.stringify({
-					userId:currentUserId,
-					price:$("#priceBid").val(),
-				});
-				$.ajax({
-					url: "http://localhost:8080/userAd/makeBid/"+podaci.id,
-					type: 'POST',
-					data: formData,
-					contentType: "application/json",
-					success: function(){
-						window.location.href = "http://localhost:8080/Posetioci/polovniOglasi";
+				var find=0;
+				for(i=0;i<podaci.bids.length;i++){
+					if(currentUserId==podaci.bids[i].userId){
+						find=1;
 					}
-				});
+					break;
+				}	
+				if(find==0){
+					var formData = JSON.stringify({
+						userId:currentUserId,
+						price:$("#priceBid").val(),
+					});
+					$.ajax({
+						url: "http://localhost:8080/userAd/makeBid/"+podaci.id,
+						type: 'POST',
+						data: formData,
+						contentType: "application/json",
+						success: function(){
+							window.location.href = "http://localhost:8080/Posetioci/polovniOglasi";
+						}
+					});
+				}else{
+					var formData = JSON.stringify({
+						userId:currentUserId,
+						price:$("#priceBid").val(),
+					});
+					$.ajax({
+						
+						url: "http://localhost:8080/userAd/editBid/"+podaci.id+"/"+currentUserId,
+						type: 'PUT',
+						data: formData,
+						contentType: "application/json",
+						success: function(){
+							window.location.href = "http://localhost:8080/Posetioci/polovniOglasi";
+						}
+					});
+				}
 				
 				/*]]>*/
 			});
