@@ -67,4 +67,19 @@ public class CinemaController {
 		return new ResponseEntity<>(movie, HttpStatus.OK);
 	}
 	
+	@RequestMapping(value = "/{cinema_id}/editMovie/{movie_id}", method = RequestMethod.PUT )
+	public ResponseEntity<Movie> editMovie(@PathVariable Long cinema_id,@PathVariable Long movie_id) {
+		Cinema cinema = cinemaService.findOne(cinema_id);
+		Movie movie = movieService.findOne(movie_id);
+		for(Movie removeMovie:cinema.getMovies()){
+			if(movie.getId()==removeMovie.getId()){
+				cinema.getMovies().remove(removeMovie);
+				cinema.getMovies().add(movie);
+				break;
+			}
+		}
+		cinemaService.save(cinema);
+		return new ResponseEntity<>(movie, HttpStatus.OK);
+	}
+	
 }

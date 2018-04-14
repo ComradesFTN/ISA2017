@@ -5,7 +5,7 @@
 		<script th:src="@{/scripts/bootstrap.js}"></script>	
 		<link rel="stylesheet" th:href="@{/stylesheets/bootstrap.css}">
 		<meta charset="UTF-8">		
-		<title>Pozoriste</title>	
+		<title>Repertoar</title>	
 		<script>
 		var id;
 			$(document).ready(function(){	
@@ -45,7 +45,7 @@
 								else{
 									poster=data[i].poster;
 								}
-								newli = '   <li class="col-lg-12 margin-bottom-0">  '  + 
+								newli = '   <li class="col-lg-12 margin-bottom-0 movie">  '  + 
 								 '   					<div class="margin-bottom-0 row clearfix">  '  + 
 								 '   						<div class="col-md-3 text-center">  '  + 
 								 '   							<img class="img-responsive" src="../'+poster+'" alt="" width="190" height="285">  '  + 
@@ -58,7 +58,8 @@
 								 '   								<li><b>Glumci: </b>'+data[i].actors+'</li>		  '  + 
 								 '   								<li><b>Trajanje: </b>'+data[i].length+'min</li>	  '  + 
 								 '   								<li><b>Rejting: </b>'+ratingText+'</li>  '  + 
-								 '   								<li><b>Opis: </b>'+data[i].description+'</li>				  '  + 
+								 '   								<li><b>Opis: </b>'+data[i].description+'</li>	<br/			  '  + 
+								 '  								<li><button class="btn btn-danger edit" data-id='+data[i].id+'>Izmeni</button> <button class="btn btn-danger delete" href=/movies/'+data[i].id+'>Obrisi</button></li>	' +	
 								 '   							</ul>		  '  + 
 								 '   						</div>  '  + 
 								 '   						<div class="col-md-4 text-center">  '  + 
@@ -76,6 +77,31 @@
 			
 			$(document).on("click", "#add", function(event){
 				window.location.href = 'http://localhost:8080/AdminPozoristaBioskopi/createNewMovie.html?id='+id;
+			});
+			
+			$(document).on("click", ".edit", function(event){
+				filmId=$(this).attr('data-id');
+				window.location.href = 'http://localhost:8080/AdminPozoristaBioskopi/updateMovie.html?id='+id+'&filmId='+filmId;
+			});
+			
+			$(document).on("click", ".delete", function(event){
+				event.preventDefault(); 				
+				var confirmed = confirm("Da li ste sigurni da zelite da obrisete ovaj film?");
+				if(confirmed){
+					var url = $(this).attr("href");
+					//red koji se treba izbrisati ako je brisanje na serveru bilo uspesno
+					li_parent = $(this).closest("li.movie");
+					nextDiv = li_parent.next();
+					$.ajax({
+			        	url: url,
+			        	type: "DELETE",
+			        	success: function(){
+			        		//ukloni i na strani 
+							li_parent.remove();
+			        		nextDiv.remove();
+				        }
+					});
+				}
 			});
 			
 			var getUrlParameter = function getUrlParameter(sParam) {

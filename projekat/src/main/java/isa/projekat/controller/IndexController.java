@@ -170,4 +170,9 @@ public class IndexController {
 	public String chooseBid() {
 		return "Posetioci/chooseBid";
 	}
+	
+	@GetMapping("/AdminPozoristaBioskopi/updateMovie")
+	public String updateMovie() {
+		return "AdminPozoristaBioskopi/updateMovie";
+	}
 }

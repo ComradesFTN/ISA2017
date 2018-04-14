@@ -8,16 +8,7 @@ public class Auditorium {
 	
 	public Auditorium(){
 		
-	}
-	
-	public Auditorium(String name) {		
-		this.name = name;
-	}
-	
-	public Auditorium(String name, int size) {
-		this.name = name;
-		this.size = size;
-	}
+	}	
 
 	public String getName() {
 		return name;

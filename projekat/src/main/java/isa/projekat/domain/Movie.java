@@ -9,6 +9,7 @@ import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -39,13 +40,13 @@ public class Movie {
 	@Column(name="PromotivniOpis", columnDefinition="VARCHAR(200)")
 	private String description;
 	
-	@Column(name="Poster", columnDefinition="VARCHAR(200)")
+	@Column(name="Poster", columnDefinition="VARCHAR(300)")
 	private String poster="Bez slike";
 	
 	@Column(name="Trajanje", columnDefinition="NUMERIC")
 	private int length;
 	
-	@ElementCollection
+	@ElementCollection(fetch = FetchType.LAZY)
 	@CollectionTable(name = "FilmSale",joinColumns = @JoinColumn(name = "movie_id", referencedColumnName = "id"))
 	@AttributeOverrides({
         @AttributeOverride(name = "name", column = @Column(name = "ImeSale")),
@@ -53,12 +54,12 @@ public class Movie {
 })
 	Set<Auditorium> auditoriums= new HashSet<Auditorium>();
 	
-	@ElementCollection
+	@ElementCollection(fetch = FetchType.EAGER)
 	@CollectionTable(name = "FilmTermini",joinColumns = @JoinColumn(name = "movie_id", referencedColumnName = "id"))
 	@Column(name = "Termin", columnDefinition="VARCHAR(40)")
 	Set<String> term= new HashSet<String>();
 	
-	@ElementCollection
+	@ElementCollection(fetch = FetchType.EAGER)
 	@CollectionTable(name = "SpisakProjekcijaFilma",joinColumns = @JoinColumn(name = "movie_id", referencedColumnName = "id"))
 	@AttributeOverrides({
         @AttributeOverride(name = "auditorium_name", column = @Column(name = "ImeSale")),

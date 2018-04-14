@@ -7,14 +7,19 @@ import java.util.Base64;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import isa.projekat.domain.Auditorium;
 import isa.projekat.domain.Movie;
 import isa.projekat.repository.MovieRepository;
 
 @Service
 public class MovieServiceImpl implements MovieService {
 
+	@Value("${paths.menjaj}")
+	private String putanja;
+	
 	@Autowired
 	private MovieRepository movieRepository;
 	
@@ -30,26 +35,28 @@ public class MovieServiceImpl implements MovieService {
 			if(!movie.getPoster().contains("imagesAd")) {
 				if(this.findOne(movie.getId())!=null) {
 					if(this.findOne(movie.getId()).getPoster().contains("Bez")) {
-						String pathFile = "C:\\Users\\Goran\\Desktop\\fax\\isa\\Nas projekat 2018\\projekat2\\projekat\\src\\main\\resources\\static\\imagesMovies\\film"+System.currentTimeMillis()+".jpg";
+						String pathFile = putanja+"imagesMovies\\film"+System.currentTimeMillis()+".jpg";
 						decoder(movie.getPoster(), pathFile);
 						String splitPath[] = pathFile.split("static\\\\");
 						movie.setPoster(splitPath[1]);
 					}
 					else {
-						String pathFile = "C:\\Users\\Goran\\Desktop\\fax\\isa\\Nas projekat 2018\\projekat2\\projekat\\src\\main\\resources\\static\\"+this.findOne(movie.getId()).getPoster();
+						String pathFile = putanja+this.findOne(movie.getId()).getPoster();
 						decoder(movie.getPoster(), pathFile);
 						String splitPath[] = pathFile.split("static\\\\");
 						movie.setPoster(splitPath[1]);
 					}
 				}else {
-					String pathFile = "C:\\Users\\Goran\\Desktop\\fax\\isa\\Nas projekat 2018\\projekat2\\projekat\\src\\main\\resources\\static\\imagesMovies\\film"+System.currentTimeMillis()+".jpg";
+					String pathFile = putanja+"imagesMovies\\film"+System.currentTimeMillis()+".jpg";
 					decoder(movie.getPoster(), pathFile);
 					String splitPath[] = pathFile.split("static\\\\");
 					movie.setPoster(splitPath[1]);
 				}
 			}
 		}
-		System.out.println(movie.getId());
+		for(Auditorium sala : movie.getAuditoriums()){
+			System.out.println(sala.getName());
+		}		
 		return movieRepository.save(movie);
 	}
 
@@ -68,6 +75,17 @@ public class MovieServiceImpl implements MovieService {
 		} catch (IOException ioe) {
 			System.out.println("Exception while reading the Image " + ioe);
 		}
+	}
+
+	@Override
+	public Movie delete(Long id) {
+		Movie movie = movieRepository.findOne(id);
+		if(movie == null){
+			throw new IllegalArgumentException("Tried to delete"
+					+ "non-existant movie");
+		}
+		movieRepository.delete(movie);
+		return movie;
 	}
 	
 }

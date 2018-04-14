@@ -5,11 +5,12 @@
 		<script th:src="@{/scripts/bootstrap.js}"></script>	
 		<link rel="stylesheet" th:href="@{/stylesheets/bootstrap.css}">
 		<meta charset="UTF-8">		
-		<title>Pozoriste</title>	
+		<title>Repertoar</title>	
 		<script>
+		var id;
 			$(document).ready(function(){	
 				$("#director").text("proba");
-				var id = getUrlParameter('id');	
+				id = getUrlParameter('id');	
 				$("#home").attr("href", "cinemaDetails.html?id="+id);
 				$.ajax({
 					url : "http://localhost:8080/cinemas/"+id+"/getMovies"
@@ -37,12 +38,17 @@
 										 '   							</div>  ';
 									}
 								}
-															
-								
+								poster="";						
+								if(data[i].poster===("Bez slike")){
+									poster='imagesMovies\\nemaslike.png';
+								}
+								else{
+									poster=data[i].poster;
+								}
 								newli = '   <li class="col-lg-12 margin-bottom-0">  '  + 
 								 '   					<div class="margin-bottom-0 row clearfix">  '  + 
 								 '   						<div class="col-md-3 text-center">  '  + 
-								 '   							<img class="img-responsive" src="http://www.arenacineplex.com/images/icons_66x96/1522659600patuljci.jpg" alt="" width="190" height="285">  '  + 
+								 '   							<img class="img-responsive" src="../'+poster+'" alt="" width="190" height="285">  '  + 
 								 '   						</div>  '  + 
 								 '   						<div class="col-md-5">							  '  + 
 								 '   							<ul class="list-unstyled text-left">  '  + 
@@ -66,7 +72,7 @@
 							}
 							
 						});
-			});
+			});			
 			
 			var getUrlParameter = function getUrlParameter(sParam) {
 			    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
@@ -116,10 +122,15 @@
 				</div>
 		    </div>
 		</nav>
-		<div class="container border border-danger bg-white">
-			<hr class="margin-bottom-20">			
-			<ul class="row list-inline" id="filmovi">				
-			</ul>			
+		<div class="row">
+			<div class="col mt-5">				
+			</div>
+			<div class="container border border-danger bg-white col-6">
+				<hr class="margin-bottom-20">			
+				<ul class="row list-inline" id="filmovi">				
+				</ul>			
+			</div>
+			<div class="col"/>					
 		</div>
 	</body>
 </html>
