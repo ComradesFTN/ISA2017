@@ -27,13 +27,16 @@
 										ratingText+="\u2605";
 										rating-=1;
 									}
-								}									
+								}			
+								if(rating===-1){
+									ratingText='Nije ocenjen';
+								}
 								listaTermina="";
 								for(l=0;l<data[i].term.length;l++){
 									for(p=0;p<data[i].auditoriums.length;p++){
 										listaTermina+=  '   							<div class="card box-shadow bg-dark border-danger text-info mx-auto" style="width: 5rem;">  '  + 
 										 '   								<h3 class="text-warning mt-1">'+data[i].term[l]+'</h3>  '  + 
-										 '   								<span>300din</span>  '  + 
+										 '   								<span>'+data[i].price+'in</span>  '  + 
 										 '   								<span class="mb-2">'+data[i].auditoriums[p].name+'</span>  '  + 
 										 '   							</div>  ';
 									}

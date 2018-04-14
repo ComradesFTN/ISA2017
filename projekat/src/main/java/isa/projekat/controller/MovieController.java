@@ -46,7 +46,7 @@ public class MovieController {
 		return new ResponseEntity<>(newMovie, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/{id}",method = RequestMethod.PUT)
+	@RequestMapping(value = "/{id}",method = RequestMethod.PUT ,consumes = "application/json")
 	public ResponseEntity<Movie> editMovie(@PathVariable Long id,@RequestBody Movie movie) {
 		movie.setId(id);
 		Movie editedMovie = movieService.save(movie);

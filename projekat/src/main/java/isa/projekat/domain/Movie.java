@@ -46,6 +46,9 @@ public class Movie {
 	@Column(name="Trajanje", columnDefinition="NUMERIC")
 	private int length;
 	
+	@Column(name="Cena", columnDefinition="NUMERIC")
+	private int price;
+	
 	@ElementCollection(fetch = FetchType.LAZY)
 	@CollectionTable(name = "FilmSale",joinColumns = @JoinColumn(name = "movie_id", referencedColumnName = "id"))
 	@AttributeOverrides({
@@ -163,9 +166,13 @@ public class Movie {
 	public void setAuditoriums(Set<Auditorium> auditoriums) {
 		this.auditoriums = auditoriums;
 	}
-	
-	
-	
-	
-	
+
+	public int getPrice() {
+		return price;
+	}
+
+	public void setPrice(int price) {
+		this.price = price;
+	}
+		
 }

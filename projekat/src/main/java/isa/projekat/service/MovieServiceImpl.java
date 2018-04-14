@@ -54,9 +54,6 @@ public class MovieServiceImpl implements MovieService {
 				}
 			}
 		}
-		for(Auditorium sala : movie.getAuditoriums()){
-			System.out.println(sala.getName());
-		}		
 		return movieRepository.save(movie);
 	}
 
