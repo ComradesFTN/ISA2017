@@ -175,4 +175,25 @@ public class IndexController {
 	public String updateMovie() {
 		return "AdminPozoristaBioskopi/updateMovie";
 	}
+	
+	@GetMapping("Posetioci/cinemaDetails")
+	public String posetilacCinemaDetails() {
+		return "Posetioci/cinemaDetails";
+	}
+	
+	@GetMapping("Posetioci/cinemasPage")
+	public String posetilaccinemasPage() {
+		return "Posetioci/cinemasPage";
+	}
+	
+	@GetMapping("Posetioci/cinemaRepertoar")
+	public String posetilacCinemaRepertoar() {
+		return "Posetioci/cinemaRepertoar";
+	}
+	
+	@GetMapping("AdminPozoristaBioskopi/updateCinema")
+	public String updateCinema() {
+		return "AdminPozoristaBioskopi/updateCinema";
+	}
+	
 }
