@@ -33,6 +33,73 @@
 			</ul>
 			<a th:href="dodajPrijatelje.html" class="btn btn-danger" role="button" aria-pressed="true">Dodaj prijatelje</a>
 			<a class="nav-link mr-0 text-white" href="/index.html">Odjava</a>
+		</div>
+		
+		<div class="col-md-6 col-md-offset-2 mx-auto text-center">
+						<table class="table" id="table">
+						<thead class="thead-dark">
+							<tr>
+								<th>Ime</th>
+								<th>Prezime</th>
+								<th></th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody id="tableBody">
+						</tbody>
+							<tr>
+								<td>da</td>
+								<td>da</td>
+								<td><button type="button" class="btn btn-success">+</button></td>
+								<td><button type="button" class="btn btn-dark">-</button></td>
+							</tr>
+						</table>
+					</div>
+					
+		<script th:inline="javascript">
+		/*<![CDATA[*/
+			$(document).ready(function() {
+				$.ajax({
+					url: "/getFriendRequests",
+					type: "GET",
+				}).then(
+						function(data) {
+							if (data === undefined) {
+								console.log("Data empty.");
+							} else {
+								var currentUser = /*[[${session.loggedUser.getId()}]]*/ '';
+								console.log("Userid: " + currentUser);
+								for(i = 0; i < data.length; i++) {
+									if(currentUser === data[i].friendId) {
+										var frReqSender = data[i].userId;
+										$.ajax({
+											url: "/getUsers",
+											type: "GET",
+											success: function(allUsers) {
+												for(i = 0; i < allUsers.length; i++) {
+													if(allUsers[i].id === frReqSender) {
+														newRow = 
+															"<tr>"
+																+ "<td>" + allUsers[i].firstName + "</td>"
+																+ "<td>" + allUsers[i].lastName + "</td>"
+																+ "<td><button type=\"button\" class=\"btn btn-success\">+</button></td>"
+																+ "<td><button type=\"button\" class=\"btn btn-dark\">-</button></td>"
+															+ "</tr>"
+															$("#tableBody").append(newRow)
+													}
+												}
+											}
+										});
+										
+									}								
+								}
+							}
+							
+						});
+				
+			});
+		/*]]>*/
+		</script>
 			
 	</body>
 </html>

@@ -106,4 +106,11 @@ public class UserController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
+	@GetMapping("/getFriendRequests")
+	public ResponseEntity<List<Friendships>> getFriendships() {
+		List<Friendships> friendships = userService.findAllFriendships();
+		return new ResponseEntity<>(friendships, HttpStatus.OK);
+	} 
+	
+	
 }

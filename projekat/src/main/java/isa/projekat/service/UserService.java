@@ -28,4 +28,6 @@ public interface UserService {
 	User updateUser(User user);
 	
 	Friendships save(Friendships friendship);
+	
+	List<Friendships> findAllFriendships();
 }

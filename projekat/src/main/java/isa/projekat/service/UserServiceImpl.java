@@ -80,4 +80,9 @@ public class UserServiceImpl implements UserService {
 		return friendshipsRepository.save(friendship);
 	}
 
+	@Override
+	public List<Friendships> findAllFriendships() {
+		return friendshipsRepository.findAll();
+	}
+
 }
