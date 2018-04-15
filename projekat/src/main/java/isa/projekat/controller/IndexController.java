@@ -195,5 +195,6 @@ public class IndexController {
 	public String updateCinema() {
 		return "AdminPozoristaBioskopi/updateCinema";
 	}
+	//test
 	
 }
