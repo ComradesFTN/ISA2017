@@ -7,8 +7,10 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import isa.projekat.domain.Friendships;
 import isa.projekat.domain.User;
 import isa.projekat.domain.VerificationToken;
+import isa.projekat.repository.FriendshipsRepository;
 import isa.projekat.repository.UserRepository;
 import isa.projekat.repository.VerificationTokenRepository;
 
@@ -20,9 +22,8 @@ public class UserServiceImpl implements UserService {
 	private UserRepository userRepository;
 	@Autowired
 	private VerificationTokenRepository tokenRepository;
-	
 	@Autowired
-	private VerificationTokenRepository verificationTokenRepository;
+	private FriendshipsRepository friendshipsRepository;
 
 	@Override
 	public List<User> findAll() {
@@ -72,6 +73,11 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User findUserByFirstName(String firstName) {
 		return userRepository.findUserByFirstName(firstName);
+	}
+
+	@Override
+	public Friendships save(Friendships friendship) {
+		return friendshipsRepository.save(friendship);
 	}
 
 }

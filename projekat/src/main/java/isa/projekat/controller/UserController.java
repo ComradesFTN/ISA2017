@@ -2,7 +2,6 @@ package isa.projekat.controller;
 
 import java.util.List;
 
-import javax.json.Json;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,19 +14,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.view.RedirectView;
 
+import isa.projekat.domain.Friendships;
 import isa.projekat.domain.User;
 import isa.projekat.domain.VerificationToken;
-import isa.projekat.domain.dto.SearchNameDTO;
+import isa.projekat.domain.dto.FriendReqDTO;
 import isa.projekat.domain.dto.UserDTO;
-import isa.projekat.repository.UserRepository;
 import isa.projekat.service.EmailService;
 import isa.projekat.service.UserService;
 
 @Controller
-//@RequestMapping(value = "/users")
 public class UserController {
 	
 	@Autowired
@@ -98,6 +95,15 @@ public class UserController {
 	public ResponseEntity<List<User>> getUsers() {
 		List<User> users = userService.findAll();
 		return new ResponseEntity<>(users, HttpStatus.OK);
+	}
+	
+	@RequestMapping(method = RequestMethod.POST, consumes = "application/json", value = "/userAddFriend")
+	public ResponseEntity<FriendReqDTO> addFriend(@RequestBody FriendReqDTO friendReq) {
+		Friendships friendship = new Friendships();
+		friendship.setUserId(friendReq.getUserId());
+		friendship.setFriendId(friendReq.getFriendId());
+		userService.save(friendship);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 }
