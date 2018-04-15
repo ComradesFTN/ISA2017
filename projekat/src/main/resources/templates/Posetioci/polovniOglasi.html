@@ -26,7 +26,30 @@
 												if(data[i].creatorId == userId){
 													newRow+= "<td><a href='chooseBid.html?id=" + data[i].id + "' >Odaberi</a></td>";
 												}else{
-													newRow+= "<td><a href='makeBid.html?id=" + data[i].id + "' >Licitiraj</a></td>";
+													var now = new Date();
+													var month = 0;
+													var day = 0;
+													if(now.getMonth()<9){
+														month="0"+(now.getMonth()+1)
+													}else{
+														month = (now.getMonth()+1)
+													}
+													if(now.getDate()<9){
+														day="0"+(now.getDate()+1)
+													}else{
+														day = now.getDate()
+													}
+													
+													var currentDate = now.getFullYear() + "-" + month + "-" + day;
+													if(data[i].date<currentDate){
+														newRow+= "<td><p class=\"text-secondary\">Istekao rok</p></td>";
+														console.log(currentDate)
+														
+													}else{	
+														newRow+= "<td><a href='makeBid.html?id=" + data[i].id + "' >Licitiraj</a></td>";
+														console.log(currentDate)
+														
+													}
 												}
 											 newRow+="</tr>";
 										$("#tableBody").append(newRow)
@@ -40,7 +63,30 @@
 												if(data[i].creatorId == userId){
 													newRow+= "<td><a href='chooseBid.html?id=" + data[i].id + "' >Odaberi</a></td>";
 												}else{
-													newRow+= "<td><a href='makeBid.html?id=" + data[i].id + "' >Licitiraj</a></td>";
+													var now = new Date();
+													var month = 0;
+													var day = 0;
+													if(now.getMonth()<9){
+														month="0"+(now.getMonth()+1)
+													}else{
+														month = (now.getMonth()+1)
+													}
+													if(now.getDate()<9){
+														day="0"+(now.getDate()+1)
+													}else{
+														day = now.getDate()
+													}
+													
+													var currentDate = now.getFullYear() + "-" + month + "-" + day;
+													if(data[i].date<currentDate){
+														newRow+= "<td><p class=\"text-secondary\">Istekao rok</p></td>";
+														console.log(currentDate)
+														
+													}else{	
+														newRow+= "<td><a href='makeBid.html?id=" + data[i].id + "' >Licitiraj</a></td>";
+														console.log(currentDate)
+														
+													}
 												}
 											 newRow+="</tr>";
 										$("#tableBody").append(newRow)
@@ -59,39 +105,88 @@
 							/*<![CDATA[*/
 							$("#tableBody").empty();
 							var provera ="Bez";
+							var userId = /*[[${session.loggedUser.getId()}]]*/ 'id'
 							var provera2=$('#searchField').val();
 							for (i = 0; i < data.length; i++) {
-								if(data[i].image.toString().indexOf(provera) != -1){
-									if(data[i].name.toString().indexOf(provera2) != -1){
-										newRow = 
-											"<tr>"
-											+ "<td>" + data[i].name + "</td>"
-											+ "<td>" + data[i].description + "</td>"
-											+ "<td>" + data[i].date.toString() + "</td>"
-											+ "<td>Bez slike</td>";
-											if(data[i].creatorId == userId){
-												newRow+= "<td><a href='chooseBid.html?id=" + data[i].id + "' >Odaberi</a></td>";
-											}else{
-												newRow+= "<td><a href='makeBid.html?id=" + data[i].id + "' >Licitiraj</a></td>";
-											}
-										 newRow+="</tr>";
-										$("#tableBody").append(newRow)
-									}
-								}else{
-									if(data[i].name.toString().indexOf(provera2) != -1){
-										newRow =
-											"<tr>"
-											+ "<td>" + data[i].name + "</td>"
-											+ "<td>" + data[i].description + "</td>"
-											+ "<td>" + data[i].date.toString() + "</td>"
-											+ "<td><img height=\"50\" width=\"50\" src=\"../" + data[i].image + "\" /></td>";
-											if(data[i].creatorId == userId){
-												newRow+= "<td><a href='chooseBid.html?id=" + data[i].id + "' >Odaberi</a></td>";
-											}else{
-												newRow+= "<td><a href='makeBid.html?id=" + data[i].id + "' >Licitiraj</a></td>";
-											}
-										 newRow+="</tr>";
-										$("#tableBody").append(newRow)
+								if(data[i].aproved){
+									if(data[i].image.toString().indexOf(provera) != -1){
+										if(data[i].name.toString().indexOf(provera2) != -1){
+											newRow = 
+												"<tr>"
+													+ "<td>" + data[i].name + "</td>"
+													+ "<td>" + data[i].description + "</td>"
+													+ "<td>" + data[i].date.toString() + "</td>"
+													+ "<td>Bez slike</td>";
+													if(data[i].creatorId == userId){
+														newRow+= "<td><a href='chooseBid.html?id=" + data[i].id + "' >Odaberi</a></td>";
+													}else{
+														var now = new Date();
+														var month = 0;
+														var day = 0;
+														if(now.getMonth()<9){
+															month="0"+(now.getMonth()+1)
+														}else{
+															month = (now.getMonth()+1)
+														}
+														if(now.getDate()<9){
+															day="0"+(now.getDate()+1)
+														}else{
+															day = now.getDate()
+														}
+														
+														var currentDate = now.getFullYear() + "-" + month + "-" + day;
+														if(data[i].date<currentDate){
+															newRow+= "<td><p class=\"text-secondary\">Istekao rok</p></td>";
+															console.log(currentDate)
+															
+														}else{	
+															newRow+= "<td><a href='makeBid.html?id=" + data[i].id + "' >Licitiraj</a></td>";
+															console.log(currentDate)
+															
+														}
+													}
+												 newRow+="</tr>";
+											$("#tableBody").append(newRow)
+										}
+									}else{
+										if(data[i].name.toString().indexOf(provera2) != -1){
+											newRow = 
+												"<tr>"
+													+ "<td>" + data[i].name + "</td>"
+													+ "<td>" + data[i].description + "</td>"
+													+ "<td>" + data[i].date.toString() + "</td>"
+													+ "<td><img height=\"50\" width=\"50\" src=\"../" + data[i].image + "\" /></td>";
+													if(data[i].creatorId == userId){
+														newRow+= "<td><a href='chooseBid.html?id=" + data[i].id + "' >Odaberi</a></td>";
+													}else{
+														var now = new Date();
+														var month = 0;
+														var day = 0;
+														if(now.getMonth()<9){
+															month="0"+(now.getMonth()+1)
+														}else{
+															month = (now.getMonth()+1)
+														}
+														if(now.getDate()<9){
+															day="0"+(now.getDate()+1)
+														}else{
+															day = now.getDate()
+														}
+														
+														var currentDate = now.getFullYear() + "-" + month + "-" + day;
+														if(data[i].date<currentDate){
+															newRow+= "<td><p class=\"text-secondary\">Istekao rok</p></td>";
+															console.log(currentDate)
+															
+														}else{	
+															newRow+= "<td><a href='makeBid.html?id=" + data[i].id + "' >Licitiraj</a></td>";
+															console.log(currentDate)
+															
+														}
+													}
+												 newRow+="</tr>";
+											$("#tableBody").append(newRow)
+										}
 									}
 								}
 							}

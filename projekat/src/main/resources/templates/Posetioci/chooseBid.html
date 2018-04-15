@@ -13,11 +13,12 @@
 					url : "http://localhost:8080/userAd/getUserAd/"+id
 				}).then(
 						function(data) {
+							podaci = data;
 							for(i=0;i<data.bids.length;i++){
 								newRow = 
 									"<tr>"
 										+ "<td>" + data.bids[i].price + "</td>"
-										+ "<td><button   class=\"btn btn-danger reserve\" >Odaberi</button></td>"
+										+ "<td><button   class=\"btn btn-danger chooseBid\" href='/userAd/chooseBid/" +podaci.id+ "/" + data.bids[i].userId + "'  >Odaberi</button></td>"
 									+ "</tr>"
 								$("#tableBody").append(newRow)
 							}
@@ -41,20 +42,17 @@
 				event.preventDefault();
 				/*<![CDATA[*/
 				var currentUserId = /*[[${session.loggedUser.getId()}]]*/ 'id'
-				var test = $("#priceBid").val()
-				var test2 = podaci.id
-				var formData = JSON.stringify({
-					userId:currentUserId,
-					price:$("#priceBid").val(),
-				});
+				
+				var confirmed = confirm("Da li ste sigurni da zelite da odaberete ovu ponudu za ovaj oglas?");
+				if(confirmed){
+					var url = $(this).attr("href")
+				}
 				$.ajax({
-					url: "http://localhost:8080/userAd/makeBid/"+podaci.id,
-					type: 'POST',
-					data: formData,
-					contentType: "application/json",
-					success: function(){
-						window.location.href = "http://localhost:8080/Posetioci/polovniOglasi";
-					}
+		        	url: url,
+		        	type: "DELETE",
+		        	success: function(){
+		        		window.location.href = "http://localhost:8080/Posetioci/polovniOglasi";
+			        }
 				});
 				
 				/*]]>*/

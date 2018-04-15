@@ -3,6 +3,7 @@ package isa.projekat.service;
 import java.util.List;
 
 import isa.projekat.domain.Bid;
+import isa.projekat.domain.User;
 import isa.projekat.domain.UserAd;
 
 
@@ -15,5 +16,7 @@ public interface UserAdService {
 	UserAd findOne(Long id);
 
 	UserAd delete(Long id);
+
+	User findUserById(Long id);
 	
 }
