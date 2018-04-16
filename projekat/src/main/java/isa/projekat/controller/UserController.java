@@ -38,6 +38,7 @@ public class UserController {
 
 	@RequestMapping(method = RequestMethod.POST, consumes = "application/json", value = "/users")
 	public ResponseEntity<User> addUser(@RequestBody User user) {
+		
 		User newUser = userService.save(user); // TODO proveri da li ima email isti pre toga
 
 		try {
@@ -79,7 +80,12 @@ public class UserController {
 			if(currentUser.isEnabled()) {
 				session.setAttribute("loggedUser", currentUser);
 				if(currentUser.getUserType()==1) {
-					return new ResponseEntity<>(HttpStatus.ACCEPTED);
+					if(currentUser.getFirstTime()==true) {
+						currentUser.setFirstTime(false);
+						return new ResponseEntity<>(HttpStatus.CREATED);
+					}else {
+						return new ResponseEntity<>(HttpStatus.ACCEPTED);
+					}
 				}
 				return new ResponseEntity<>(HttpStatus.OK);
 			} else return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);

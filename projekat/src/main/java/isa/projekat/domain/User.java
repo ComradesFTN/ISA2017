@@ -52,13 +52,17 @@ public class User {
 	@Column(name = "TipKorisnika",columnDefinition="NUMERIC")
 	private int userType;
 	
+	@Column(name = "PrviPut",columnDefinition="BOOLEAN")
+	private Boolean firstTime;
+	
 	public User() {
 		this.enabled = false;
 		this.userType = 0;
+		this.firstTime = true;
 	}
 
 	public User(long id, String email, String password, String firstName, String lastName, String city, String phone,
-			boolean enabled, int userType) {
+			boolean enabled, int userType, Boolean firstTime) {
 		this.id = id;
 		this.email = email;
 		this.password = password;
@@ -68,6 +72,7 @@ public class User {
 		this.phone = phone;
 		this.enabled = enabled;
 		this.userType = userType;
+		this.firstTime = firstTime;
 	}
 
 	public String getEmail() {
@@ -140,6 +145,14 @@ public class User {
 
 	public void setUserType(int userType) {
 		this.userType = userType;
+	}
+
+	public Boolean getFirstTime() {
+		return firstTime;
+	}
+
+	public void setFirstTime(Boolean firstTime) {
+		this.firstTime = firstTime;
 	}
 
 }

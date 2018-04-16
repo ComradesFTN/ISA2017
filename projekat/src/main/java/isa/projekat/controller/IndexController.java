@@ -201,4 +201,9 @@ public class IndexController {
 		return "AdminPozoristaBioskopi/updateAuditorium";
 	}
 	
+	@GetMapping("/Posetioci/changePassword")
+	public String changePassword() {
+		return "Posetioci/changePassword";
+	}
+	
 }
