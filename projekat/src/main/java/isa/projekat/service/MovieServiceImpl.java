@@ -11,7 +11,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import isa.projekat.domain.Auditorium;
+import isa.projekat.domain.Cinema;
 import isa.projekat.domain.Movie;
+import isa.projekat.repository.AuditoriumRepository;
+import isa.projekat.repository.CinemaRepository;
 import isa.projekat.repository.MovieRepository;
 
 @Service
@@ -21,7 +24,13 @@ public class MovieServiceImpl implements MovieService {
 	private String putanja;
 	
 	@Autowired
+	private CinemaRepository cinemaRepository;
+	
+	@Autowired
 	private MovieRepository movieRepository;
+	
+	@Autowired 
+	private AuditoriumRepository auditoriumRepository;
 	
 	@Override
 	public List<Movie> findAll() {
@@ -53,8 +62,19 @@ public class MovieServiceImpl implements MovieService {
 					movie.setPoster(splitPath[1]);
 				}
 			}
+		}		
+		Movie savedMovie=movieRepository.save(movie);		
+		Cinema cinema = cinemaRepository.findOne(movie.getCinemaId());
+		for(Auditorium auditorium : cinema.getAuditoriums()){
+			auditorium.getMovies().remove(savedMovie);	
+			auditoriumRepository.save(auditorium);
 		}
-		return movieRepository.save(movie);
+		for(Auditorium auditorium : movie.getAuditoriums()){
+			System.out.println(auditorium.getName());
+			auditorium.getMovies().add(savedMovie);
+			auditoriumRepository.save(auditorium);
+		}
+		return savedMovie;
 	}
 
 	@Override

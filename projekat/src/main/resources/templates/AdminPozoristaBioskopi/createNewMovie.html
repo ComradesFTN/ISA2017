@@ -12,6 +12,7 @@
 			var file;
 			var reader;
 			var salePrve=[];
+			var id;
 			function previewFile() {
 				  var preview = document.querySelector('img');
 				  file    = document.querySelector('input[type=file]').files[0];
@@ -26,7 +27,7 @@
 				  }
 				}
 			$(document).ready(function(){				
-				var id = getUrlParameter('id');	
+				id = getUrlParameter('id');	
 				$("#home").attr("href", "cinemaDetails.html?id="+id);
 				$.ajax({
 					url : "http://localhost:8080/cinemas/"+id
@@ -90,7 +91,8 @@
 							description:$("#inputDescription").val(),
 							auditoriums:sale,
 							term:termini,
-							poster:splitImage[1],
+							cinemaId:id,
+							poster:splitImage[1],							
 							
 						});
 							$.ajax({
@@ -118,6 +120,7 @@
 							price:$("#inputPrice").val(),
 							description:$("#inputDescription").val(),
 							term:termini,
+							cinemaId:id,
 							auditoriums:sale
 						});
 						$.ajax({

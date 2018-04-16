@@ -27,6 +27,6 @@ public class CinemaServiceImpl implements CinemaService {
 	@Override
 	public Cinema findOne(Long id) {
 		return cinemaRepository.findOne(id);
-	}
+	}	
 
 }

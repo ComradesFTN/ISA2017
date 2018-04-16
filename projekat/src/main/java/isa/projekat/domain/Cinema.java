@@ -5,6 +5,7 @@ import java.util.Set;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
+import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -13,6 +14,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 
 @Entity(name="Bioskop")
 public class Cinema {
@@ -40,11 +42,10 @@ public class Cinema {
 })
 	Set<Movie> movies= new HashSet<Movie>();
 	
-	@ElementCollection
+	@OneToMany(cascade=CascadeType.ALL)
 	@CollectionTable(name = "BioskopSale",joinColumns = @JoinColumn(name = "cinema_id", referencedColumnName = "id"))
 	@AttributeOverrides({
-		@AttributeOverride(name = "name", column = @Column(name = "ImeSale")),
-        @AttributeOverride(name = "size", column = @Column(name = "Velicina"))
+		@AttributeOverride(name = "id", column = @Column(name = "auditorium_id"))       
 })
 	Set<Auditorium> auditoriums= new HashSet<Auditorium>();
 

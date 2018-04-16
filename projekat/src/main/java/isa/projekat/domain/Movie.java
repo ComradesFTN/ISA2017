@@ -1,10 +1,13 @@
 package isa.projekat.domain;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
+import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -14,6 +17,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity(name="Film") 
 public class Movie {  
@@ -49,20 +59,16 @@ public class Movie {
 	@Column(name="Cena", columnDefinition="NUMERIC")
 	private int price;
 	
-	@ElementCollection(fetch = FetchType.LAZY)
-	@CollectionTable(name = "FilmSale",joinColumns = @JoinColumn(name = "movie_id", referencedColumnName = "id"))
-	@AttributeOverrides({
-        @AttributeOverride(name = "name", column = @Column(name = "ImeSale")),
-        @AttributeOverride(name = "size", column = @Column(name = "Velicina"))
-})
-	Set<Auditorium> auditoriums= new HashSet<Auditorium>();
+	@ManyToMany(mappedBy = "movies",fetch=FetchType.LAZY)
+	@JsonIgnoreProperties("movies")
+	List<Auditorium> auditoriums= new ArrayList<Auditorium>();
 	
-	@ElementCollection(fetch = FetchType.EAGER)
+	@ElementCollection
 	@CollectionTable(name = "FilmTermini",joinColumns = @JoinColumn(name = "movie_id", referencedColumnName = "id"))
 	@Column(name = "Termin", columnDefinition="VARCHAR(40)")
 	Set<String> term= new HashSet<String>();
 	
-	@ElementCollection(fetch = FetchType.EAGER)
+	@ElementCollection
 	@CollectionTable(name = "SpisakProjekcijaFilma",joinColumns = @JoinColumn(name = "movie_id", referencedColumnName = "id"))
 	@AttributeOverrides({
         @AttributeOverride(name = "auditorium_name", column = @Column(name = "ImeSale")),
@@ -70,6 +76,9 @@ public class Movie {
         @AttributeOverride(name = "term", column = @Column(name = "Termin"))
 })
 	Set<Projection> projections= new HashSet<Projection>();	
+	
+	@Column(name="BioskopId")
+	private long cinemaId;
 
 	public long getId() {
 		return id;
@@ -159,11 +168,11 @@ public class Movie {
 		this.projections = projections;
 	}
 
-	public Set<Auditorium> getAuditoriums() {
+	public List<Auditorium> getAuditoriums() {
 		return auditoriums;
 	}
 
-	public void setAuditoriums(Set<Auditorium> auditoriums) {
+	public void setAuditoriums(List<Auditorium> auditoriums) {
 		this.auditoriums = auditoriums;
 	}
 
@@ -173,6 +182,14 @@ public class Movie {
 
 	public void setPrice(int price) {
 		this.price = price;
+	}
+
+	public long getCinemaId() {
+		return cinemaId;
+	}
+
+	public void setCinemaId(long cinemaId) {
+		this.cinemaId = cinemaId;
 	}
 		
 }

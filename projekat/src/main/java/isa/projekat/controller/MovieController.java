@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import isa.projekat.domain.Auditorium;
 import isa.projekat.domain.Cinema;
 import isa.projekat.domain.Movie;
 import isa.projekat.domain.UserAd;
@@ -41,14 +42,14 @@ public class MovieController {
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, consumes = "application/json")
-	public ResponseEntity<Movie> addCinema(@RequestBody Movie movie) {		
+	public ResponseEntity<Movie> addMovie(@RequestBody Movie movie) {			
 		Movie newMovie = movieService.save(movie);
 		return new ResponseEntity<>(newMovie, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/{id}",method = RequestMethod.PUT ,consumes = "application/json")
 	public ResponseEntity<Movie> editMovie(@PathVariable Long id,@RequestBody Movie movie) {
-		movie.setId(id);
+		movie.setId(id);		
 		Movie editedMovie = movieService.save(movie);
 		return new ResponseEntity<>(editedMovie, HttpStatus.OK);
 	}

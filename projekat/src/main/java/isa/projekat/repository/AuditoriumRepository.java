@@ -1,10 +1,12 @@
 package isa.projekat.repository;
 
-import isa.projekat.domain.Cinema;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import isa.projekat.domain.Auditorium;
+
+
 @Repository
-public interface CinemaRepository extends JpaRepository<Cinema, Long> {
+public interface AuditoriumRepository extends JpaRepository<Auditorium, Long> {
 
 }
