@@ -98,25 +98,35 @@
 							for(i = 0; i < data.length; i++) {
 								if((data[i].firstName.toString().indexOf(searchFirstName) !== -1) && (data[i].lastName.toString().indexOf(searchLastName) !== -1)) {
 									if((loggedFirstName !== data[i].firstName) && (loggedLastName !== data[i].lastName)) {
-										$.ajax({
-											url: "/getFriendRequests",
-											type: "GET",
-											success: function(frReqestsData) {
-												for(i = 0; i < frReqestsData.length; i++) {
-													if(loggedInId === frReqestsData.userId) {
-														if((frReqestsData.accepted === true) || (frReqestsData.denied === true)) {
-															newRow = 
-																"<tr>"
-																	+ "<td>" + data[i].firstName + "</td>"
-																	+ "<td>" + data[i].lastName + "</td>"
-																	+ "<td><button type=\"button\" id=\"frReq\" data-id=\"" + data[i].id + "\" class=\"btn btn-dark dodajPrijatelja\">+</button></td>"
-																+ "</tr>"
-																$("#tableBody").append(newRow)
+										if(data[i].enabled) {
+											var firstNameFound = data[i].firstName;
+											var lastNameFound = data[i].lastName;
+											var idFound = data[i].id;
+											$.ajax({
+												url: "/getFriendRequests",
+												type: "GET",
+												success: function(frReqestsData) {
+													var nePostoji = true;
+													for(j = 0; j < frReqestsData.length; j++) {
+														if((frReqestsData[j].userId === loggedInId) || (frReqestsData[j].friendId === loggedInId)) {
+															if((frReqestsData[j].userId === idFound) || (frReqestsData[j].friendId === idFound)) {
+																nePostoji = false;
+																break;
+															}
 														}
 													}
+													if(nePostoji) {
+														newRow = 
+															"<tr>"
+																+ "<td>" + firstNameFound + "</td>"
+																+ "<td>" + lastNameFound + "</td>"
+																+ "<td><button type=\"button\" id=\"frReq\" data-id=\"" + idFound + "\" class=\"btn btn-dark dodajPrijatelja\">+</button></td>"
+															+ "</tr>"
+															$("#tableBody").append(newRow) 
+													}
 												}
-											}
-										});
+											});
+										}
 									}
 
 								}
@@ -143,33 +153,36 @@
 							for(i = 0; i < data.length; i++) {
 								if(data[i].firstName.toString().indexOf(searchFirstName) !== -1) {
 									if(loggedFirstName !== data[i].firstName) {
-										var firstNameFound = data[i].firstName;
-										var lastNameFound = data[i].lastName;
-										var idFound = data[i].id;
-										 $.ajax({
-											url: "/getFriendRequests",
-											type: "GET",
-											success: function(frReqestsData) {
-												var nePostoji = true;
-												for(j = 0; j < frReqestsData.length; j++) {
-													if((frReqestsData[j].userId === loggedInId) || (frReqestsData[j].friendId === loggedInId)) {
-														if((frReqestsData[j].userId === idFound) || (frReqestsData[j].friendId === idFound)) {
-															nePostoji = false;
-															break;
+										if(data[i].enabled) {
+											var firstNameFound = data[i].firstName;
+											var lastNameFound = data[i].lastName;
+											var idFound = data[i].id;
+											 $.ajax({
+												url: "/getFriendRequests",
+												type: "GET",
+												success: function(frReqestsData) {
+													var nePostoji = true;
+													for(j = 0; j < frReqestsData.length; j++) {
+														if((frReqestsData[j].userId === loggedInId) || (frReqestsData[j].friendId === loggedInId)) {
+															if((frReqestsData[j].userId === idFound) || (frReqestsData[j].friendId === idFound)) {
+																nePostoji = false;
+																break;
+															}
 														}
 													}
+													if(nePostoji) {
+														newRow = 
+															"<tr>"
+																+ "<td>" + firstNameFound + "</td>"
+																+ "<td>" + lastNameFound + "</td>"
+																+ "<td><button type=\"button\" id=\"frReq\" data-id=\"" + idFound + "\" class=\"btn btn-dark dodajPrijatelja\">+</button></td>"
+															+ "</tr>"
+															$("#tableBody").append(newRow) 
+													}
 												}
-												if(nePostoji) {
-													newRow = 
-														"<tr>"
-															+ "<td>" + firstNameFound + "</td>"
-															+ "<td>" + lastNameFound + "</td>"
-															+ "<td><button type=\"button\" id=\"frReq\" data-id=\"" + idFound + "\" class=\"btn btn-dark dodajPrijatelja\">+</button></td>"
-														+ "</tr>"
-														$("#tableBody").append(newRow) 
-												}
-											}
-										});   
+											});   
+										}
+										
 										
 									}
 								}
@@ -197,25 +210,36 @@
 							for(i = 0; i < data.length; i++) {
 								if(data[i].lastName.toString().indexOf(searchLastName) !== -1) {
 									if(loggedLastName !== data[i].lastName) {
-										$.ajax({
-											url: "/getFriendRequests",
-											type: "GET",
-											success: function(frReqestsData) {
-												for(i = 0; i < frReqestsData.length; i++) {
-													if(loggedInId === frReqestsData.userId) {
-														if((frReqestsData.accepted === true) || (frReqestsData.denied === true)) {
-															newRow = 
-																"<tr>"
-																	+ "<td>" + data[i].firstName + "</td>"
-																	+ "<td>" + data[i].lastName + "</td>"
-																	+ "<td><button type=\"button\" id=\"frReq\" data-id=\"" + data[i].id + "\" class=\"btn btn-dark dodajPrijatelja\">+</button></td>"
-																+ "</tr>"
-																$("#tableBody").append(newRow)
+										if(data[i].enabled) {
+											var firstNameFound = data[i].firstName;
+											var lastNameFound = data[i].lastName;
+											var idFound = data[i].id;
+											$.ajax({
+												url: "/getFriendRequests",
+												type: "GET",
+												success: function(frReqestsData) {
+													var nePostoji = true;
+													for(j = 0; j < frReqestsData.length; j++) {
+														if((frReqestsData[j].userId === loggedInId) || (frReqestsData[j].friendId === loggedInId)) {
+															if((frReqestsData[j].userId === idFound) || (frReqestsData[j].friendId === idFound)) {
+																nePostoji = false;
+																break;
+															}
 														}
 													}
+													if(nePostoji) {
+														newRow = 
+															"<tr>"
+																+ "<td>" + firstNameFound + "</td>"
+																+ "<td>" + lastNameFound + "</td>"
+																+ "<td><button type=\"button\" id=\"frReq\" data-id=\"" + idFound + "\" class=\"btn btn-dark dodajPrijatelja\">+</button></td>"
+															+ "</tr>"
+															$("#tableBody").append(newRow) 
+													}
 												}
-											}
-										});
+											});
+										}
+										
 									}
 									
 								}
@@ -251,21 +275,8 @@
 			});
 		});
 		
-/* 		newRow = 
-			"<tr>"
-				+ "<td>" + firstNameFound + "</td>"
-				+ "<td>" + lastNameFound + "</td>"
-				+ "<td><button type=\"button\" id=\"frReq\" data-id=\"" + idFound + "\" class=\"btn btn-dark dodajPrijatelja\">+</button></td>"
-			+ "</tr>"
-			$("#tableBody").append(newRow) */
-		
 		</script>
-		
-		<!-- 
-		Stavi za lastname i za oba ono sto ima u firstName -->
-		
 
-		
 			
 	</body>
 </html>
