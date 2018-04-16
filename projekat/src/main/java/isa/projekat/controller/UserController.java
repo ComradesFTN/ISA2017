@@ -78,6 +78,9 @@ public class UserController {
 		if(currentUser.getPassword().equals(pass)) {
 			if(currentUser.isEnabled()) {
 				session.setAttribute("loggedUser", currentUser);
+				if(currentUser.getUserType()==1) {
+					return new ResponseEntity<>(HttpStatus.ACCEPTED);
+				}
 				return new ResponseEntity<>(HttpStatus.OK);
 			} else return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 			
@@ -89,6 +92,11 @@ public class UserController {
 	
 	@RequestMapping(method = RequestMethod.POST, consumes = "application/json", value = "/userEdit")
 	public ResponseEntity<User> updateUser(@RequestBody User user, HttpSession session) {
+		User temp = (User) session.getAttribute("loggedUser");
+		int userType = temp.getUserType();
+		if(userType==1) {
+			user.setUserType(userType);
+		}
 		userService.updateUser(user);
 		session.setAttribute("loggedUser", user);
 		return new ResponseEntity<>(HttpStatus.OK);
