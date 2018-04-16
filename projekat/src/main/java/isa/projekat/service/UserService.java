@@ -29,5 +29,11 @@ public interface UserService {
 	
 	Friendships save(Friendships friendship);
 	
+	Friendships updateFriendship(Friendships friendship);
+	
 	List<Friendships> findAllFriendships();
+	
+	User findOne(Long id);
+	
+	Friendships delete(Long id);
 }

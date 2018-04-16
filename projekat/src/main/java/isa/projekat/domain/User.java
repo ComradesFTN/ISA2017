@@ -44,10 +44,6 @@ public class User {
 	@Column(name = "Potvrdjen")
 	private boolean enabled;
 	
-	@ElementCollection
-	@CollectionTable(name = "ListaPrijatelja",joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
-	Set<User> friendsList = new HashSet<User>();
-	
 	public User() {
 		this.enabled = false;
 	}
@@ -114,14 +110,6 @@ public class User {
 
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
-	}
-
-	public Set<User> getFriendsList() {
-		return friendsList;
-	}
-
-	public void setFriendsList(Set<User> friendsList) {
-		this.friendsList = friendsList;
 	}
 	
 

@@ -85,4 +85,25 @@ public class UserServiceImpl implements UserService {
 		return friendshipsRepository.findAll();
 	}
 
+	@Override
+	public Friendships updateFriendship(Friendships friendship) {
+		return friendshipsRepository.save(friendship);
+	}
+
+	@Override
+	public User findOne(Long id) {
+		return userRepository.findOne(id);
+	}
+
+	@Override
+	public Friendships delete(Long id) {
+		Friendships fr = friendshipsRepository.findOne(id);
+		if(fr == null){
+			throw new IllegalArgumentException("Tried to delete"
+					+ "non-existant friendship");
+		}
+		friendshipsRepository.delete(fr);
+		return fr;
+	}
+
 }

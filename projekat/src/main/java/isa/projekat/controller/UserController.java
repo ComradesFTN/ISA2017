@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,8 +17,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.view.RedirectView;
 
+import isa.projekat.domain.Cinema;
 import isa.projekat.domain.Friendships;
 import isa.projekat.domain.User;
+import isa.projekat.domain.UserAd;
 import isa.projekat.domain.VerificationToken;
 import isa.projekat.domain.dto.FriendReqDTO;
 import isa.projekat.domain.dto.UserDTO;
@@ -112,5 +115,33 @@ public class UserController {
 		return new ResponseEntity<>(friendships, HttpStatus.OK);
 	} 
 	
+	@RequestMapping(method = RequestMethod.POST, value = "/userAddFriendAccept", consumes = "application/json")
+	public ResponseEntity<Friendships> FriendAccept(@RequestBody Friendships friendReqAccept) {
+		friendReqAccept.setAccepted(true);
+		
+		friendReqAccept.setDenied(false);
+		userService.updateFriendship(friendReqAccept);
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
+	@RequestMapping(method = RequestMethod.POST, value = "/userDenyFriendReq", consumes = "application/json")
+	public ResponseEntity<Friendships> FriendDeny(@RequestBody Friendships friendReqDeny) {
+		friendReqDeny.setDenied(true);
+		friendReqDeny.setAccepted(false);
+		userService.updateFriendship(friendReqDeny);
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "users/{id}", method = RequestMethod.GET)
+	public ResponseEntity<User> getUser(@PathVariable Long id) {
+		User user = userService.findOne(id);
+		return new ResponseEntity<>(user, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "userDeleteFriend/{id}", method = RequestMethod.DELETE)
+	public ResponseEntity<Friendships> deleteFriend(@PathVariable Long id) {
+		Friendships friendship = userService.delete(id);
+		return new ResponseEntity<>(friendship, HttpStatus.OK);
+	}
 	
 }

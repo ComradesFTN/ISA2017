@@ -79,7 +79,7 @@
 		$("button[type='submit']").click(function(event) {
 			event.preventDefault();
 			if(($("#lastNameCheck").is(":checked")) && $("#firstNameCheck").is(":checked")) {
-				if(($("#lastName").val() == "") && ($("#firstName").val() == "")) {
+				if(($("#lastName").val() === "") && ($("#firstName").val() === "")) {
 					alert("Vrednost polja ne sme biti prazno ako je markirano za pretragu.");
 				} else {
 					var searchFirstName = $("#firstName").val();
@@ -90,15 +90,35 @@
 						success: function(data){
 							$('#searchFriendForm')[0].reset();
 							$("#tableBody").empty();
+							/*<![CDATA[*/
+							var loggedFirstName = /*[[${session.loggedUser.getFirstName()}]]*/ '';
+							var loggedLastName = /*[[${session.loggedUser.getLastName()}]]*/ '';
+							var loggedInId = /*[[${session.loggedUser.getId()}]]*/ '';
+							/*]]>*/
 							for(i = 0; i < data.length; i++) {
-								if((data[i].firstName.toString().indexOf(searchFirstName) != -1) && (data[i].firstName.toString().indexOf(searchLastName) != -1)) {
-									newRow = 
-										"<tr>"
-											+ "<td>" + data[i].firstName + "</td>"
-											+ "<td>" + data[i].lastName + "</td>"
-											+ "<td><button type=\"button\" class=\"btn btn-dark\">+</button></td>"
-										+ "</tr>"
-										$("#tableBody").append(newRow)
+								if((data[i].firstName.toString().indexOf(searchFirstName) !== -1) && (data[i].lastName.toString().indexOf(searchLastName) !== -1)) {
+									if((loggedFirstName !== data[i].firstName) && (loggedLastName !== data[i].lastName)) {
+										$.ajax({
+											url: "/getFriendRequests",
+											type: "GET",
+											success: function(frReqestsData) {
+												for(i = 0; i < frReqestsData.length; i++) {
+													if(loggedInId === frReqestsData.userId) {
+														if((frReqestsData.accepted === true) || (frReqestsData.denied === true)) {
+															newRow = 
+																"<tr>"
+																	+ "<td>" + data[i].firstName + "</td>"
+																	+ "<td>" + data[i].lastName + "</td>"
+																	+ "<td><button type=\"button\" id=\"frReq\" data-id=\"" + data[i].id + "\" class=\"btn btn-dark dodajPrijatelja\">+</button></td>"
+																+ "</tr>"
+																$("#tableBody").append(newRow)
+														}
+													}
+												}
+											}
+										});
+									}
+
 								}
 							}						
 							
@@ -106,7 +126,7 @@
 					});
 				}
 			} else if($("#firstNameCheck").is(":checked")) {
-				if($("#firstName").val() == "") {
+				if($("#firstName").val() === "") {
 					alert("Vrednost polja IME ne sme biti prazno ako je markirano za pretragu.");
 				} else {
 					var searchFirstName = $("#firstName").val();
@@ -116,15 +136,42 @@
 						success: function(data){
 							$('#searchFriendForm')[0].reset();
 							$("#tableBody").empty();
+							/*<![CDATA[*/
+							var loggedFirstName = /*[[${session.loggedUser.getFirstName()}]]*/ '';
+							var loggedInId = /*[[${session.loggedUser.getId()}]]*/ '';
+							/*]]>*/
 							for(i = 0; i < data.length; i++) {
-								if(data[i].firstName.toString().indexOf(searchFirstName) != -1) {
-									newRow = 
-										"<tr>"
-											+ "<td>" + data[i].firstName + "</td>"
-											+ "<td>" + data[i].lastName + "</td>"
-											+ "<td><button type=\"button\" id=\"frReq\" class=\"btn btn-dark\">+</button></td>"
-										+ "</tr>"
-										$("#tableBody").append(newRow)
+								if(data[i].firstName.toString().indexOf(searchFirstName) !== -1) {
+									if(loggedFirstName !== data[i].firstName) {
+										var firstNameFound = data[i].firstName;
+										var lastNameFound = data[i].lastName;
+										var idFound = data[i].id;
+										 $.ajax({
+											url: "/getFriendRequests",
+											type: "GET",
+											success: function(frReqestsData) {
+												var nePostoji = true;
+												for(j = 0; j < frReqestsData.length; j++) {
+													if((frReqestsData[j].userId === loggedInId) || (frReqestsData[j].friendId === loggedInId)) {
+														if((frReqestsData[j].userId === idFound) || (frReqestsData[j].friendId === idFound)) {
+															nePostoji = false;
+															break;
+														}
+													}
+												}
+												if(nePostoji) {
+													newRow = 
+														"<tr>"
+															+ "<td>" + firstNameFound + "</td>"
+															+ "<td>" + lastNameFound + "</td>"
+															+ "<td><button type=\"button\" id=\"frReq\" data-id=\"" + idFound + "\" class=\"btn btn-dark dodajPrijatelja\">+</button></td>"
+														+ "</tr>"
+														$("#tableBody").append(newRow) 
+												}
+											}
+										});   
+										
+									}
 								}
 							}						
 							
@@ -133,7 +180,7 @@
 				}
 				
 			} else if($("#lastNameCheck").is(":checked")) {
-				if($("#lastName").val() == "") {
+				if($("#lastName").val() === "") {
 					alert("Vrednost polja PREZIME ne sme biti prazno ako je markirano za pretragu.");
 				} else {
 					var searchLastName = $("#lastName").val();
@@ -143,15 +190,34 @@
 						success: function(data){
 							$('#searchFriendForm')[0].reset();
 							$("#tableBody").empty();
+							/*<![CDATA[*/
+							var loggedLastName = /*[[${session.loggedUser.getLastName()}]]*/ '';
+							var loggedInId = /*[[${session.loggedUser.getId()}]]*/ '';
+							/*]]>*/
 							for(i = 0; i < data.length; i++) {
-								if(data[i].lastName.toString().indexOf(searchLastName) != -1) {
-									newRow = 
-										"<tr>"
-											+ "<td>" + data[i].firstName + "</td>"
-											+ "<td>" + data[i].lastName + "</td>"
-											+ "<td><button type=\"button\" data-id=\"" + data[i].id + "\" class=\"btn btn-dark dodajPrijatelja\">+</button></td>"
-										+ "</tr>"
-										$("#tableBody").append(newRow)
+								if(data[i].lastName.toString().indexOf(searchLastName) !== -1) {
+									if(loggedLastName !== data[i].lastName) {
+										$.ajax({
+											url: "/getFriendRequests",
+											type: "GET",
+											success: function(frReqestsData) {
+												for(i = 0; i < frReqestsData.length; i++) {
+													if(loggedInId === frReqestsData.userId) {
+														if((frReqestsData.accepted === true) || (frReqestsData.denied === true)) {
+															newRow = 
+																"<tr>"
+																	+ "<td>" + data[i].firstName + "</td>"
+																	+ "<td>" + data[i].lastName + "</td>"
+																	+ "<td><button type=\"button\" id=\"frReq\" data-id=\"" + data[i].id + "\" class=\"btn btn-dark dodajPrijatelja\">+</button></td>"
+																+ "</tr>"
+																$("#tableBody").append(newRow)
+														}
+													}
+												}
+											}
+										});
+									}
+									
 								}
 							}						
 							
@@ -162,7 +228,7 @@
 		});
 		
 		$(document).on("click", ".dodajPrijatelja", function(event) {
-
+			event.preventDefault();
 			var friendid = $(this).attr("data-id");
 			/*<![CDATA[*/
 			var userid = /*[[${session.loggedUser.getId()}]]*/ '';
@@ -179,20 +245,27 @@
 				data: frReqData,
 				contentType: "application/json",
 				success: function(data) {
-					console.log("masala");
+					console.log("Zahtev za prijateljstvo poslat.");
 				}
 				
 			});
 		});
 		
+/* 		newRow = 
+			"<tr>"
+				+ "<td>" + firstNameFound + "</td>"
+				+ "<td>" + lastNameFound + "</td>"
+				+ "<td><button type=\"button\" id=\"frReq\" data-id=\"" + idFound + "\" class=\"btn btn-dark dodajPrijatelja\">+</button></td>"
+			+ "</tr>"
+			$("#tableBody").append(newRow) */
+		
 		</script>
 		
 		<!-- 
-		Napravis klasu za to dodavanje da pamti ko je tu koga dodao i onda disablujes to dugme, spajas user tablu i tu klasu sto cuva to
-		gledaj ponude u bazi podataka -->
+		Stavi za lastname i za oba ono sto ima u firstName -->
 		
 
-
+		
 			
 	</body>
 </html>

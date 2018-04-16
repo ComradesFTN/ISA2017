@@ -47,12 +47,6 @@
 						</thead>
 						<tbody id="tableBody">
 						</tbody>
-							<tr>
-								<td>da</td>
-								<td>da</td>
-								<td><button type="button" class="btn btn-success">+</button></td>
-								<td><button type="button" class="btn btn-dark">-</button></td>
-							</tr>
 						</table>
 					</div>
 					
@@ -72,20 +66,26 @@
 								for(i = 0; i < data.length; i++) {
 									if(currentUser === data[i].friendId) {
 										var frReqSender = data[i].userId;
+										var frReqId = data[i].id;
+										var frReqAccept = data[i].accepted;
+										var frReqDeny = data[i].denied;
 										$.ajax({
 											url: "/getUsers",
 											type: "GET",
 											success: function(allUsers) {
-												for(i = 0; i < allUsers.length; i++) {
-													if(allUsers[i].id === frReqSender) {
-														newRow = 
-															"<tr>"
-																+ "<td>" + allUsers[i].firstName + "</td>"
-																+ "<td>" + allUsers[i].lastName + "</td>"
-																+ "<td><button type=\"button\" class=\"btn btn-success\">+</button></td>"
-																+ "<td><button type=\"button\" class=\"btn btn-dark\">-</button></td>"
-															+ "</tr>"
-															$("#tableBody").append(newRow)
+												for(j = 0; j < allUsers.length; j++) {
+													if(allUsers[j].id === frReqSender) {
+														if((frReqAccept === false) && (frReqDeny === false)) {
+															newRow = 
+																"<tr>"
+																	+ "<td>" + allUsers[j].firstName + "</td>"
+																	+ "<td>" + allUsers[j].lastName + "</td>"
+																	+ "<td><button type=\"button\" frReq-id=\"" + frReqId + "\" data-id=\"" + allUsers[j].id + "\" class=\"btn btn-success dodajPrijatelja\">+</button></td>"
+																	+ "<td><button type=\"button\" frReq-id=\"" + frReqId + "\" data-id=\"" + allUsers[j].id + "\" class=\"btn btn-dark odbijPrijatelja\">-</button></td>"
+																+ "</tr>"
+																$("#tableBody").append(newRow)
+														}
+														
 													}
 												}
 											}
@@ -98,6 +98,53 @@
 						});
 				
 			});
+		
+		$(document).on("click", ".dodajPrijatelja", function(event) {
+			var frReqId = $(this).attr("frReq-id");
+			var userid = $(this).attr("data-id");
+			var friendid = /*[[${session.loggedUser.getId()}]]*/ '';
+			var frReqData = JSON.stringify({
+				id:frReqId,
+				userId:userid,
+				friendId:friendid,
+			});
+			tr_parent = $(this).closest("tr");
+			
+			$.ajax({
+				url: "/userAddFriendAccept",
+				type: "POST",
+				data: frReqData,
+				contentType: "application/json",
+				success: function(data) {
+					console.log("Zahtev za prijateljstvo prihvacen.");
+					tr_parent.remove();
+				}
+				
+			});
+		});
+		
+		$(document).on("click", ".odbijPrijatelja", function(event) {
+			var frReqId = $(this).attr("frReq-id");
+			var userid = $(this).attr("data-id");
+			var friendid = /*[[${session.loggedUser.getId()}]]*/ '';
+			var frReqData = JSON.stringify({
+				id:frReqId,
+				userId:userid,
+				friendId:friendid,
+			});
+			tr_parent = $(this).closest("tr");
+			
+			$.ajax({
+				url: "/userDenyFriendReq",
+				type: "POST",
+				data: frReqData,
+				contentType: "application/json",
+				success: function(data) {
+					console.log("Zahtev za prijateljstvo odbijen.");
+				}
+				
+			});
+		});
 		/*]]>*/
 		</script>
 			

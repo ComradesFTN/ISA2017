@@ -41,6 +41,102 @@
 		<p th:text="${session.loggedUser.getEmail()}" th:unless="${session == null}"></p>
 		<p th:text="${session.loggedUser.getPhone()}" th:unless="${session == null}"></p>
 		<p th:text="${session.loggedUser.getCity()}" th:unless="${session == null}"></p>
+		
+
+
+					<div class="col-md-5 col-md-offset-2 mx-auto text-center">
+						<table class="table" id="table">
+						<thead class="thead-dark">
+							<tr>
+								<th>Ime</th>
+								<th>Prezime</th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody id="tableBody">
+						</tbody>
+						</table>
+					</div>
+		<script th:inline="javascript">
+		/*<![CDATA[*/
+			$(document).ready(function() {
+				$.ajax({
+					url: "/getFriendRequests",
+					type: "GET",
+				}).then(function(data) {
+							if (data === undefined) {
+								console.log("Data empty.");
+							} else {
+								var loggedUser = /*[[${session.loggedUser.getId()}]]*/ '';
+								for(i = 0; i < data.length; i++) {
+									if(loggedUser === data[i].userId) { // (loggedUser === data[i].friendId)) 
+										if(data[i].accepted) {
+											var id = data[i].friendId;
+											var frReqId = data[i].id;
+											$.ajax({
+												url: "/users/" + id,
+												type: "GET",
+												success: function(user) {
+													newRow = 
+														"<tr>"
+															+ "<td>" + user.firstName + "</td>"
+															+ "<td>" + user.lastName + "</td>"
+															+ "<td><button type=\"button\" frReq-id=\"" + frReqId + "\" class=\"btn btn-danger ukloniPrijatelja\">Obrisi</button></td>"
+															
+														+ "</tr>"
+														$("#tableBody").append(newRow)
+
+												}
+											});
+										}
+									} else if(loggedUser === data[i].friendId) {
+										if(data[i].accepted) {
+											var id = data[i].userId;
+											var frReqId = data[i].id;
+											$.ajax({
+												url: "/users/" + id,
+												type: "GET",
+												success: function(user) {
+													newRow = 
+														"<tr>"
+															+ "<td>" + user.firstName + "</td>"
+															+ "<td>" + user.lastName + "</td>"
+															+ "<td><button type=\"button\" frReq-id=\"" + frReqId + "\" class=\"btn btn-danger ukloniPrijatelja\">Obrisi</button></td>"
+															
+														+ "</tr>"
+														$("#tableBody").append(newRow)
+
+												}
+											});
+										}
+									}
+								}
+							}
+						}
+					);
+					
+			});
+			$(document).on("click", ".ukloniPrijatelja", function(event) {
+				var frReqId = $(this).attr("frReq-id");
+				var frReqData = JSON.stringify({
+					id:frReqId,
+				});
+				tr_parent = $(this).closest("tr");
+				
+				$.ajax({
+					url: "/userDeleteFriend/" + frReqId,
+					type: "DELETE",
+					data: frReqData,
+					success: function(data) {
+						console.log("Zahtev za uklanjanje fr.");
+						tr_parent.remove();
+					}
+					
+				});
+			});
+		/*]]>*/
+		</script>
+
 
 	</body>
 </html>

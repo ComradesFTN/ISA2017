@@ -21,6 +21,9 @@ public class Friendships {
 	
 	@Column(name = "Prihvaceno")
 	private boolean isAccepted;
+	
+	@Column(name = "Odbijeno")
+	private boolean isDenied;
 
 	public long getId() {
 		return id;
@@ -54,7 +57,18 @@ public class Friendships {
 		this.isAccepted = isAccepted;
 	}
 	
+	public boolean isDenied() {
+		return isDenied;
+	}
+
+	public void setDenied(boolean isDenied) {
+		this.isDenied = isDenied;
+	}
+
 	public Friendships() {
 		this.isAccepted = false;
+		this.isDenied = false;
 	}
+	
+	
 }
