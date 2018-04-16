@@ -196,4 +196,9 @@ public class IndexController {
 		return "AdminPozoristaBioskopi/updateCinema";
 	}
 	
+	@GetMapping("/AdminPozoristaBioskopi/updateAuditorium")
+	public String updateAuditorium() {
+		return "AdminPozoristaBioskopi/updateAuditorium";
+	}
+	
 }
