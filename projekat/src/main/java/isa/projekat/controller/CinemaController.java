@@ -47,8 +47,12 @@ public class CinemaController {
 	
 	@RequestMapping(value = "/{id}",method = RequestMethod.PUT)
 	public ResponseEntity<Cinema> editCinema(@PathVariable Long id,@RequestBody Cinema cinema) {
-		cinema.setId(id);
-		Cinema editedCinema = cinemaService.save(cinema);
+		Cinema editCinema=cinemaService.findOne(id);
+		editCinema.setName(cinema.getName());
+		editCinema.setAdress(cinema.getAdress());
+		editCinema.setDescription(cinema.getDescription());   //za sada (treba i sale konfigurisati)
+		//editCinema.setAuditoriums(cinema.getAuditoriums());
+		Cinema editedCinema = cinemaService.save(editCinema);
 		return new ResponseEntity<>(editedCinema, HttpStatus.OK);
 	}
 	

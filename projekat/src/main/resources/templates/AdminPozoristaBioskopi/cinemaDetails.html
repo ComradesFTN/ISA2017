@@ -6,8 +6,9 @@
 		<meta charset="UTF-8">
 		<title>Bioskop</title>	
 		<script>
+			var id=0;
 			$(document).ready(function(){				
-				var id = getUrlParameter('id');	
+				id = getUrlParameter('id');	
 				$("#repertoar").attr("href", "cinemaRepertoar.html?id="+id);
 				$.ajax({
 					url : "http://localhost:8080/cinemas/"+id
@@ -45,6 +46,10 @@
 			        }
 			    }
 			};
+			$(document).on("click", "#update", function(event){
+				event.preventDefault();	
+				window.location.href = 'http://localhost:8080/AdminPozoristaBioskopi/updateCinema.html?id='+id;
+			});
 		</script>
 	</head>
 	<body class="bg-light">			
@@ -99,10 +104,8 @@
 					</div>
 				</div>
 			</div>
-			<div class="col mt-5 text-center">
-				<form action="updateCinema.html?id=">
-	    				<input type="submit" value="Uredjivanje profila bioskopa" class="btn btn-danger" />
-				</form>	
+			<div class="col mt-5 text-center">				
+	    		<button class="btn btn-danger" id="update">Uredjivanje profila bioskopa</button>
 			</div>
 		</div>
 	</body>
