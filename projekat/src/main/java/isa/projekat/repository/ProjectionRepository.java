@@ -3,9 +3,9 @@ package isa.projekat.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import isa.projekat.domain.Movie;
+import isa.projekat.domain.Projection;
 
 @Repository
-public interface MovieRepository extends JpaRepository<Movie, Long> {
+public interface ProjectionRepository extends JpaRepository<Projection, Long> {
 
 }

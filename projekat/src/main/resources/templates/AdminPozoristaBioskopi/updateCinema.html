@@ -10,8 +10,7 @@
 			var id;					
 			var sale=[];
 			$(document).ready(function(){				
-				id = getUrlParameter('id');	
-				filmId = getUrlParameter('filmId');
+				id = getUrlParameter('id');
 				$("#home").attr("href", "cinemaDetails.html?id="+id);
 				$("#repertoar").attr("href", "cinemaRepertoar.html?id="+id);
 				$.ajax({
@@ -60,14 +59,14 @@
 			$(document).on("click", "#Uredi", function(event){
 				event.preventDefault();	
 				var salaName=$("#inputAuditoriums option:selected").text();
-				var id=0;
+				var salaId=0;
 				for(i=0;i<sale.length;i++){
 					if(sale[i].name===salaName){
-						id=sale[i].id;
+						salaId=sale[i].id;
 						break;
 					}
 				}
-				window.location.href = 'http://localhost:8080/AdminPozoristaBioskopi/updateAuditorium.html?id='+id;
+				window.location.href = 'http://localhost:8080/AdminPozoristaBioskopi/updateAuditorium.html?id='+id+'&salaId='+salaId;
 			});
 			var getUrlParameter = function getUrlParameter(sParam) {
 			    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
@@ -85,7 +84,6 @@
 			};			
 		</script>
 	</head>	
-	<body>
 		<body class="bg-light">			
 		<div class="nav nav-tabs bg-danger">
 			<ul class="nav nav-tabs mr-auto bg-danger">

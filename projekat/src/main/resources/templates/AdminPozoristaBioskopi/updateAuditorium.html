@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<script th:src="@{/scripts/jquery-3.2.1.min.js}"></script>
+		<script th:src="@{/scripts/bootstrap.js}"></script>	
+		<link rel="stylesheet" th:href="@{/stylesheets/bootstrap.css}">
+		<meta charset="UTF-8">		
+		<title>Uredjivanje sale bioskopa</title>
+		<script>
+			var id;	
+			var salaId;
+			var mesta=[];
+			var sala;
+			var index=-1;
+			$(document).ready(function(){				
+				id = getUrlParameter('id');	
+				salaId = getUrlParameter('salaId');
+				$("#home").attr("href", "cinemaDetails.html?id="+id);
+				$("#repertoar").attr("href", "cinemaRepertoar.html?id="+id);
+				$.ajax({
+					url : "http://localhost:8080/auditoriums/"+salaId
+				}).then(
+						function(data){
+							mesta=data.seats;
+							sala=data;
+							for(i=1;i<=data.rows;i++){
+									newRow=  '   <div class="row">  '  + 
+									 '   				<div class="btn-group mx-auto">  ';
+									for(j=1;j<=data.columns;j++){
+										index+=1;
+										classText ="";
+										if(data.seats[index]===0){
+											classText='btn-dark'
+										}
+										else if(data.seats[index]===1){
+											classText='btn-secondary'
+										}
+										else if(data.seats[index]===2){
+											classText='btn-warning disabled'
+										}	
+										newRow+= '   				    <button type="button" class="seat '+classText+'" data-id="'+index+'">'+j+'</button>  ' 
+									}
+									newRow+= '   				 </div>  '  + 
+									 '  			</div>  ' ; 
+									$("#sala").append(newRow);
+								}
+						});	
+				$("input[type='submit']").click(function(event) {
+					for(i=0;i<mesta.length;i++){
+						if(mesta[i]===2){
+							mesta[i]=1;
+						}	
+					}
+					var formData = JSON.stringify({
+						name:sala.name,
+						rows:sala.rows,
+						columns:sala.columns,
+						seats:mesta,
+					});
+					$.ajax({
+						url: "http://localhost:8080/auditoriums/"+salaId,
+						type: 'PUT',
+						data: formData,
+						contentType: "application/json",
+						success: function(data){
+							alert("Uspesno sacuvana sala");
+							window.location.href = 'http://localhost:8080/AdminPozoristaBioskopi/updateCinema.html?id='+id;
+						}								
+					});	
+				});
+			});
+			$(document).on("click", ".seat", function(event){
+				event.preventDefault();
+				index=$(this).attr("data-id");
+				classText="";
+				if(mesta[index]===0){	
+					mesta[index]=1;
+					classText='seat btn-secondary';				
+				}
+				else if(mesta[index]===1){
+					mesta[index]=0;
+					classText='seat btn-dark';				
+				}
+				$(this).attr("class",classText);
+			});
+			var getUrlParameter = function getUrlParameter(sParam) {
+			    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+			        sURLVariables = sPageURL.split('&'),
+			        sParameterName,
+			        i;
+
+			    for (i = 0; i < sURLVariables.length; i++) {
+			        sParameterName = sURLVariables[i].split('=');
+
+			        if (sParameterName[0] === sParam) {
+			            return sParameterName[1] === undefined ? true : sParameterName[1];
+			        }
+			    }
+			};			
+		</script>
+	</head>	
+		<body class="bg-light">			
+		<div class="nav nav-tabs bg-danger">
+			<ul class="nav nav-tabs mr-auto bg-danger">
+				<li class="nav-item">
+					<a class="nav-link text-white" href="homePage.html">Home</a>
+				</li>					
+				<li class="nav-item">
+					<a class="nav-link text-white" href="theatresPage.html">Pozorista</a>				
+				</li>
+				<li class="nav-item">
+					<a class="nav-link active text-danger" href="cinemasPage.html">Bioskopi</a>
+				</li>			
+			</ul>
+			<a class="nav-link mr-0 text-white" href="../NeregistrovaniKorisnici/login.html">Odjava</a>
+		</div>
+		<nav class="navbar bg-dark justify-content-center">
+		    <div>
+		        <div class="nav nav-pills bg-dark flex-row">
+					<ul class="nav nav-tabs bg-danger flex-row ">	
+						<li class="nav-item">
+							<a class="nav-link text-white" id="home" href="#">Home</a>				
+						</li>		
+						<li class="nav-item">
+							<a class="nav-link text-white" id="repertoar" href="#">Repertoar</a>				
+						</li>
+						<li class="nav-item">
+							<a class="nav-link text-white" href="cinemaPopusti.html">Popusti</a>
+						</li>
+					</ul>
+				</div>
+		    </div>
+		</nav>
+		<div class="container col-md-4 mt-5 text-center">
+			<div class="row">
+				<div class="btn-group mx-auto"> 
+				    <button type="button" class="btn btn-dark">Nedostupno mesto</button>
+				    <button type="button" class="btn btn-secondary">Slobodno mesto</button>
+				    <button type="button" class="btn btn-warning">Rezervisano mesto</button>
+				 </div>
+			</div>
+		</div>
+		<br/>
+		<div id="sala" class="container col-md-4 mt-5 text-center">			
+			
+		</div>
+		<div class="container col-md-4 mt-5 text-center">			
+			<div class="row">		
+				<div class="mx-auto"> 
+				    <form>
+		    			<input type="submit" value="Sacuvaj" class="btn btn-danger" />
+		    		</form>
+	    		</div>	   
+			 </div>
+		</div>
+	</body>
+</html>

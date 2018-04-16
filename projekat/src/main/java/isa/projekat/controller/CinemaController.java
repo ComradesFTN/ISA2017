@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import isa.projekat.domain.Auditorium;
 import isa.projekat.domain.Cinema;
 import isa.projekat.domain.Movie;
 import isa.projekat.service.CinemaService;
@@ -41,6 +42,11 @@ public class CinemaController {
 	
 	@RequestMapping(method = RequestMethod.POST, consumes = "application/json")
 	public ResponseEntity<Cinema> addCinema(@RequestBody Cinema cinema) {
+		for(Auditorium auditorium : cinema.getAuditoriums()){
+			for(int i=0;i<auditorium.getRows()*auditorium.getColumns();i++){
+				auditorium.getSeats().add(Integer.valueOf(1));
+			}
+		}
 		Cinema newCinema = cinemaService.save(cinema);
 		return new ResponseEntity<>(newCinema, HttpStatus.OK);
 	}
@@ -50,8 +56,7 @@ public class CinemaController {
 		Cinema editCinema=cinemaService.findOne(id);
 		editCinema.setName(cinema.getName());
 		editCinema.setAdress(cinema.getAdress());
-		editCinema.setDescription(cinema.getDescription());   //za sada (treba i sale konfigurisati)
-		//editCinema.setAuditoriums(cinema.getAuditoriums());
+		editCinema.setDescription(cinema.getDescription());
 		Cinema editedCinema = cinemaService.save(editCinema);
 		return new ResponseEntity<>(editedCinema, HttpStatus.OK);
 	}

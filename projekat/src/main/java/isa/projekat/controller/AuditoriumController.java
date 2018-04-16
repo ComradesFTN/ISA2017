@@ -21,7 +21,7 @@ public class AuditoriumController {
 	@Autowired
 	private AuditoriumService auditoriumService;
 	
-	@RequestMapping(value = "getAuditorium", method = RequestMethod.GET )
+	@RequestMapping(value = "getAuditoriums", method = RequestMethod.GET )
 	public ResponseEntity<List<Auditorium>> getAuditoriums() {
 		List<Auditorium> auditoriums = auditoriumService.findAll();
 		return new ResponseEntity<>(auditoriums, HttpStatus.OK);
@@ -34,8 +34,25 @@ public class AuditoriumController {
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, consumes = "application/json")
-	public ResponseEntity<Auditorium> addCinema(@RequestBody Auditorium auditorium) {
+	public ResponseEntity<Auditorium> addAuditorium(@RequestBody Auditorium auditorium) {
+		for(int i=0;i<auditorium.getRows()*auditorium.getColumns();i++){
+			auditorium.getSeats().add(1);
+		}
 		Auditorium newAuditorium = auditoriumService.save(auditorium);
 		return new ResponseEntity<>(newAuditorium, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/{id}",method = RequestMethod.PUT, consumes = "application/json")
+	public ResponseEntity<Auditorium> editAuditorium(@PathVariable Long id,@RequestBody Auditorium auditorium) {
+		Auditorium editAuditorium = auditoriumService.findOne(id);	
+		for(int i=0;i<auditorium.getSeats().size();i++){
+			if(auditorium.getSeats().get(i)==0){
+				System.out.println(i);
+			}
+		}
+		auditorium.setId(id);
+		auditorium.setMovies(editAuditorium.getMovies());
+		auditoriumService.save(auditorium);
+		return new ResponseEntity<>(auditorium,HttpStatus.OK);
 	}
 }

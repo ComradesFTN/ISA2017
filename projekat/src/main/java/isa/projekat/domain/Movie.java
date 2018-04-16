@@ -68,13 +68,7 @@ public class Movie {
 	@Column(name = "Termin", columnDefinition="VARCHAR(40)")
 	Set<String> term= new HashSet<String>();
 	
-	@ElementCollection
-	@CollectionTable(name = "SpisakProjekcijaFilma",joinColumns = @JoinColumn(name = "movie_id", referencedColumnName = "id"))
-	@AttributeOverrides({
-        @AttributeOverride(name = "auditorium_name", column = @Column(name = "ImeSale")),
-        @AttributeOverride(name = "date", column = @Column(name = "Datum")),
-        @AttributeOverride(name = "term", column = @Column(name = "Termin"))
-})
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "movie")
 	Set<Projection> projections= new HashSet<Projection>();	
 	
 	@Column(name="BioskopId")
@@ -191,5 +185,7 @@ public class Movie {
 	public void setCinemaId(long cinemaId) {
 		this.cinemaId = cinemaId;
 	}
+	
+	
 		
 }
