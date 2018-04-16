@@ -16,6 +16,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 
+/*0 - Registrovani korisnik	
+1 - admin fan zone		
+2 - admin pozorista i bioskopa
+3 - admin celog sistema*/
+
 @Entity(name = "Korisnik")
 public class User {
 
@@ -44,8 +49,25 @@ public class User {
 	@Column(name = "Potvrdjen")
 	private boolean enabled;
 	
+	@Column(name = "TipKorisnika",columnDefinition="NUMERIC")
+	private int userType;
+	
 	public User() {
 		this.enabled = false;
+		this.userType = 0;
+	}
+
+	public User(long id, String email, String password, String firstName, String lastName, String city, String phone,
+			boolean enabled, int userType) {
+		this.id = id;
+		this.email = email;
+		this.password = password;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.city = city;
+		this.phone = phone;
+		this.enabled = enabled;
+		this.userType = userType;
 	}
 
 	public String getEmail() {
@@ -111,6 +133,13 @@ public class User {
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}
-	
+
+	public int getUserType() {
+		return userType;
+	}
+
+	public void setUserType(int userType) {
+		this.userType = userType;
+	}
 
 }
