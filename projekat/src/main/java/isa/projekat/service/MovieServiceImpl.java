@@ -13,9 +13,11 @@ import org.springframework.stereotype.Service;
 import isa.projekat.domain.Auditorium;
 import isa.projekat.domain.Cinema;
 import isa.projekat.domain.Movie;
+import isa.projekat.domain.Projection;
 import isa.projekat.repository.AuditoriumRepository;
 import isa.projekat.repository.CinemaRepository;
 import isa.projekat.repository.MovieRepository;
+import isa.projekat.repository.ProjectionRepository;
 
 @Service
 public class MovieServiceImpl implements MovieService {
@@ -31,6 +33,9 @@ public class MovieServiceImpl implements MovieService {
 	
 	@Autowired 
 	private AuditoriumRepository auditoriumRepository;
+	
+	@Autowired
+	private ProjectionRepository projectionRepository;
 	
 	@Override
 	public List<Movie> findAll() {

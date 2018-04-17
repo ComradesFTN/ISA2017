@@ -46,6 +46,7 @@
 								}
 						});	
 				$("input[type='submit']").click(function(event) {
+					event.preventDefault();
 					for(i=0;i<mesta.length;i++){
 						if(mesta[i]===2){
 							mesta[i]=1;

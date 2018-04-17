@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<script th:src="@{/scripts/jquery-3.2.1.min.js}"></script>
+		<link rel="stylesheet" th:href="@{/stylesheets/bootstrap.css}">
+		<meta charset="UTF-8">
+		<title>Home</title>			
+	</head>
+	<body class="bg-light">			
+		<div class="nav nav-tabs bg-danger">
+			<ul class="nav nav-tabs mr-auto bg-danger">			
+				<li class="nav-item">
+					<a class="nav-link text-white" href="theatresPage.html">Pozorista</a>				
+				</li>
+				<li class="nav-item">
+					<a class="nav-link text-white" href="homePage.html">Home</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link active text-danger">Bioskopi</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link text-white" th:href="friends.html">Prijatelji</a>
+				</li>	
+				<li class="nav-item">
+					<a class="nav-link text-white" href="cinemasPage.html">Rezervacije</a>
+				</li>	
+				<li class="nav-item">
+					<a class="nav-link text-white" th:href="settings.html">Podesavanja</a>
+				</li>	
+				<li class="nav-item">
+					<a class="nav-link text-white" href="fanZonaPage.html">Fan Zona</a>
+				</li>					
+			</ul>
+			<a class="nav-link mr-0 text-white" href="/index.html">Odjava</a>
+		</div>		
+		<div class="container col-md-4 mt-5">
+			</br>
+			</br>
+			<div class="row">				
+				<div class="col-sm-10">
+				  <label for="inputAuditoriums" class="col-form-label">Izaberi salu</label>
+			      <select id="inputAuditoriums" class="form-control">			       
+			      </select>
+			    <br/>
+			    </div>			     
+			</div>
+			<div class="row">				
+				<div class="col-sm-10">
+				  <label for="inputTerm" class="col-form-label">Izaberi termin</label>
+			      <select id="inputTerm" class="form-control">			       
+			      </select>
+			    <br/>
+			    </div>			     
+			</div>
+			
+			<div class="col-sm-10">
+	    			<button id="Draw" class="btn btn-danger">Dalje</button>
+			</div>
+		</div>
+	</body>
+</html>

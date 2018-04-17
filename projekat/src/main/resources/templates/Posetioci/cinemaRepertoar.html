@@ -62,6 +62,7 @@
 								 '   								<li><b>Trajanje: </b>'+data[i].length+'min</li>	  '  + 
 								 '   								<li><b>Rejting: </b>'+ratingText+'</li>  '  + 
 								 '   								<li><b>Opis: </b>'+data[i].description+'</li>				  '  + 
+								 '  								<li><button class="btn btn-danger reserve" data-id='+data[i].id+'>Rezerviši</button></li>	' +	
 								 '   							</ul>		  '  + 
 								 '   						</div>  '  + 
 								 '   						<div class="col-md-4 text-center">  '  + 
@@ -76,6 +77,11 @@
 							
 						});
 			});			
+			
+			$(document).on("click", ".reserve", function(event){
+				filmId=$(this).attr('data-id');
+				window.location.href = 'http://localhost:8080/Posetioci/reserveMovie.html?id='+id+'&filmId='+filmId;
+			});
 			
 			var getUrlParameter = function getUrlParameter(sParam) {
 			    var sPageURL = decodeURIComponent(window.location.search.substring(1)),

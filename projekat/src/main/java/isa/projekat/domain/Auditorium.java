@@ -50,11 +50,11 @@ public class Auditorium {
 	 *  		1 - SLOBODNO
 	 * 			2 - REZERVISANO
 	 */	
-	@ElementCollection
+	@ElementCollection(fetch=FetchType.LAZY)
 	@CollectionTable(name = "SalaMesta",joinColumns = @JoinColumn(name = "auditorium_id", referencedColumnName = "id"))
 	@Column(name = "StatusMesta")
-	List<Integer> seats= new ArrayList<Integer>(); 	
-		
+	List<Integer> seats= new ArrayList<Integer>();
+	
 	public Auditorium(){
 		
 	}

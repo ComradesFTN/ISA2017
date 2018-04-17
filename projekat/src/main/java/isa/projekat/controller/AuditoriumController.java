@@ -42,14 +42,9 @@ public class AuditoriumController {
 		return new ResponseEntity<>(newAuditorium, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/{id}",method = RequestMethod.PUT, consumes = "application/json")
+	@RequestMapping(value = "{id}",method = RequestMethod.PUT, consumes = "application/json")
 	public ResponseEntity<Auditorium> editAuditorium(@PathVariable Long id,@RequestBody Auditorium auditorium) {
-		Auditorium editAuditorium = auditoriumService.findOne(id);	
-		for(int i=0;i<auditorium.getSeats().size();i++){
-			if(auditorium.getSeats().get(i)==0){
-				System.out.println(i);
-			}
-		}
+		Auditorium editAuditorium = auditoriumService.findOne(id);		
 		auditorium.setId(id);
 		auditorium.setMovies(editAuditorium.getMovies());
 		auditoriumService.save(auditorium);

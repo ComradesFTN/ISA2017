@@ -206,4 +206,9 @@ public class IndexController {
 		return "Posetioci/changePassword";
 	}
 	
+	@GetMapping("/Posetioci/reserveMovie")
+	public String reserveMovie() {
+		return "Posetioci/reserveMovie";
+	}
+	
 }
