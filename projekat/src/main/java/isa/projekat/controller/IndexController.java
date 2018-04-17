@@ -20,7 +20,6 @@ public class IndexController {
 	public String indexLogOut(HttpSession session) {
 		if(session != null) {
 			session.invalidate();
-			System.out.println("Sesija nukovana.");
 		}
 
 		return "index";
@@ -211,4 +210,8 @@ public class IndexController {
 		return "Posetioci/reserveMovie";
 	}
 	
+	@GetMapping("Posetioci/theatresPage")
+	public String theatresPage() {
+		return "Posetioci/theatresPage";
+	}
 }
