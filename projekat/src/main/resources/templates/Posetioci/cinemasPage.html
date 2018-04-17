@@ -8,7 +8,8 @@
 		<title>Bioskopi</title>		
 		<script>
 				$(document).ready(function(){
-					$(".table").tablesorter(); 
+					$(".table").trigger("update");
+					$('.table').trigger("appendCache");
 					$.ajax({
 						url : "http://localhost:8080/cinemas/getCinemas"
 					}).then(
@@ -33,7 +34,9 @@
 											+ "<td><form action=\"http://google.com\"><input type=\"submit\" value=\"Pogledaj\" /></form></td>"
 										+ "</tr>"
 									$("#tableBody").append(newRow)
+									
 								}
+							$(".table").tablesorter(); 	
 							});
 				});
 				$(document).on("click", ".cinemas", function(event) {
@@ -54,7 +57,8 @@
 						form.submit();
 					};
 					redirect('cinemaDetails.html','GET');
-				});	
+				});
+				
 		</script>
 	</head>
 	<body class="bg-light">		
@@ -94,17 +98,7 @@
 					<th>Repertoar</th>
 				</tr>
 			</thead>
-			<tbody id="tableBody">
-				<tr>
-					<td>IKme</td>
-				</tr>
-				<tr>
-					<td>Ame</td>
-				</tr>
-				<tr>
-					<td>Cime</td>
-				</tr>
-					
+			<tbody id="tableBody">					
 			</tbody>
 			</table>
 		</div>	

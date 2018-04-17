@@ -8,7 +8,8 @@
 		<title>Pozorista</title>			
 		<script>
 				$(document).ready(function(){
-					
+					$(".table").trigger("update");
+					$('.table').trigger("appendCache");
 					$.ajax({
 						url : "http://localhost:8080/theatres/getTheatres"
 					}).then(
@@ -34,6 +35,7 @@
 										+ "</tr>"
 									$("#tableBody").append(newRow)
 								}
+								$(".table").tablesorter(); 	
 							});
 				});
 			$(document).on("click", ".theatres", function(event) {

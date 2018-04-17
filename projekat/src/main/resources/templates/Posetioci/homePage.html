@@ -61,6 +61,7 @@
 		<script th:inline="javascript">
 		/*<![CDATA[*/
 			$(document).ready(function() {
+				$(".table").tablesorter(); 
 				$.ajax({
 					url: "/getFriendRequests",
 					type: "GET",
@@ -86,7 +87,7 @@
 															
 														+ "</tr>"
 														$("#tableBody").append(newRow)
-
+														$(".table").trigger("update");
 												}
 											});
 										}
@@ -106,13 +107,15 @@
 															
 														+ "</tr>"
 														$("#tableBody").append(newRow)
-
+														$(".table").trigger("update");
 												}
 											});
+											
 										}
 									}
 								}
 							}
+							
 						}
 					);
 					
@@ -135,6 +138,7 @@
 					
 				});
 			});
+			
 		/*]]>*/
 		</script>
 
