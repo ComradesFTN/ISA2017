@@ -30,7 +30,7 @@ public class IndexController {
 		return "NeregistrovaniKorisnici/login";
 	}
 
-	@GetMapping("/NeregistrovaniKorisnici/cinemasPage")
+	@GetMapping("/Neregistro	vaniKorisnici/cinemasPage")
 	public String cinema() {
 		return "NeregistrovaniKorisnici/cinemasPage";
 	}
@@ -213,5 +213,10 @@ public class IndexController {
 	@GetMapping("Posetioci/theatresPage")
 	public String theatresPage() {
 		return "Posetioci/theatresPage";
+	}
+	
+	@GetMapping("AdminFanZone/adminSettings")
+	public String adminSettings() {
+		return "AdminFanZone/adminSettings";
 	}
 }

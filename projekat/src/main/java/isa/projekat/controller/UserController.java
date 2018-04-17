@@ -82,6 +82,7 @@ public class UserController {
 				if(currentUser.getUserType()==1) {
 					if(currentUser.getFirstTime()==true) {
 						currentUser.setFirstTime(false);
+						System.out.println("TRENUTNI KORISNIK: prvi put: " + currentUser.getFirstTime() + " Tip: " + currentUser.getUserType() + " sifra: " + currentUser.getPassword() + " id: " + currentUser.getId());
 						return new ResponseEntity<>(HttpStatus.CREATED);
 					}else {
 						return new ResponseEntity<>(HttpStatus.ACCEPTED);
