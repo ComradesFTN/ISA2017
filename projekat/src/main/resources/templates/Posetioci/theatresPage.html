@@ -2,11 +2,13 @@
 <html xmlns:th="http://www.thymeleaf.org">
 	<head>
 		<script th:src="@{/scripts/jquery-3.2.1.min.js}"></script>
+		<script th:src="@{/scripts/jquery.tablesorter.js}"></script>	
 		<link rel="stylesheet" th:href="@{/stylesheets/bootstrap.css}">
 		<meta charset="UTF-8">
 		<title>Pozorista</title>			
 		<script>
 				$(document).ready(function(){
+					
 					$.ajax({
 						url : "http://localhost:8080/theatres/getTheatres"
 					}).then(

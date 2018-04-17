@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 	<head>
-		<script th:src="@{/scripts/jquery-3.2.1.min.js}"></script>		
+		<script th:src="@{/scripts/jquery-3.2.1.min.js}"></script>	
+		<script th:src="@{/scripts/jquery.tablesorter.js}"></script>	
 		<meta charset="UTF-8">
 		<link rel="stylesheet" th:href="@{/stylesheets/bootstrap.css}">
 		<title>Bioskopi</title>		
 		<script>
 				$(document).ready(function(){
+					$(".table").tablesorter(); 
 					$.ajax({
 						url : "http://localhost:8080/cinemas/getCinemas"
 					}).then(
@@ -93,6 +95,16 @@
 				</tr>
 			</thead>
 			<tbody id="tableBody">
+				<tr>
+					<td>IKme</td>
+				</tr>
+				<tr>
+					<td>Ame</td>
+				</tr>
+				<tr>
+					<td>Cime</td>
+				</tr>
+					
 			</tbody>
 			</table>
 		</div>	
