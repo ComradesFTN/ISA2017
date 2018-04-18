@@ -224,4 +224,9 @@ public class IndexController {
 	public String createNewCinema() {
 		return "AdminSistema/createNewCinema";
 	}
+	
+	@GetMapping("AdminSistema/cinemasAdmin")
+	public String cinemasAdmin() {
+		return "AdminSistema/cinemasAdmin";
+	}
 }

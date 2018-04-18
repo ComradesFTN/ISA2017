@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<script th:src="@{/scripts/jquery-3.2.1.min.js}"></script>
+		<link rel="stylesheet" th:href="@{/stylesheets/bootstrap.css}">
+		<meta charset="UTF-8">
+		<title>Fan Zona Admin</title>
+		  <script>
+			$(document).ready(function(){
+				$.ajax({
+					url : "http://localhost:8080/cinemas/getCinemas"
+				}).then(
+						function(data) {
+							var provera ="Bez";
+							for (i = 0; i < data.length; i++) {
+								rating=data[i].rating;
+								ratingText="";
+								for(j = 0; j < 5; j++){
+									if(rating<0.5){
+										ratingText+="&#9734;";
+									}
+									else{
+										ratingText+="&#9733;";
+										rating-=1;
+									}
+								}
+								newRow = 
+									"<tr>"
+										+ "<td><a class=\"cinemas\" href=\"\" id=\""+data[i].id+"\">" + data[i].name + "</a></td>"
+										+ "<td>" + data[i].adress + "</td>"
+										+ "<td>" + ratingText + "</td>"
+									+ "</tr>"
+								$("#tableBody").append(newRow)
+						}
+					});
+			});
+			$(document).on("click", ".delete", function(event){
+				//ne salji get zahtev
+				event.preventDefault(); 
+				
+				var confirmed = confirm("Da li ste sigurni da zelite da obrisete ovaj oglas?");
+				if(confirmed){
+				
+					var url = $(this).attr("href")
+					//red koji se treba izbrisati ako je brisanje na serveru bilo uspesno
+					tr_parent = $(this).closest("tr")
+					$.ajax({
+			        	url: url,
+			        	type: "DELETE",
+			        	success: function(){
+			        		//ukloni i na strani 
+							tr_parent.remove()
+				        }
+					});
+				}
+			});
+		</script>			
+	</head>
+	<body class="bg-light">			
+		 <div class="nav nav-tabs bg-danger">
+			<ul class="nav nav-tabs mr-auto bg-danger justify-content-center">	
+				<li class="nav-item">
+					<a class="nav-link active text-danger" th:href="adminFanZona">Bioskopi</a>
+				</li>		
+				
+				<li class="nav-item">
+					<a class="nav-link text-white" th:href="adminSettings">Pozorista</a>
+				</li>		
+				<li class="nav-item">
+					<a class="nav-link text-white" th:href="adminSettings">Fan Zona</a>
+				</li>				
+			</ul>
+			<a class="nav-link mr-0 text-white" href="/index.html">Odjava</a>
+		</div>
+		<nav class="navbar navbar-expand-md bg-dark">
+			    <div class="mx-auto order-0 w-50">
+			        <div class="nav nav-pills bg-dark flex-row justify-content-center">
+						<ul class="nav nav-tabs bg-danger flex-row">			
+							<li class="nav-item">
+								<a class="nav-link active bg-light text-danger" th:href="adminFanZona">Bioskopi</a>				
+							</li>
+							<li class="nav-item">
+								<a class="nav-link text-white" th:href="adminUsedAd">Administratori bioskopa</a>
+							</li>
+						</ul>
+					</div>
+			    </div>
+		</nav>
+			<div>
+				 <div class="row">
+				 	<div class="col mt-5">
+						<figure class="figure">
+							<img height="250" width="380" hspace="20" th:src="@{/images/cinema.jpg}" class="figure-img img-responsive " /> 
+							<figcaption class="figure-caption text-center">
+								<form action="createNewCinema">
+	    							<input type="submit" value="Novi Bioskop" class="btn btn-danger" />
+								</form>					
+							</figcaption>
+						</figure>
+					</div>
+					<div class="col-6">
+						<table class="table">
+						<thead class="thead-dark">
+							<tr>
+								<th>Ime</th>
+								<th>Adresa</th>
+								<th>Rejting</th>
+							</tr>
+						</thead>
+						<tbody id="tableBody">
+						</tbody>
+						</table>
+					</div>
+					<div class="col">
+						
+					</div>
+			</div>		
+	</body>
+</html>
