@@ -244,4 +244,9 @@ public class IndexController {
 	public String theatresAdmin() {
 		return "AdminSistema/theatresAdmin";
 	}
+	
+	@GetMapping("AdminSistema/theatresAdminView")
+	public String theatresAdminView() {
+		return "AdminSistema/theatresAdminView";
+	}
 }
