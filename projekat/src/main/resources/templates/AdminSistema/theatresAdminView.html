@@ -8,17 +8,28 @@
 		  <script>
 			$(document).ready(function(){
 				$.ajax({
-					url : "http://localhost:8080/cinemas/getCinemas"
+					url : "http://localhost:8080/getUsers"
 				}).then(
 						function(data) {
-							
-						}
+							for (i = 0; i < data.length; i++) {
+								if(data[i].userType==2){
+									newRow = 
+										"<tr>"
+											+ "<td>" + data[i].firstName + "</td>"
+											+ "<td>" + data[i].lastName + "</td>"
+											+ "<td>" + data[i].email + "</td>"
+											+ "<td>" + data[i].city + "</td>"
+										+ "</tr>"
+									$("#tableBody").append(newRow)
+								}
+							}
+						
 					});
 			});
 			
 		</script>			
 	</head>
-	<body class="bg-light">			
+	<body>			
 		 <div class="nav nav-tabs bg-danger">
 			<ul class="nav nav-tabs mr-auto bg-danger justify-content-center">	
 				<li class="nav-item">
@@ -52,10 +63,10 @@
 				 <div class="row">
 				 	<div class="col mt-5">
 						<figure class="figure">
-							<img height="250" width="380" hspace="20" th:src="@{/images/theatre.jpg}" class="figure-img img-responsive " /> 
+							<img height="250" width="380" hspace="20" th:src="@{/images/admin.jpg}" class="figure-img img-responsive " /> 
 							<figcaption class="figure-caption text-center">
-								<form action="createNewCinema">
-	    							<input type="submit" value="Novo Pozoriste" class="btn btn-danger" />
+								<form action="createNewTheaterAdmin">
+	    							<input type="submit" value="Kreiraj novog admina" class="btn btn-danger" />
 								</form>					
 							</figcaption>
 						</figure>
@@ -65,8 +76,9 @@
 						<thead class="thead-dark">
 							<tr>
 								<th>Ime</th>
-								<th>Adresa</th>
-								<th>Rejting</th>
+								<th>Prezime</th>
+								<th>Email</th>
+								<th>Grad</th>
 							</tr>
 						</thead>
 						<tbody id="tableBody">

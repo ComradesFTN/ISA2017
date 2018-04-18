@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+		<script th:src="@{/scripts/jquery-3.2.1.min.js}"></script>
+		<link rel="stylesheet" th:href="@{/stylesheets/bootstrap.css}">
+		<meta charset="UTF-8">
+		<title>Kreiranje novog oglasa</title>			
+	</head>
+
+	<body>
+		<div class="nav nav-tabs bg-danger">
+			<ul class="nav nav-tabs mr-auto bg-danger justify-content-center">	
+				<li class="nav-item">
+					<a class="nav-link text-white" th:href="cinemasAdmin">Bioskopi</a>
+				</li>		
+				
+				<li class="nav-item">
+					<a class="nav-link active text-danger" th:href="theatresAdmin">Pozorista</a>
+				</li>		
+				<li class="nav-item">
+					<a class="nav-link text-white" th:href="adminSettings">Fan Zona</a>
+				</li>				
+			</ul>
+			<a class="nav-link mr-0 text-white" href="/index.html">Odjava</a>
+		</div>
+		<nav class="navbar navbar-expand-md bg-dark">
+			    <div class="mx-auto order-0 w-50">
+			        <div class="nav nav-pills bg-dark flex-row justify-content-center">
+						<ul class="nav nav-tabs bg-danger flex-row">			
+							<li class="nav-item">
+								<a class="nav-link text-white" th:href="theatresAdmin">Pozorista</a>				
+							</li>
+							<li class="nav-item">
+								<a class="nav-link text-white" th:href="theatresAdminView">Administratori pozorista</a>
+							</li>
+						</ul>
+					</div>
+			    </div>
+		</nav>
+	
+		<div class="container col-md-4 mt-5">
+			<form id="property">
+			  <div class="form-group row">
+			    <label for="inputName" class="col-sm-2 col-form-label">Ime: </label>
+			    <div class="col-sm-10">
+			      <input type="text" class="ml-2" id="inputName" placeholder="Ime">
+			    </div>
+			  </div>
+			  
+			  <div class="form-group row">
+			    <label for="inputLastName" class="col-sm-2 col-form-label">Prezime: </label>
+			    <div class="col-sm-10">
+			      <input type="text" class="ml-2" id="inputLastName" placeholder="Prezime">
+			    </div>
+			  </div>
+			  		  
+			  <div class="form-group row">
+			    <label for="inputEmail" class="col-sm-2 col-form-label">Email: </label>
+			    <div class="col-sm-10">
+			      <input type="texte" class="ml-2" id="inputEmail" placeholder="Email">
+			    </div>
+			  </div>
+			  
+			  <div class="form-group row">
+			    <label for="inputCity" class="col-sm-2 col-form-label">Grad: </label>
+			    <div class="col-sm-10">
+			      <input type="text" class="ml-2" id="inputCity" placeholder="Grad">
+			    </div>
+			  </div>
+			  
+			  <div class="form-group row">
+			    <label for="inputPhone" class="col-sm-2 col-form-label">Broj telefona: </label>
+			    <div class="col-sm-10">
+			      <input type="text" class="ml-2" id="inputPhone" placeholder="Broj telefona">
+			    </div>
+			  </div>
+			  
+			  <div class="form-group row">
+			    <label for="inputPass" class="col-sm-2 col-form-label">Lozinka: </label>
+			    <div class="col-sm-10">
+			      <input type="password" class="ml-2" id="inputPass" placeholder="Lozinka">
+			    </div>
+			  </div>
+  
+			  
+			  
+			  <div class="form-group row">
+			    <div class="col-sm-10">
+	    			<input type="submit" value="Napravi admina" class="btn btn-danger" />
+			    </div>
+			  </div>
+			</form>
+		</div>
+		<script>
+			$("input[type='submit']").click(function(event) {
+				event.preventDefault();
+				function validate() {
+				    if ($('#inputName').val() == "" || $('#inputDescription').val() == "") {
+				        alert("Pri kreiranju oglasa, obavezna polja su naziv, opis i cena.");
+				        $('#inputName').focus();
+				        return false;
+				    }
+				    if($('#inputPrice').val()==""){
+				    	alert("Cena mora biti broj bez dodatnih znakova!");
+					    $('#inputPrice').focus();
+					    return false;
+				    }
+				    return true;
+				}
+				/* if(!validate()) {
+					return;
+				} */
+				var formData = JSON.stringify({
+					email:$("#inputEmail").val(),
+					password:$("#inputPass").val(),
+					firstName:$("#inputName").val(),
+					lastName:$("#inputLastName").val(),
+					city:$("#inputCity").val(),
+					phone:$("#inputPhone").val(),
+					enabled:true,
+					userType:2,
+					firstTime:true,
+				});
+				$.ajax({
+					url: "http://localhost:8080/users",
+					type: 'POST',
+					data: formData,
+					contentType: "application/json",
+					success: function(){
+						console.log("Kreirao sam admina	!");
+						window.location.href = "http://localhost:8080/AdminSistema/theatresAdmin.html";
+						
+					}
+				});
+			
+		   });
+
+		</script>
+	</body>
+</html>

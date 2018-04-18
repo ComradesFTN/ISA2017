@@ -249,4 +249,14 @@ public class IndexController {
 	public String theatresAdminView() {
 		return "AdminSistema/theatresAdminView";
 	}
+	
+	@GetMapping("AdminSistema/createNewTheater")
+	public String createNewTheater() {
+		return "AdminSistema/createNewTheater";
+	}
+	
+	@GetMapping("AdminSistema/createNewTheaterAdmin")
+	public String createNewTheaterAdmin() {
+		return "AdminSistema/createNewTheaterAdmin";
+	}
 }
