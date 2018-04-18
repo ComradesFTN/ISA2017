@@ -69,6 +69,7 @@ public class Movie {
 	Set<String> term= new HashSet<String>();
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "movie")
+	@JsonIgnoreProperties("movie")
 	Set<Projection> projections= new HashSet<Projection>();	
 	
 	@Column(name="BioskopId")

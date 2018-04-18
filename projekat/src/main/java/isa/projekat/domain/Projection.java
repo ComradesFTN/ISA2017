@@ -16,6 +16,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity(name="Projekcija")
 public class Projection {
 	
@@ -42,6 +44,7 @@ public class Projection {
 	List<Integer> seats= new ArrayList<Integer>();
 	
 	@ManyToOne
+	@JsonIgnoreProperties("projections")
 	private Movie movie;
 	
 	@Column(name="termin")

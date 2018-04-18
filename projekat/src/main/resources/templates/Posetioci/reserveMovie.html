@@ -4,8 +4,161 @@
 		<script th:src="@{/scripts/jquery-3.2.1.min.js}"></script>
 		<link rel="stylesheet" th:href="@{/stylesheets/bootstrap.css}">
 		<meta charset="UTF-8">
-		<title>Home</title>			
-	</head>
+		<title>Home</title>		
+		<script>
+			var id;	
+			var filmId;
+			var saleId=[];
+			var sale=[];
+			var termini=[];
+			var index=-1;
+			var film;
+			$(document).ready(function(){				
+				id = getUrlParameter('id');	
+				filmId = getUrlParameter('filmId');
+				$("#home").attr("href", "cinemaDetails.html?id="+id);
+				$("#repertoar").attr("href", "cinemaRepertoar.html?id="+id);
+				$.ajax({
+					url : "http://localhost:8080/movies/"+filmId
+				}).then(
+						function(data){
+							film=data;
+							$("#naslov").text("Rezervacija za film "+data.name);
+							for(i=0;i<data.auditoriums.length;i++){
+								newOption = '<option>'+data.auditoriums[i].name+'</option>';
+								sale.push(data.auditoriums[i]);
+								$("#inputAuditoriums").append(newOption);
+							}
+							for(i=0;i<data.term.length;i++){
+								newOption = '<option>'+data.term[i]+'</option>';
+								termini.push(data.term[i]);
+								$("#inputTerms").append(newOption);
+							}
+						});
+			});	
+			
+			$(document).on("click", "#draw", function(event){
+				event.preventDefault();
+				var UserDate = $("#inputDate").val();
+				var salaName=$("#inputAuditoriums option:selected").text();
+				var salaId=0;
+				var sala;
+				for(i=0;i<sale.length;i++){
+					if(sale[i].name===salaName){
+						salaId=sale[i].id;
+						sala=sale[i];
+						break;
+					}
+				}
+				var termin=$("#inputTerms option:selected").text(); 
+				var projection;
+				var mesta=[];
+				$.ajax({
+					url : "http://localhost:8080/projections/getProjections"
+				}).then(
+						function(data){
+							var nasao=false;	
+							for(i=0;i<=data.length;i++){
+								if(data.auditorium_id===salaId && data.term===termin && data.date===UserDate ) {      //dodaj za datum
+									nasao=true;
+									break;
+								}
+							}
+							if(!nasao){
+								var formData = JSON.stringify({
+									date:UserDate,
+									auditorium_id:salaId,
+									seats:sala.seats,
+									movie:film,
+									term:termin									
+								});
+								$.ajax({
+									url: "http://localhost:8080/projections/",
+									type: 'POST',
+									data: formData,
+									contentType: "application/json",
+									success: function(data){
+										projection=data;
+										mesta=data.seats;
+									}
+								});
+							}
+							else{
+								projection=data;
+								mesta=projection.mesta;
+							}
+						});	
+				if(projection===undefined){
+					var formData = JSON.stringify({
+						date:UserDate,
+						auditorium_id:salaId,
+						seats:sala.seats,
+						movie:film,
+						term:termin									
+					});
+					$.ajax({
+						url: "http://localhost:8080/projections/",
+						type: 'POST',
+						data: formData,
+						contentType: "application/json",
+						success: function(data){
+							projection=data;
+							mesta=data.seats;
+						}
+					});
+				}
+				for(i=1;i<=sala.rows;i++){
+					newRow=  '   <div class="row">  '  + 
+					 '   				<div class="btn-group mx-auto">  ';
+					for(j=1;j<=sala.columns;j++){
+						index+=1;
+						classText ="";
+						if(mesta[index]===0){
+							classText='btn-dark'
+						}
+						else if(mesta[index]===1){
+							classText='btn-secondary'
+						}
+						else if(mesta[index]===2){
+							classText='btn-warning disabled'
+						}	
+						newRow+= '   				    <button type="button" class="seat '+classText+'" data-id="'+index+'">'+j+'</button>  ' 
+					}
+					newRow+= '   				 </div>  '  + 
+					 '  			</div>  ' ; 
+					$("#sala").append(newRow);
+				}
+				
+			});
+			
+			function TDate() {
+			    var UserDate = $("#inputDate").val();
+			    var ToDate = new Date();
+
+			    if (new Date(UserDate).getTime() <= ToDate.getTime()) {
+			          alert("Datum mora biti veci od danasnjeg   " + UserDate );
+			          $("#inputDate").val("");
+			          return false;
+			     }			   
+			    return true;
+			}
+			
+			var getUrlParameter = function getUrlParameter(sParam) {
+			    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+			        sURLVariables = sPageURL.split('&'),
+			        sParameterName,
+			        i;
+
+			    for (i = 0; i < sURLVariables.length; i++) {
+			        sParameterName = sURLVariables[i].split('=');
+
+			        if (sParameterName[0] === sParam) {
+			            return sParameterName[1] === undefined ? true : sParameterName[1];
+			        }
+			    }
+			};			
+		</script>	
+	</head>	
 	<body class="bg-light">			
 		<div class="nav nav-tabs bg-danger">
 			<ul class="nav nav-tabs mr-auto bg-danger">			
@@ -33,9 +186,36 @@
 			</ul>
 			<a class="nav-link mr-0 text-white" href="/index.html">Odjava</a>
 		</div>		
+			<nav class="navbar bg-dark justify-content-center">
+		    <div>
+		        <div class="nav nav-pills bg-dark flex-row">
+					<ul class="nav nav-tabs bg-danger flex-row ">	
+						<li class="nav-item">
+							<a class="nav-link text-white" id="home" href="#">Home</a>				
+						</li>		
+						<li class="nav-item">
+							<a class="nav-link text-white" id="repertoar" href="#">Repertoar</a>				
+						</li>
+						<li class="nav-item">
+							<a class="nav-link text-white" href="cinemaPopusti.html">Popusti</a>
+						</li>
+					</ul>
+				</div>
+		    </div>
+		</nav>
 		<div class="container col-md-4 mt-5">
-			</br>
-			</br>
+			<div class="text-center">				
+				<h1 id="naslov"></h1>
+			</div>
+			<br/>
+			<br/>
+			<div class="row">				
+				<div class="col-sm-10">
+				  <label for="inputDate" class="col-form-label">Izaberi datum</label>
+			      <input type="date" id="inputDate" class="form-control" onchange="TDate()" required>
+			    <br/>
+			    </div>			     
+			</div>
 			<div class="row">				
 				<div class="col-sm-10">
 				  <label for="inputAuditoriums" class="col-form-label">Izaberi salu</label>
@@ -46,15 +226,18 @@
 			</div>
 			<div class="row">				
 				<div class="col-sm-10">
-				  <label for="inputTerm" class="col-form-label">Izaberi termin</label>
-			      <select id="inputTerm" class="form-control">			       
+				  <label for="inputTerms" class="col-form-label">Izaberi termin</label>
+			      <select id="inputTerms" class="form-control">			       
 			      </select>
 			    <br/>
 			    </div>			     
+			</div>			
+			<div>
+	    			<button id="draw" class="btn btn-danger">Dalje</button>
 			</div>
-			
-			<div class="col-sm-10">
-	    			<button id="Draw" class="btn btn-danger">Dalje</button>
+			<br/>
+			<div id="sala" class="container col-md-4 mt-5 text-center">			
+				
 			</div>
 		</div>
 	</body>

@@ -42,13 +42,13 @@ public class MovieController {
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, consumes = "application/json")
-	public ResponseEntity<Movie> addMovie(@RequestBody Movie movie) {			
+	public ResponseEntity<Movie> addMovie(@RequestBody Movie movie) {	
 		Movie newMovie = movieService.save(movie);
 		return new ResponseEntity<>(newMovie, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/{id}",method = RequestMethod.PUT ,consumes = "application/json")
-	public ResponseEntity<Movie> editMovie(@PathVariable Long id,@RequestBody Movie movie) {
+	public ResponseEntity<Movie> editMovie(@PathVariable Long id,@RequestBody Movie movie) {		
 		movie.setId(id);		
 		Movie editedMovie = movieService.save(movie);
 		return new ResponseEntity<>(editedMovie, HttpStatus.OK);

@@ -3,8 +3,10 @@ package isa.projekat.service;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -67,18 +69,44 @@ public class MovieServiceImpl implements MovieService {
 					movie.setPoster(splitPath[1]);
 				}
 			}
-		}		
-		Movie savedMovie=movieRepository.save(movie);		
-		Cinema cinema = cinemaRepository.findOne(movie.getCinemaId());
-		for(Auditorium auditorium : cinema.getAuditoriums()){
-			auditorium.getMovies().remove(savedMovie);	
-			auditoriumRepository.save(auditorium);
 		}
-		for(Auditorium auditorium : movie.getAuditoriums()){
+		Movie stariMovie=movieRepository.findOne(movie.getId());
+		List<Auditorium> stareSale = new ArrayList<Auditorium>();		
+		if(stariMovie!=null){
+			stareSale = stariMovie.getAuditoriums(); 
+		}
+		if(!stareSale.isEmpty()){
+			System.out.println("STARE SALE PRE:");
+			for(Auditorium auditorium : stareSale){	
+				System.out.println(auditorium.getName());
+			}
+		}
+		Movie savedMovie=movieRepository.save(movie);		
+		List<Auditorium> noveSale = movieRepository.findOne(movie.getId()).getAuditoriums();
+		System.out.println("NOVE SALE PRE:");
+		for(Auditorium auditorium : noveSale){	
 			System.out.println(auditorium.getName());
+		}
+		if(!stareSale.isEmpty()){
+			for(Auditorium auditorium : stareSale){			
+				auditorium.getMovies().remove(stariMovie);
+				auditoriumRepository.save(auditorium);						
+			}
+		}
+		if(!stareSale.isEmpty()){
+			System.out.println("STARE SALE POSLE:");
+			for(Auditorium auditorium : stareSale){	
+				System.out.println(auditorium.getName());
+			}
+		}
+		System.out.println("NOVE SALE POSLE:");
+		for(Auditorium auditorium : noveSale){	
+			System.out.println(auditorium.getName());
+		}
+		for(Auditorium auditorium : noveSale){
 			auditorium.getMovies().add(savedMovie);
 			auditoriumRepository.save(auditorium);
-		}
+		}		
 		return savedMovie;
 	}
 
