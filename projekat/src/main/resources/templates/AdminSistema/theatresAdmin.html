@@ -8,35 +8,25 @@
 		  <script>
 			$(document).ready(function(){
 				$.ajax({
-					url : "http://localhost:8080/getUsers"
+					url : "http://localhost:8080/cinemas/getCinemas"
 				}).then(
 						function(data) {
-							for (i = 0; i < data.length; i++) {
-								if(data[i].userType==2){
-									newRow = 
-										"<tr>"
-											+ "<td>" + data[i].firstName + "</td>"
-											+ "<td>" + data[i].lastName + "</td>"
-											+ "<td>" + data[i].email + "</td>"
-											+ "<td>" + data[i].city + "</td>"
-										+ "</tr>"
-									$("#tableBody").append(newRow)
-								}
-							}
-						
+							
+						}
 					});
-				});
+			});
+			
 		</script>			
 	</head>
-	<body>			
+	<body class="bg-light">			
 		 <div class="nav nav-tabs bg-danger">
 			<ul class="nav nav-tabs mr-auto bg-danger justify-content-center">	
 				<li class="nav-item">
-					<a class="nav-link active text-danger" th:href="adminFanZona">Bioskopi</a>
+					<a class="nav-link text-white" th:href="cinemasAdmin">Bioskopi</a>
 				</li>		
 				
 				<li class="nav-item">
-					<a class="nav-link text-white" th:href="theatresAdmin">Pozorista</a>
+					<a class="nav-link active text-danger" th:href="theatresAdmin">Pozorista</a>
 				</li>		
 				<li class="nav-item">
 					<a class="nav-link text-white" th:href="adminSettings">Fan Zona</a>
@@ -49,10 +39,10 @@
 			        <div class="nav nav-pills bg-dark flex-row justify-content-center">
 						<ul class="nav nav-tabs bg-danger flex-row">			
 							<li class="nav-item">
-								<a class="nav-link text-white" th:href="cinemasAdmin">Bioskopi</a>				
+								<a class="nav-link active bg-light text-danger" th:href="theatresAdmin">Pozorista</a>				
 							</li>
 							<li class="nav-item">
-								<a class="nav-link active bg-light text-danger" th:href="cinemasAdminView">Administratori bioskopa</a>
+								<a class="nav-link text-white" th:href="cinemasAdminView">Administratori pozorista</a>
 							</li>
 						</ul>
 					</div>
@@ -62,10 +52,10 @@
 				 <div class="row">
 				 	<div class="col mt-5">
 						<figure class="figure">
-							<img height="300" width="380" hspace="20" th:src="@{/images/admin.jpg}" class="figure-img img-responsive " /> 
+							<img height="250" width="380" hspace="20" th:src="@{/images/theatre.jpg}" class="figure-img img-responsive " /> 
 							<figcaption class="figure-caption text-center">
-								<form action="createNewCinemaAdmin">
-	    							<input type="submit" value="Kreiraj novog admina" class="btn btn-danger" />
+								<form action="createNewCinema">
+	    							<input type="submit" value="Novo Pozoriste" class="btn btn-danger" />
 								</form>					
 							</figcaption>
 						</figure>
@@ -75,9 +65,8 @@
 						<thead class="thead-dark">
 							<tr>
 								<th>Ime</th>
-								<th>Prezime</th>
-								<th>Email</th>
-								<th>Grad</th>
+								<th>Adresa</th>
+								<th>Rejting</th>
 							</tr>
 						</thead>
 						<tbody id="tableBody">

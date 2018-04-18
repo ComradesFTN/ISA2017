@@ -34,26 +34,6 @@
 						}
 					});
 			});
-			$(document).on("click", ".delete", function(event){
-				//ne salji get zahtev
-				event.preventDefault(); 
-				
-				var confirmed = confirm("Da li ste sigurni da zelite da obrisete ovaj oglas?");
-				if(confirmed){
-				
-					var url = $(this).attr("href")
-					//red koji se treba izbrisati ako je brisanje na serveru bilo uspesno
-					tr_parent = $(this).closest("tr")
-					$.ajax({
-			        	url: url,
-			        	type: "DELETE",
-			        	success: function(){
-			        		//ukloni i na strani 
-							tr_parent.remove()
-				        }
-					});
-				}
-			});
 		</script>			
 	</head>
 	<body class="bg-light">			
@@ -64,7 +44,7 @@
 				</li>		
 				
 				<li class="nav-item">
-					<a class="nav-link text-white" th:href="adminSettings">Pozorista</a>
+					<a class="nav-link text-white" th:href="theatresAdmin">Pozorista</a>
 				</li>		
 				<li class="nav-item">
 					<a class="nav-link text-white" th:href="adminSettings">Fan Zona</a>
