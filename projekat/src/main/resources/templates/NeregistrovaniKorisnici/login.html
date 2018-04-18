@@ -30,6 +30,7 @@
 		
 		<script>
 			$("input[type='submit']").click(function(event) {
+				var currentUser;
 				event.preventDefault();
 				function validate() {
 				    if ($('#email').val() == "" && $('#password').val() == "") {
@@ -63,6 +64,7 @@
 					contentType: "application/json",
 					success: function(data){
 						console.log("Ajax zahtev za login.");
+						currentUser = data;
 						
 					},
 					statusCode: {
@@ -76,12 +78,18 @@
 				    		alert("Vas nalog nije aktiviran.")
 				    	},
 						200: function() {
-							window.location.href = "http://localhost:8080/Posetioci/homePage.html";
+							if(currentUser.userType === 0) {
+								window.location.href = "http://localhost:8080/Posetioci/homePage.html";
+							} else if(currentUser.userType === 1) {
+								window.location.href = "http://localhost:8080/AdminFanZone/adminFanZona.html";
+							} else if(currentUser.userType === 2) {
+								console.log("Rajkela, tu ti ide admin tvoj tip 2.")
+							} else if(currentUser.userType === 3) {
+								console.log("Piki, tu ti ide admin tvoj tip 3.")
+							}
+							
 						},
-				    	202: function() {
-							window.location.href = "http://localhost:8080/AdminFanZone/adminFanZona.html";
-						},
-						201: function() {
+						202: function() {
 							window.location.href = "http://localhost:8080/Posetioci/changePassword.html";
 						}
 				  	}

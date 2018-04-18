@@ -67,7 +67,7 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "users/login", method = RequestMethod.POST, consumes = "application/json")
-	public ResponseEntity<UserDTO> loginProcess(@RequestBody UserDTO userDTO, HttpSession session) {
+	public ResponseEntity<User> loginProcess(@RequestBody UserDTO userDTO, HttpSession session) {
 		String email = userDTO.getEmail();
 		String pass = userDTO.getPassword();
 		User currentUser = userService.getUserByEmail(email);
@@ -83,12 +83,12 @@ public class UserController {
 					if(currentUser.getFirstTime()==true) {
 						currentUser.setFirstTime(false);
 						System.out.println("TRENUTNI KORISNIK: prvi put: " + currentUser.getFirstTime() + " Tip: " + currentUser.getUserType() + " sifra: " + currentUser.getPassword() + " id: " + currentUser.getId());
-						return new ResponseEntity<>(HttpStatus.CREATED);
+						return new ResponseEntity<>(currentUser, HttpStatus.ACCEPTED);
 					}else {
-						return new ResponseEntity<>(HttpStatus.ACCEPTED);
+						return new ResponseEntity<>(currentUser, HttpStatus.OK);
 					}
 				}
-				return new ResponseEntity<>(HttpStatus.OK);
+				return new ResponseEntity<>(currentUser, HttpStatus.OK);
 			} else return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 			
 		}
