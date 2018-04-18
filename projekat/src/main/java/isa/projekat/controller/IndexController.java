@@ -219,4 +219,9 @@ public class IndexController {
 	public String adminSettings() {
 		return "AdminFanZone/adminSettings";
 	}
+	
+	@GetMapping("AdminSistema/createNewCinema")
+	public String createNewCinema() {
+		return "AdminSistema/createNewCinema";
+	}
 }

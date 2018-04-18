@@ -3,16 +3,22 @@
 	<head>
 		<script th:src="@{/scripts/jquery-3.2.1.min.js}"></script>
 		<link rel="stylesheet" th:href="@{/stylesheets/bootstrap.css}">
+		<script th:src="@{/scripts/jquery.geocomplete.js}"></script>
+		<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC-YyCq09kOBAfdxzfvceBtUov8tfj5Mh4&callback=myMap"></script>
 		<meta charset="UTF-8">
 		<title>Bioskop</title>	
 		<script>
-			$(document).ready(function(){				
+		var podatak;
+			$(document).ready(function(){	
+				
 				var id = getUrlParameter('id');	
 				$("#repertoar").attr("href", "cinemaRepertoar.html?id="+id);
 				$.ajax({
 					url : "http://localhost:8080/cinemas/"+id
 				}).then(
 						function(data) {
+							console.log("Data");
+						 	podatak = data;
 							$('#name').text(data.name);
 							$('#adress').text(data.adress);
 							rating=data.rating;
@@ -28,6 +34,7 @@
 							}
 							$('#rating').text(ratingText);
 							$('#description').text(data.description);
+							myMap();
 						});
 			});
 			
@@ -45,6 +52,29 @@
 			        }
 			    }
 			};
+			function myMap() {
+				console.log("Mapa");
+				
+					var myLatLng = {lat: podatak.myLat, lng: podatak.myLang};
+	
+			        var map = new google.maps.Map(document.getElementById('map'), {
+			          zoom: 15,
+			          center: myLatLng
+			        });
+	
+			        var marker = new google.maps.Marker({
+			          position: myLatLng,
+			          map: map,
+			          title: 'Hello World!'
+			        });
+				
+			
+
+			
+			/* var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+			}; */
+			};
+			
 		</script>
 	</head>
 	<body class="bg-light">			
@@ -83,7 +113,7 @@
 			<div class="row">
 				<div class="col-5 mt-3 text-center">	
 					<img class="w-50 mt-3" th:src="@{/images/cinema.jpg}"/> 
-					<div class="container border border-info mt-5" id="map">ovde ce biti mapa (za koriscenje gmap ima neki freetrial valjda koliko sam proucavao pa cemo to na kraju ubaciti)</div>									
+					<div id="map" class="mx-auto mt-5" style="width:300px;height:300px;background:white"></div>									
 				</div>
 				<div class="col-7 text-center">		
 					<h2 class="mt-3" id="name"></h2>

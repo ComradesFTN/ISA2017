@@ -29,8 +29,14 @@ public class Cinema {
 	@Column(name="Adresa", columnDefinition="VARCHAR(100)")
 	private String adress;
 	
+	@Column(name="GeografskaSirina", columnDefinition="DECIMAL(10,8)")
+	private float myLat;
+	
+	@Column(name="GeografskaVisina", columnDefinition="DECIMAL(11,8)")
+	private float myLang;
+	
 	@Column(name="Rejting", columnDefinition="NUMERIC")
-	private int rating;
+	private int rating=-1;
 	
 	@Column(name="PromotivniOpis", columnDefinition="VARCHAR(200)")
 	private String description;
@@ -103,7 +109,26 @@ public class Cinema {
 
 	public void setAuditoriums(Set<Auditorium> auditoriums) {
 		this.auditoriums = auditoriums;
-	}		
+	}
+
+	public float getMyLat() {
+		return myLat;
+	}
+
+	public void setMyLat(float myLat) {
+		this.myLat = myLat;
+	}
+
+	public float getMyLang() {
+		return myLang;
+	}
+
+	public void setMyLang(float myLang) {
+		this.myLang = myLang;
+	}
+	
+	
+	
 	
 	
 }
