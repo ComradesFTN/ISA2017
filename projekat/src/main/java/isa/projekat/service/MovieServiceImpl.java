@@ -5,8 +5,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
+
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -43,6 +48,9 @@ public class MovieServiceImpl implements MovieService {
 	public List<Movie> findAll() {
 		return movieRepository.findAll();
 	}
+	
+	@Temporal(TemporalType.DATE)
+	private Date date = new Date();
 
 	@Override
 	public Movie save(Movie movie) {
@@ -70,7 +78,27 @@ public class MovieServiceImpl implements MovieService {
 				}
 			}
 		}
-		return movieRepository.save(movie);
+		Movie savedMovie=movieRepository.save(movie);
+		
+		for(String term : savedMovie.getTerm()){			
+			for(Auditorium audit : savedMovie.getAuditoriums()){
+				for(int i=0; i<10;i++){
+					Projection proj = new Projection();
+					proj.setAuditorium_id(audit.getId());
+					proj.setDate(new Date(date.getTime() + TimeUnit.DAYS.toMillis( i )));
+					proj.setMovie(savedMovie);
+					proj.setTerm(term);
+					List<Integer> seats = new ArrayList<Integer>();
+					for(Integer seat : audit.getSeats()){
+						seats.add(seat);
+					}
+					proj.setSeats(seats);
+					projectionRepository.save(proj);
+				}
+			}
+		}		
+		
+		return savedMovie;
 	}
 
 	@Override

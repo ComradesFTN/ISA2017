@@ -41,11 +41,14 @@ public class UserController {
 		
 		User newUser = userService.save(user); // TODO proveri da li ima email isti pre toga
 
-		try {
-			emailService.send(user);
-		} catch (Exception e) {
-			System.out.println("Greska prilikom slanja emaila: " + e.getMessage());
+		if(user.getUserType()==0) {
+			try {
+				emailService.send(user);
+			} catch (Exception e) {
+				System.out.println("Greska prilikom slanja emaila: " + e.getMessage());
+			}
 		}
+		System.out.println("NADJI ME!!!!!!! KREIRAO SAM KORISNIKA!!!");
 		return new ResponseEntity<>(newUser, HttpStatus.OK);
 	}
 
@@ -79,7 +82,7 @@ public class UserController {
 		if(currentUser.getPassword().equals(pass)) {
 			if(currentUser.isEnabled()) {
 				session.setAttribute("loggedUser", currentUser);
-				if(currentUser.getUserType()==1) {
+				if(currentUser.getUserType()==1 || currentUser.getUserType()==2) {
 					if(currentUser.getFirstTime()==true) {
 						currentUser.setFirstTime(false);
 						System.out.println("TRENUTNI KORISNIK: prvi put: " + currentUser.getFirstTime() + " Tip: " + currentUser.getUserType() + " sifra: " + currentUser.getPassword() + " id: " + currentUser.getId());

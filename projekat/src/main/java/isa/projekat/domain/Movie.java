@@ -64,7 +64,7 @@ public class Movie {
 	@JoinTable(name = "FilmSale",joinColumns = @JoinColumn(name = "auditorium_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "movie_id", referencedColumnName = "id"))
 	List<Auditorium> auditoriums= new ArrayList<Auditorium>();
 	
-	@ElementCollection
+	@ElementCollection(fetch=FetchType.LAZY)
 	@CollectionTable(name = "FilmTermini",joinColumns = @JoinColumn(name = "movie_id", referencedColumnName = "id"))
 	@Column(name = "Termin", columnDefinition="VARCHAR(40)")
 	Set<String> term= new HashSet<String>();

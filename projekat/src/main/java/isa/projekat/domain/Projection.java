@@ -16,6 +16,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity(name="Projekcija")
@@ -39,6 +40,7 @@ public class Projection {
 	 * 			2 - REZERVISANO
 	 */	
 	@ElementCollection
+	@JsonIgnore
 	@CollectionTable(name = "ProjekcijaSalaMesta",joinColumns = @JoinColumn(name = "projekcija_id", referencedColumnName = "id"))
 	@Column(name = "StatusMesta")
 	List<Integer> seats= new ArrayList<Integer>();
@@ -93,6 +95,15 @@ public class Projection {
 	public void setMovie(Movie movie) {
 		this.movie = movie;
 	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+	
 	
 	
 	

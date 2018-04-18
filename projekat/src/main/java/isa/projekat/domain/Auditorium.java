@@ -50,6 +50,7 @@ public class Auditorium {
 	 * 			2 - REZERVISANO
 	 */	
 	@ElementCollection(fetch=FetchType.LAZY)
+	@JsonIgnore
 	@CollectionTable(name = "SalaMesta",joinColumns = @JoinColumn(name = "auditorium_id", referencedColumnName = "id"))
 	@Column(name = "StatusMesta")
 	List<Integer> seats= new ArrayList<Integer>();
