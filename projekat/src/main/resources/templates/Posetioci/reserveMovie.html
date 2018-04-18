@@ -39,6 +39,10 @@
 			
 			$(document).on("click", "#draw", function(event){
 				event.preventDefault();
+				if($("#inputDate").val()===""){
+					alert("Izaberite validan datum");
+					return;
+				}
 				var UserDate = $("#inputDate").val();
 				var salaName=$("#inputAuditoriums option:selected").text();
 				var salaId=0;
@@ -50,6 +54,16 @@
 						break;
 					}
 				}
+				var salaMesta=[];
+				$.ajax({
+					url : "http://localhost:8080/auditoriums/"+salaId,
+					success : function(data){
+						salaMesta=data.seats;						
+					},
+					error: function(jqXHR, textStatus, errorThrown){
+				          alert('error');
+				     }
+				});
 				var termin=$("#inputTerms option:selected").text(); 
 				var projection;
 				var mesta=[];
@@ -61,6 +75,8 @@
 							for(i=0;i<=data.length;i++){
 								if(data.auditorium_id===salaId && data.term===termin && data.date===UserDate ) {      //dodaj za datum
 									nasao=true;
+									projection=data;
+									mesta=projection.mesta;
 									break;
 								}
 							}
@@ -68,7 +84,7 @@
 								var formData = JSON.stringify({
 									date:UserDate,
 									auditorium_id:salaId,
-									seats:sala.seats,
+									seats:salaMesta,
 									movie:film,
 									term:termin									
 								});
@@ -83,16 +99,12 @@
 									}
 								});
 							}
-							else{
-								projection=data;
-								mesta=projection.mesta;
-							}
 						});	
 				if(projection===undefined){
 					var formData = JSON.stringify({
 						date:UserDate,
 						auditorium_id:salaId,
-						seats:sala.seats,
+						seats:salaMesta,
 						movie:film,
 						term:termin									
 					});
@@ -134,9 +146,10 @@
 			function TDate() {
 			    var UserDate = $("#inputDate").val();
 			    var ToDate = new Date();
-
-			    if (new Date(UserDate).getTime() <= ToDate.getTime()) {
-			          alert("Datum mora biti veci od danasnjeg   " + UserDate );
+				var maxDate= new Date();
+				maxDate.setDate(maxDate.getDate()+10)
+			    if (new Date(UserDate).getTime() <= ToDate.getTime() || new Date(UserDate).getTime() > maxDate.getTime() ) {
+			          alert("Izaberite datum u rasponu od narednih 10 dana (bez danasnjeg)");
 			          $("#inputDate").val("");
 			          return false;
 			     }			   

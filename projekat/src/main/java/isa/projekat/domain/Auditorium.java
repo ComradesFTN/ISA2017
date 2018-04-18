@@ -32,9 +32,8 @@ public class Auditorium {
 	@Column(name="Naziv", columnDefinition="VARCHAR(40)")
 	private String name;	
 	
-	@ManyToMany(fetch=FetchType.LAZY)
-	@JsonIgnoreProperties("auditoriums")
-	@JoinTable(name = "FilmSale",joinColumns = @JoinColumn(name = "auditorium_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "movie_id", referencedColumnName = "id"))
+	@ManyToMany(mappedBy = "auditoriums",fetch=FetchType.LAZY)
+	@JsonIgnoreProperties("auditoriums")	
 	List<Movie> movies= new ArrayList<Movie>();
 	
 	@Column(name="BrojRedova")

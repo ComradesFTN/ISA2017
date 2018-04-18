@@ -70,44 +70,7 @@ public class MovieServiceImpl implements MovieService {
 				}
 			}
 		}
-		Movie stariMovie=movieRepository.findOne(movie.getId());
-		List<Auditorium> stareSale = new ArrayList<Auditorium>();		
-		if(stariMovie!=null){
-			stareSale = stariMovie.getAuditoriums(); 
-		}
-		if(!stareSale.isEmpty()){
-			System.out.println("STARE SALE PRE:");
-			for(Auditorium auditorium : stareSale){	
-				System.out.println(auditorium.getName());
-			}
-		}
-		Movie savedMovie=movieRepository.save(movie);		
-		List<Auditorium> noveSale = movieRepository.findOne(movie.getId()).getAuditoriums();
-		System.out.println("NOVE SALE PRE:");
-		for(Auditorium auditorium : noveSale){	
-			System.out.println(auditorium.getName());
-		}
-		if(!stareSale.isEmpty()){
-			for(Auditorium auditorium : stareSale){			
-				auditorium.getMovies().remove(stariMovie);
-				auditoriumRepository.save(auditorium);						
-			}
-		}
-		if(!stareSale.isEmpty()){
-			System.out.println("STARE SALE POSLE:");
-			for(Auditorium auditorium : stareSale){	
-				System.out.println(auditorium.getName());
-			}
-		}
-		System.out.println("NOVE SALE POSLE:");
-		for(Auditorium auditorium : noveSale){	
-			System.out.println(auditorium.getName());
-		}
-		for(Auditorium auditorium : noveSale){
-			auditorium.getMovies().add(savedMovie);
-			auditoriumRepository.save(auditorium);
-		}		
-		return savedMovie;
+		return movieRepository.save(movie);
 	}
 
 	@Override

@@ -59,8 +59,9 @@ public class Movie {
 	@Column(name="Cena", columnDefinition="NUMERIC")
 	private int price;
 	
-	@ManyToMany(mappedBy = "movies",fetch=FetchType.LAZY)
+	@ManyToMany(fetch=FetchType.LAZY)
 	@JsonIgnoreProperties("movies")
+	@JoinTable(name = "FilmSale",joinColumns = @JoinColumn(name = "auditorium_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "movie_id", referencedColumnName = "id"))
 	List<Auditorium> auditoriums= new ArrayList<Auditorium>();
 	
 	@ElementCollection
