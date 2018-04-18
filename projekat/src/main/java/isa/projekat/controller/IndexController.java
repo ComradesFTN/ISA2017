@@ -259,4 +259,14 @@ public class IndexController {
 	public String createNewTheaterAdmin() {
 		return "AdminSistema/createNewTheaterAdmin";
 	}
+	
+	@GetMapping("AdminSistema/fanZonaAdmin")
+	public String fanZonaAdmin() {
+		return "AdminSistema/fanZonaAdmin";
+	}
+	
+	@GetMapping("AdminSistema/createFanZoneAdmin")
+	public String createFanZoneAdmin() {
+		return "AdminSistema/createFanZoneAdmin";
+	}
 }

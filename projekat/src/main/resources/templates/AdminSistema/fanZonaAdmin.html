@@ -12,7 +12,7 @@
 				}).then(
 						function(data) {
 							for (i = 0; i < data.length; i++) {
-								if(data[i].userType==2){
+								if(data[i].userType==1){
 									newRow = 
 										"<tr>"
 											+ "<td>" + data[i].firstName + "</td>"
@@ -25,22 +25,21 @@
 							}
 						
 					});
-			});
-			
+				});
 		</script>			
 	</head>
 	<body>			
 		 <div class="nav nav-tabs bg-danger">
 			<ul class="nav nav-tabs mr-auto bg-danger justify-content-center">	
 				<li class="nav-item">
-					<a class="nav-link text-white" th:href="cinemasAdmin">Bioskopi</a>
+					<a class="nav-link text-white" th:href="adminFanZona">Bioskopi</a>
 				</li>		
 				
 				<li class="nav-item">
-					<a class="nav-link active text-danger" th:href="theatresAdmin">Pozorista</a>
+					<a class="nav-link text-white" th:href="theatresAdmin">Pozorista</a>
 				</li>		
 				<li class="nav-item">
-					<a class="nav-link text-white" th:href="fanZonaAdmin">Fan Zona</a>
+					<a class="nav-link active text-danger" th:href="fanZonaAdmin">Fan Zona</a>
 				</li>				
 			</ul>
 			<a class="nav-link mr-0 text-white" href="/index.html">Odjava</a>
@@ -49,12 +48,7 @@
 			    <div class="mx-auto order-0 w-50">
 			        <div class="nav nav-pills bg-dark flex-row justify-content-center">
 						<ul class="nav nav-tabs bg-danger flex-row">			
-							<li class="nav-item">
-								<a class="nav-link text-white" th:href="theatresAdmin">Pozorista</a>				
-							</li>
-							<li class="nav-item">
-								<a class="nav-link active bg-light text-danger" th:href="cinemasAdminView">Administratori pozorista</a>
-							</li>
+							
 						</ul>
 					</div>
 			    </div>
@@ -63,9 +57,9 @@
 				 <div class="row">
 				 	<div class="col mt-5">
 						<figure class="figure">
-							<img height="250" width="380" hspace="20" th:src="@{/images/admin.jpg}" class="figure-img img-responsive " /> 
+							<img height="300" width="380" hspace="20" th:src="@{/images/FanZone.jpg}" class="figure-img img-responsive " /> 
 							<figcaption class="figure-caption text-center">
-								<form action="createNewTheaterAdmin">
+								<form action="createFanZoneAdmin">
 	    							<input type="submit" value="Kreiraj novog admina" class="btn btn-danger" />
 								</form>					
 							</figcaption>
