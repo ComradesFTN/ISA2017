@@ -144,11 +144,17 @@
 					for(i = 0; i < allReservations.length; i++) {
 						if(allReservations[i].user.id === loggedUser) {
 							var userProjection = allReservations[i].projection.id;
+							var formData = JSON.stringify({		//ne salje nesto kako treba, stalno mi null na backendu
+							    user:/*[[${session.loggedUser.getId()}]]*/ '',
+							    projection:userProjection,
+							});
 							$.ajax({
-								url: "/projections/"+userProjection, //dobavi projekciju, pa onda mazni datum od projekcije i poredi s danasnjim, ako je ok, ubacis
-								type: "GET",
-							}).then(function(projection) {
-								
+								url: "/visit/displayVisit",
+								type: "POST",
+								data: formData,
+								contentType: "application/json",
+								success: function() {
+									console.log("Proslo.");
 								/* var d = projection.date;
 								var projectionDate = new Date(d);
 								var projectionMovieId = projection.movie.id;
