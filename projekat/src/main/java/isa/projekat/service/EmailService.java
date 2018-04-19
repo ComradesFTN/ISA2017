@@ -10,6 +10,8 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import isa.projekat.domain.Cinema;
+import isa.projekat.domain.Reservation;
 import isa.projekat.domain.User;
 import isa.projekat.domain.VerificationToken;
 
@@ -65,6 +67,46 @@ public class EmailService {
 
 		System.out.println("Email poslat!");
 	}
+	
+	@Async
+	public void sendReservationInvite(User user, Reservation reservation, User inviter, Cinema cinema, String auditoriumName) throws MailException, InterruptedException { 
+		
+		SimpleMailMessage mail = new SimpleMailMessage();
+		mail.setTo(user.getEmail());
+		mail.setFrom(env.getProperty("spring.mail.username"));
+		mail.setSubject("Obavestenje o pozivu za rezervisane karte");
+		mail.setText("Postovani " + user.getFirstName() + ",\n\n Pozvao vas je "+inviter.getFirstName()+" da idete zajedno na projekciju "+reservation.getProjection().getMovie().getName()+"\n\n Datum : "+reservation.getProjection().getDate()+" Termin : "+reservation.getProjection().getTerm()+" Bioskop : "+cinema.getName()+" Sala: "+auditoriumName+" "
+				+ "\n\n Molimo Vas potvrdite rezervaciju klikom na sledeci link - http://localhost:8080/reservations/reservationConfirmed/"+user.getId()+"/"+inviter.getId()+""
+						+ "\n\n\n\n Ukoliko zelite mozete odbiti rezervaciju klikom na sledeci link - "+"http://localhost:8080/reservations/reservationRejected/"+user.getId()+"/"+inviter.getId()+"/"+reservation.getId());	
+		javaMailSender.send(mail);
+		
+		System.out.println("Email poslat!");
+		System.out.println(mail.getText());
+	}
 
-
+	@Async
+	public void sendReservationInviteConfirmed(User user, User inviter){
+		SimpleMailMessage mail = new SimpleMailMessage();
+		mail.setTo(user.getEmail());
+		mail.setFrom(env.getProperty("spring.mail.username"));
+		mail.setSubject("Obavestenje o pozivu za rezervisane karte");
+		mail.setText("Postovani " + inviter.getFirstName() + ",\n\n Vas prijatelj " + user.getFirstName() + " je prihvatio vas poziv za odlazak na projekciju");
+		javaMailSender.send(mail);
+		
+		System.out.println("Email poslat!");
+		System.out.println(mail.getText());
+	}
+	
+	@Async
+	public void sendReservationInviteRejected(User user, User inviter){
+		SimpleMailMessage mail = new SimpleMailMessage();
+		mail.setTo(user.getEmail());
+		mail.setFrom(env.getProperty("spring.mail.username"));
+		mail.setSubject("Obavestenje o pozivu za rezervisane karte");
+		mail.setText("Postovani " + inviter.getFirstName() + ",\n\n Vas prijatelj " + user.getFirstName() + " je odbio vas poziv za odlazak na projekciju. Rezervacija njegovog mesta je obrisana");
+		javaMailSender.send(mail);
+		
+		System.out.println("Email poslat!");
+		System.out.println(mail.getText());
+	}
 }

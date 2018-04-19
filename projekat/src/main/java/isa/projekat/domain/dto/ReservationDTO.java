@@ -1,19 +1,51 @@
 package isa.projekat.domain.dto;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ReservationDTO {
 	
 	private long projectionId;
 	private long seat;
 	private long userId;
+	private boolean friend;
+	private List<Integer> seats = new ArrayList<Integer>();
+	private long inviterId;
 	
-	public ReservationDTO(long projectionId, long seat, long userId) {	
+	public ReservationDTO(long projectionId, long seat, long userId, boolean friend, List<Integer> seats ) {	
 		this.projectionId = projectionId;
 		this.seat = seat;
 		this.userId = userId;
+		this.friend = friend;
+		this.seats= seats;		
 	}
 	
 	public ReservationDTO(){
 		
+	}
+		
+	public long getInviterId() {
+		return inviterId;
+	}
+
+	public void setInviterId(long inviterId) {
+		this.inviterId = inviterId;
+	}
+
+	public boolean isFriend() {
+		return friend;
+	}
+
+	public void setFriend(boolean friend) {
+		this.friend = friend;
+	}
+
+	public List<Integer> getSeats() {
+		return seats;
+	}
+
+	public void setSeats(List<Integer> seats) {
+		this.seats = seats;
 	}
 
 	public long getProjectionId() {

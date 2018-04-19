@@ -12,5 +12,9 @@ public interface ReservationService {
 	Reservation save(ReservationDTO reservationDTO);
 
 	Reservation findOne(Long id);
+	
+	void Confirm(long userId, long inviterId);
+	
+	void Rejected(long userId, long inviterId, long reservationId);
 
 }

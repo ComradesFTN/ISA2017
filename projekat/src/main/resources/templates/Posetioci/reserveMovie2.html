@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 	<head>
 		<script th:src="@{/scripts/jquery-3.2.1.min.js}"></script>
+		<script th:src="@{/scripts/jquery.tablesorter.js}"></script>	
 		<link rel="stylesheet" th:href="@{/stylesheets/bootstrap.css}">
 		<meta charset="UTF-8">
 		<title>Rezervacija filma</title>		
@@ -18,6 +19,63 @@
 				projId = getUrlParameter('id');
 				cols = getUrlParameter('cols');
 				rows = getUrlParameter('rows');
+				$(".table").tablesorter(); 
+				$.ajax({
+					url: "/getFriendRequests",
+					type: "GET",
+				}).then(function(data) {
+							if (data === undefined) {
+								console.log("Data empty.");
+							} else {
+								var loggedUser = /*[[${session.loggedUser.getId()}]]*/ '';
+								for(i = 0; i < data.length; i++) {
+									if(loggedUser === data[i].userId) { 
+										if(data[i].accepted) {
+											var id = data[i].friendId;
+											var frReqId = data[i].id;
+											$.ajax({
+												url: "/users/" + id,
+												type: "GET",
+												success: function(user) {
+													newRow = 
+														"<tr>"
+															+ "<td>" + user.firstName + "</td>"
+															+ "<td>" + user.lastName + "</td>"
+															+ '<td><input type="checkbox" class="prijatelji" data-id="'+user.id+'"></td>'	
+															
+														+ "</tr>"
+														$("#tableBody").append(newRow)
+														$(".table").trigger("update");
+												}
+											});
+										}
+									} else if(loggedUser === data[i].friendId) {
+										if(data[i].accepted) {
+											var id = data[i].userId;
+											var frReqId = data[i].id;
+											$.ajax({
+												url: "/users/" + id,
+												type: "GET",
+												success: function(user) {
+													newRow = 
+														"<tr>"
+															+ "<td>" + user.firstName + "</td>"
+															+ "<td>" + user.lastName + "</td>"
+															+ '<td><input type="checkbox" class="prijatelji" data-id="'+user.id+'"></td>'															
+														+ "</tr>"
+														$("#tableBody").append(newRow)
+														$(".table").trigger("update");
+												}
+											});
+											
+										}
+									}
+								}
+							}
+							
+						}
+					);
+				
 				$.ajax({
 					url : "http://localhost:8080/projections/getSeats/"+projId,
 					success : function(data){
@@ -29,16 +87,19 @@
 								for(j=1;j<=cols;j++){
 									index+=1;
 									classText ="";
+									disabledText="";
 									if(mesta[index]===0){
-										classText='btn-dark disabled'
+										classText='btn-dark';
+										disabledText="disabled";
 									}
 									else if(mesta[index]===1){
-										classText='btn-secondary'
+										classText='btn-secondary';
 									}
 									else if(mesta[index]===2){
-										classText='btn-warning disabled'
+										classText='btn-warning';
+										disabledText="disabled";
 									}	
-									newRow+= '   				    <button type="button" class="seat '+classText+'" data-id="'+index+'">'+j+'</button>  ' 
+									newRow+= '   				    <button type="button" class="seat '+classText+'" data-id="'+index+'" '+disabledText+'>'+j+'</button>  ' 
 								}
 								newRow+= '   				 </div>  '  + 
 								 '  			</div>  ' ; 
@@ -47,34 +108,136 @@
 						}
 				});
 				$("#dalje").click(function(event) {
+					event.preventDefault();
 					rezervacije=$(document).data('rezervacije');
+					if(rezervacije.length===0){
+						alert("Izaberite mesto za rezervaciju");
+						return;
+					}
+					if($("#prijatelji").is(':checked')){
+						checkboxes=$('.prijatelji:checkbox:checked')
+						if(checkboxes.length>rezervacije.length){
+							alert("Morate izabrati vise mesta za svoje prijatelje");
+							return;
+						}
+					}
 					text="";
 					for(i=0;i<rezervacije.length;i++){
 						text+=rezervacije[i]+' ';
 					}
 					var loggedUser = /*[[${session.loggedUser.getId()}]]*/ '';
-					var confirmed = confirm("Izabrali ste mesta : "+text+" - Potvrdite")
+					var confirmed = confirm("Izabrali ste mesta : "+text+" - Potvrdite");
 					if(confirmed){
-						if(rezervacije.length===1){
-							$.ajax({
-								var formData = JSON.stringify({
-									projectionId : projId,
-									seat : rezervacije[0],
-									userId : loggedUser,									
-								});
-								url : "http://localhost:8080/reservations/",
+						if(rezervacije.length===0){
+							alert("Izaberite mesto za rezervaciju");
+							return;
+						}
+						else{
+							mesto=parseInt(rezervacije[0])+1;
+							var formData = JSON.stringify({
+								projectionId : projId,
+								seat : mesto,
+								userId : loggedUser,	
+								seats : $(document).data('mesta'),
+								friend : false,
+							});
+							$.ajax({								
+								url : "http://localhost:8080/reservations/addReservation",
 								type : "POST",
+								async : false,
 								data: formData,
 								contentType: "application/json",
 								success: function(data){
-									alert("Rezervacija je uspesno zavrsena")
-									window.location.href = "http://localhost:8080/Posetioci/ticketReservations.html";
+									console.log("Uspesna rezervacija");
 								}
 							});
+							if(rezervacije.length===1){
+								alert("Rezervacija je uspesno zavrsena");									
+								window.location.href = "http://localhost:8080/Posetioci/ticketReservations.html";
+							}
+							else{
+								if($("#prijatelji").is(':checked')){
+									checkboxes=$('.prijatelji:checkbox:checked')
+									if(checkboxes.length>rezervacije.length){
+										alert("Morate izabrati vise mesta za svoje prijatelje");
+										return;
+									}
+									for(i=0;i<checkboxes.length;i++){
+										mesto=parseInt(rezervacije[i+1])+1;
+										frId=checkboxes[i].dataset.id
+										var formData = JSON.stringify({
+											projectionId : projId,
+											seat : mesto,
+											userId : frId,												
+											seats : $(document).data('mesta'),
+											friend : true,
+											inviterId : loggedUser,
+										});
+										$.ajax({								
+											url : "http://localhost:8080/reservations/addReservation",
+											type : "POST",
+											async : false,
+											data: formData,
+											contentType: "application/json",
+											success: function(data){
+													console.log("Uspesna rezervacija");
+												}
+										});
+									}
+									if(checkboxes.length<rezervacije.length-1){
+										for(i=checkboxes.length+1;i<rezervacije.length;i++){
+											mesto=parseInt(rezervacije[i])+1;
+											var formData = JSON.stringify({
+												projectionId : projId,
+												seat : mesto,
+												userId : loggedUser,	
+												seats : $(document).data('mesta'),
+												friend : false,
+											});
+											$.ajax({								
+												url : "http://localhost:8080/reservations/addReservation",
+												type : "POST",
+												async : false,
+												data: formData,
+												contentType: "application/json",
+												success: function(data){
+														console.log("Uspesna rezervacija");
+													}
+											});
+										}	
+									}
+									alert("Rezervacija je uspesno zavrsena");									
+									window.location.href = "http://localhost:8080/Posetioci/ticketReservations.html";
+									
+								}
+								else{
+									for(i=1;i<rezervacije.length;i++){
+										mesto=parseInt(rezervacije[i])+1;
+										var formData = JSON.stringify({
+											projectionId : projId,
+											seat : mesto,
+											userId : loggedUser,	
+											seats : $(document).data('mesta'),
+											friend : false,
+										});
+										$.ajax({								
+											url : "http://localhost:8080/reservations/addReservation",
+											type : "POST",
+											async : false,
+											data: formData,
+											contentType: "application/json",
+											success: function(data){
+													console.log("Uspesna rezervacija");
+												}
+										});
+									}
+									alert("Rezervacija je uspesno zavrsena");									
+									window.location.href = "http://localhost:8080/Posetioci/ticketReservations.html";
+								}							
+							}							
 						}
-						else{
-							alert("Za sada samo bleja");
-						}
+						
+						
 					}
 				});
 			});
@@ -145,28 +308,46 @@
 				</li>					
 			</ul>
 			<a class="nav-link mr-0 text-white" href="/index.html">Odjava</a>
-		</div>	
-		<div class="container col-md-4 mt-5 text-center">
-			<div class="row">
-				<div class="btn-group mx-auto"> 
-				    <button type="button" class="btn btn-dark">Nedostupno mesto</button>
-				    <button type="button" class="btn btn-secondary">Slobodno mesto</button>
-				    <button type="button" class="btn btn-warning">Rezervisano mesto</button>
-				 </div>
+		</div>			
+		<div class="row">
+			<div class="col-md-4 col-md-offset-1 mx-auto text-center">
+				<div class="container col-md-4 mt-5 text-center">
+					<div class="row">
+						<div class="btn-group mx-auto"> 
+						    <button type="button" class="btn btn-dark">Nedostupno mesto</button>
+						    <button type="button" class="btn btn-secondary">Slobodno mesto</button>
+						    <button type="button" class="btn btn-warning">Rezervisano mesto</button>
+						 </div>
+					</div>
+				</div>
+				<br/>
+				<div id="sala" class="container col-md-4 mt-5 text-center">			
+					
+				</div>		
+				<div class="container col-md-4 mt-5 text-center">			
+					<div class="row">		
+						<div class="mx-auto"> 
+						    <form>
+						    	<input type="checkbox" class="ml-2" id="prijatelji"> Pozvacu prijatelje 
+				    			<input type="submit" id="dalje" value="Rezervisi" class="btn btn-danger" />
+				    		</form>
+			    		</div>	   
+					 </div>
+				</div>
 			</div>
-		</div>
-		<br/>
-		<div id="sala" class="container col-md-4 mt-5 text-center">			
-			
-		</div>
-		<div class="container col-md-4 mt-5 text-center">			
-			<div class="row">		
-				<div class="mx-auto"> 
-				    <form>
-		    			<input type="submit" id="dalje" value="Rezervisi" class="btn btn-danger" />
-		    		</form>
-	    		</div>	   
-			 </div>
+			<div class="mt-5 col-md-4 col-md-offset-3 mx-auto text-center">
+				<table class="table" id="table">
+				<thead class="thead-dark">
+					<tr>
+						<th>Ime</th>
+						<th>Prezime</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody id="tableBody">
+				</tbody>
+				</table>
+			</div>
 		</div>
 	</body>
 </html>

@@ -55,7 +55,7 @@ public class MovieServiceImpl implements MovieService {
 	@Override
 	public Movie save(Movie movie) {
 		
-		if(!movie.getPoster().contains("Bez")) {			
+		if(!movie.getPoster().contains("Bez slike")) {			
 			if(!movie.getPoster().contains("imagesAd")) {
 				if(this.findOne(movie.getId())!=null) {
 					if(this.findOne(movie.getId()).getPoster().contains("Bez")) {
