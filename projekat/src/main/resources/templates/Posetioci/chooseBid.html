@@ -14,14 +14,19 @@
 				}).then(
 						function(data) {
 							podaci = data;
-							for(i=0;i<data.bids.length;i++){
-								newRow = 
-									"<tr>"
-										+ "<td>" + data.bids[i].price + "</td>"
-										+ "<td><button   class=\"btn btn-danger chooseBid\" href='/userAd/chooseBid/" +podaci.id+ "/" + data.bids[i].userId + "'  >Odaberi</button></td>"
-									+ "</tr>"
-								$("#tableBody").append(newRow)
-							}
+							$.ajax({
+								url : "http://localhost:8080/userAd/getBids/"+id
+							}).then(
+									function(data) {
+										for(i=0;i<data.length;i++){
+											newRow = 
+												"<tr>"
+													+ "<td>" + data[i].price + "</td>"
+													+ "<td><button   class=\"btn btn-danger chooseBid\" href='/userAd/chooseBid/" +podaci.id+ "/" + data[i].userId + "'  >Odaberi</button></td>"
+												+ "</tr>"
+											$("#tableBody").append(newRow)
+										}
+									});
 						});
 			});
 			var getUrlParameter = function getUrlParameter(sParam) {

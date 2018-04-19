@@ -6,13 +6,14 @@
 		<meta charset="UTF-8">
 		<title>Fan Zona</title>
 		<script th:inline="javascript">
+		var userId;
 			$(document).ready(function(){
 				$.ajax({
 					url : "http://localhost:8080/officialAd/getOfficialAds"
 				}).then(
 						function(data) {
 							/*<![CDATA[*/
-							var userId = /*[[${session.loggedUser.getId()}]]*/ 'id' 
+							userId = /*[[${session.loggedUser.getId()}]]*/ 'id' 
 							var provera ="Bez";
 							for (i = 0; i < data.length; i++) {
 								if(data[i].image.toString().indexOf(provera) != -1){
@@ -128,7 +129,7 @@
 					<a class="nav-link text-white" href="cinemasPage.html">Rezervacije</a>
 				</li>	
 				<li class="nav-item">
-					<a class="nav-link text-white" href="cinemasPage.html">Podesavanja</a>
+					<a class="nav-link text-white" href="settings.html">Podesavanja</a>
 				</li>	
 				<li class="nav-item">
 					<a class="nav-link active text-danger" href="fanZonaPage">Fan Zona</a>

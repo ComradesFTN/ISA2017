@@ -3,7 +3,9 @@ package isa.projekat.controller;
 import java.awt.image.BufferedImage;
 import java.io.FileOutputStream;
 import java.util.Base64;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.xml.bind.DatatypeConverter;
 
@@ -52,6 +54,13 @@ public class UserAdController {
 	public ResponseEntity<UserAd> getUserAd(@PathVariable Long id) {
 		UserAd userAd = userAdService.findOne(id);
 		return new ResponseEntity<>(userAd, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/getBids/{id}", method = RequestMethod.GET )
+	public ResponseEntity<Set<Bid>> getBids(@PathVariable Long id) {
+		UserAd userAd = userAdService.findOne(id);
+		Set<Bid> bids= userAd.getBids();	
+		return new ResponseEntity<>(bids, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)

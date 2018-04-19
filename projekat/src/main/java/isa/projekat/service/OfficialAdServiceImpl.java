@@ -25,11 +25,11 @@ public class OfficialAdServiceImpl implements OfficialAdService{
 
 	@Override
 	public OfficialAd save(OfficialAd officialAd) {
-		if(!officialAd.getImage().contains("Bez")) {
-			System.out.println("h"+officialAd.getImage()+"h");
+		if(officialAd.getImage().contains("Bez slike")==false) {
+			System.out.println("h"+officialAd.getImage()+"h"+"NADJI ME!!!!!!!!!!!!");
 			if(!officialAd.getImage().contains("imagesAd")) {
 				if(this.findOne(officialAd.getId())!=null) {
-					if(this.findOne(officialAd.getId()).getImage().contains("Bez")) {
+					if(this.findOne(officialAd.getId()).getImage().contains("Bez slike")) {
 						String pathFile = "C:\\Users\\HP\\git\\ISA2017\\projekat\\src\\main\\resources\\static\\imagesAd\\zvanicniOglas"+System.currentTimeMillis()+".jpg";
 						decoder(officialAd.getImage(), pathFile);
 						String splitPath[] = pathFile.split("static\\\\");
@@ -50,7 +50,7 @@ public class OfficialAdServiceImpl implements OfficialAdService{
 			}
 		}
 		
-		
+		System.out.println("h"+officialAd.getImage()+"h"+"NADJI ME2!!!!!!!!!!!!");
 		return officialAdRepository.save(officialAd);
 	}
 

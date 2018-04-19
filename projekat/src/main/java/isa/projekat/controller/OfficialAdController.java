@@ -44,6 +44,7 @@ public class OfficialAdController {
 		OfficialAd officialAd = officialAdService.findOne(id);
 		officialAd.setReserved(userId);
 		OfficialAd reservedOfficialAd = officialAdService.save(officialAd);
+		System.out.println("OVDE SAM USAO!");
 		return new ResponseEntity<>(reservedOfficialAd, HttpStatus.OK);
 	}
 	

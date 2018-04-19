@@ -17,6 +17,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity(name="PolovniOglas")
 public class UserAd {
 	
@@ -44,6 +46,7 @@ public class UserAd {
 	private long creatorId;
 
 	@ElementCollection
+	@JsonIgnore
 	@CollectionTable(name = "Ponude",joinColumns = @JoinColumn(name = "userAd_id", referencedColumnName = "id"))
 	@AttributeOverrides({
         @AttributeOverride(name = "userId", column = @Column(name = "Ponudjac")),

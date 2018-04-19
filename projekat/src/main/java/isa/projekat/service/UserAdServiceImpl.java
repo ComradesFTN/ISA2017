@@ -32,7 +32,7 @@ public class UserAdServiceImpl implements UserAdService{
 	@Override
 	public UserAd save(UserAd userAd, Boolean aprove) {
 		if(aprove==false) {
-			if(userAd.getImage()!="Bez slike") {
+			if(userAd.getImage().contains("Bez slike")==false) {
 				String pathFile = "C:\\Users\\HP\\git\\ISA2017\\projekat\\src\\main\\resources\\static\\imagesAd\\slikaOglas"+System.currentTimeMillis()+".jpg";
 				decoder(userAd.getImage(), pathFile);
 				String splitPath[] = pathFile.split("static\\\\");

@@ -79,7 +79,7 @@
 												+ "<td>" + data[i].price + "</td>"
 												+ "<td>" + data[i].description + "</td>"
 												+ "<td><button   class=\"btn btn-danger delete\" href='/officialAd/" + data[i].id + "' >Ukloni</button></td>"
-												+ "<td><a th:href='updateOfficialAd.html?id=" + data[i].id + "' >Izmeni</a></td>"
+												+ "<td><a href='updateOfficialAd.html?id=" + data[i].id + "' >Izmeni</a></td>"
 											+ "</tr>"
 										$("#tableBody").append(newRow)
 									}
@@ -92,7 +92,7 @@
 												+ "<td>" + data[i].price + "</td>"
 												+ "<td>" + data[i].description + "</td>"
 												+ "<td><button   class=\"btn btn-danger delete\" href='/officialAd/" + data[i].id + "' >Ukloni</button></td>"
-												+ "<td><a th:href='updateOfficialAd.html?id=" + data[i].id + "' >Izmeni</a></td>"
+												+ "<td><a href='updateOfficialAd.html?id=" + data[i].id + "' >Izmeni</a></td>"
 											+ "</tr>"
 										$("#tableBody").append(newRow)
 									}
@@ -115,31 +115,28 @@
 			</ul>
 			<a class="nav-link mr-0 text-white" href="/index.html">Odjava</a>
 		</div>
-		<nav class="navbar navbar-expand-md bg-dark">
-			    <div class="mx-auto order-0 w-50">
-			        <div class="nav nav-pills bg-dark flex-row justify-content-end">
-						<ul class="nav nav-tabs bg-danger flex-row">			
+		<nav class="navbar bg-dark row">
+			<div class="col-sm">
+						
+			</div>	    
+			<div class="col">
+				<div class="nav nav-pills bg-dark">
+						<ul class="nav nav-tabs bg-danger">			
 							<li class="nav-item">
-								<a class="nav-link active bg-light text-danger" th:href="adminFanZona">Zvanicna prodavnica</a>				
+								<a class="nav-link active bg-light text-danger" href="adminFanZona">Zvanicna prodavnica</a>				
 							</li>
 							<li class="nav-item">
-								<a class="nav-link text-white" th:href="adminUsedAd">Oglasi</a>
+								<a class="nav-link text-white" href="adminUsedAd">Oglasi</a>
 							</li>
 						</ul>
 					</div>
-			    </div>
-			    <div class="navbar-collapse collapse w-25 order-3 dual-collapse2">
-			        <ul class="navbar-nav ml-auto flex-row">
-			            <li class="nav-item">
-							<nav class="navbar navbar-light bg-dark">
-	  							<form class="form-inline">
-					    			<input class="form-control mr-sm-2" id="searchField" type="text" placeholder="Trazi po nazivu">
-					    			<button class="btn btn-outline-success my-2 my-sm-0 searchButton" type="submit">Trazi</button>
-	  							</form>
-							</nav>
-			            </li>
-			        </ul>
-			    </div>
+			</div> 
+			<div class="col-6-sm">
+	  			<form class="form-inline">
+					   <input class="form-control mr-sm-2" id="searchField" type="text" placeholder="Trazi po nazivu">
+					  <button class="btn btn-outline-success my-2 my-sm-0 searchButton" type="submit">Trazi</button>
+	  			</form>
+			</div>   
 		</nav>
 			<div>
 				 <div class="row">
