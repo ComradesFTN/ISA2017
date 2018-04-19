@@ -8,11 +8,13 @@ import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -51,6 +53,10 @@ public class Projection {
 	
 	@Column(name="termin")
 	private String term;	
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "projection")
+	@JsonIgnoreProperties("projection")
+	private List<Reservation> reservations = new ArrayList<Reservation>();
 	
 	public Projection() {
 		
@@ -103,6 +109,15 @@ public class Projection {
 	public void setId(long id) {
 		this.id = id;
 	}
+
+	public List<Reservation> getReservations() {
+		return reservations;
+	}
+
+	public void setReservations(List<Reservation> reservations) {
+		this.reservations = reservations;
+	}
+	
 	
 	
 	

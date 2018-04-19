@@ -5,128 +5,103 @@
 		<link rel="stylesheet" th:href="@{/stylesheets/bootstrap.css}">
 		<meta charset="UTF-8">
 		<title>Rezervacija filma</title>		
-		<script>
+		<script th:inline="javascript">
+		/*<![CDATA[*/
 			var id;	//?
-			var projectionId
-			var filmId;
-			var saleId=[];
-			var sale=[];
-			var termini=[];
+			var cols;
+			var rows;
+			var projId;
 			var index=-1;
-			var film;
-			var mesta=[];
-			$(document).ready(function(){				
-				projectionId = getUrlParameter('id');	
-				filmId = getUrlParameter('filmId');
-				$("#home").attr("href", "cinemaDetails.html?id="+id);
-				$("#repertoar").attr("href", "cinemaRepertoar.html?id="+id);
+			$(document).ready(function(){	
+				rezervacije=[];				
+				$(document).data('rezervacije',rezervacije);
+				projId = getUrlParameter('id');
+				cols = getUrlParameter('cols');
+				rows = getUrlParameter('rows');
 				$.ajax({
-					url : "http://localhost:8080/movies/"+filmId
-				}).then(
-						function(data){
-							film=data;
-							$("#naslov").text("Rezervacija za film "+data.name);
-							for(i=0;i<data.auditoriums.length;i++){
-								newOption = '<option>'+data.auditoriums[i].name+'</option>';
-								sale.push(data.auditoriums[i]);
-								$("#inputAuditoriums").append(newOption);
-							}
-							for(i=0;i<data.term.length;i++){
-								newOption = '<option>'+data.term[i]+'</option>';
-								termini.push(data.term[i]);
-								$("#inputTerms").append(newOption);
-							}
-						});
-				$("#draw").click(function(event) {
-					event.preventDefault();				
-					if($("#inputDate").val()===""){
-						alert("Izaberite validan datum");
-						return;
-					}
-					var UserDate = $("#inputDate").val();				
-					var salaName=$("#inputAuditoriums option:selected").text();
-					var salaId=0;
-					var sala;
-					for(i=0;i<sale.length;i++){
-						if(sale[i].name===salaName){
-							salaId=sale[i].id;
-							sala=sale[i];
-							break;
-						}
-					}
-					var movie=film;					
-					var termin=$("#inputTerms option:selected").text(); 
-					var projection;
-					var filmId=movie.id;
-					$.ajax({
-						url : "http://localhost:8080/projections/getProjections",
-						async: false
-					}).then(
-							function(data){	
-								for(i=0;i<data.length;i++){
-									if(data[i].auditorium_id===salaId && data[i].term===termin && data[i].date===UserDate ) { 
-										projectionId=data[i].id;
-										break;
+					url : "http://localhost:8080/projections/getSeats/"+projId,
+					success : function(data){
+							mesta=data;
+							$(document).data('mesta',data);						
+							for(i=1;i<=rows;i++){
+								newRow=  '   <div class="row">  '  + 
+								 '   				<div class="btn-group mx-auto">  ';
+								for(j=1;j<=cols;j++){
+									index+=1;
+									classText ="";
+									if(mesta[index]===0){
+										classText='btn-dark disabled'
 									}
-								}	
-								window.location.href = 'http://localhost:8080/Posetioci/reserveMovie2.html?id='+projectionId;
-								
-							});
-					
-					/* mesta=$(document).data('mesta');
-					for(i=1;i<=sala.rows;i++){
-						newRow=  '   <div class="row">  '  + 
-						 '   				<div class="btn-group mx-auto">  ';
-						for(j=1;j<=sala.columns;j++){
-							index+=1;
-							classText ="";
-							if(mesta[index]===0){
-								classText='btn-dark disabled'
+									else if(mesta[index]===1){
+										classText='btn-secondary'
+									}
+									else if(mesta[index]===2){
+										classText='btn-warning disabled'
+									}	
+									newRow+= '   				    <button type="button" class="seat '+classText+'" data-id="'+index+'">'+j+'</button>  ' 
+								}
+								newRow+= '   				 </div>  '  + 
+								 '  			</div>  ' ; 
+								$("#sala").append(newRow);
 							}
-							else if(mesta[index]===1){
-								classText='btn-secondary'
-							}
-							else if(mesta[index]===2){
-								classText='btn-warning'
-							}	
-							newRow+= '   				    <button type="button" class="seat '+classText+'" data-id="'+index+'">'+j+'</button>  ' 
 						}
-						newRow+= '   				 </div>  '  + 
-						 '  			</div>  ' ; 
-						$("#sala").append(newRow);	 */				
+				});
+				$("#dalje").click(function(event) {
+					rezervacije=$(document).data('rezervacije');
+					text="";
+					for(i=0;i<rezervacije.length;i++){
+						text+=rezervacije[i]+' ';
+					}
+					var loggedUser = /*[[${session.loggedUser.getId()}]]*/ '';
+					var confirmed = confirm("Izabrali ste mesta : "+text+" - Potvrdite")
+					if(confirmed){
+						if(rezervacije.length===1){
+							$.ajax({
+								var formData = JSON.stringify({
+									projectionId : projId,
+									seat : rezervacije[0],
+									userId : loggedUser,									
+								});
+								url : "http://localhost:8080/reservations/",
+								type : "POST",
+								data: formData,
+								contentType: "application/json",
+								success: function(data){
+									alert("Rezervacija je uspesno zavrsena")
+									window.location.href = "http://localhost:8080/Posetioci/ticketReservations.html";
+								}
+							});
+						}
+						else{
+							alert("Za sada samo bleja");
+						}
 					}
 				});
-			});	
-			/* $(document).on("click", ".seat", function(event){
+			});
+				
+			 $(document).on("click", ".seat", function(event){
 				event.preventDefault();
 				mesta = $(document).data('mesta');
 				index=$(this).attr("data-id");
 				classText="";
 				if(mesta[index]===2){	
 					mesta[index]=1;
+					rezervacije=$(document).data('rezervacije');
+					rezervacije.splice($.inArray(index,rezervacije),1)
+					$(document).data('rezervacije',rezervacije);
 					classText='seat btn-secondary';				
 				}
 				else if(mesta[index]===1){
 					mesta[index]=2;
+					rezervacije=$(document).data('rezervacije');
+					rezervacije.push(index);
+					$(document).data('rezervacije',rezervacije);
 					classText='seat btn-warning';				
 				}
 				$(document).data('mesta', mesta);
-				$(this).attr("class",classText);
-			}); */
-			
-			function TDate() {
-			    var UserDate = $("#inputDate").val();
-			    var ToDate = new Date();
-				var maxDate= new Date();
-				maxDate.setDate(maxDate.getDate()+10)
-			    if (new Date(UserDate).getTime() <= ToDate.getTime() || new Date(UserDate).getTime() > maxDate.getTime() ) {
-			          alert("Izaberite datum u rasponu od narednih 10 dana (bez danasnjeg)");
-			          $("#inputDate").val("");
-			          return false;
-			     }			   
-			    return true;
-			}
-			
+				$(this).attr("class",classText);				
+			}); 
+			 
 			var getUrlParameter = function getUrlParameter(sParam) {
 			    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
 			        sURLVariables = sPageURL.split('&'),
@@ -141,6 +116,7 @@
 			        }
 			    }
 			};			
+			/*]]>*/
 		</script>	
 	</head>	
 	<body class="bg-light">			
@@ -187,7 +163,7 @@
 			<div class="row">		
 				<div class="mx-auto"> 
 				    <form>
-		    			<input type="submit" value="Dalje" class="btn btn-danger" />
+		    			<input type="submit" id="dalje" value="Rezervisi" class="btn btn-danger" />
 		    		</form>
 	    		</div>	   
 			 </div>

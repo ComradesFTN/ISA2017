@@ -11,10 +11,14 @@ import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /*0 - Registrovani korisnik	
 1 - admin fan zone		
@@ -54,6 +58,10 @@ public class User {
 	
 	@Column(name = "PrviPut",columnDefinition="BOOLEAN")
 	private Boolean firstTime;
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+	@JsonIgnoreProperties("user")
+	private List<Reservation> reservations = new ArrayList<Reservation>();
 	
 	public User() {
 		this.enabled = false;
@@ -155,4 +163,12 @@ public class User {
 		this.firstTime = firstTime;
 	}
 
+	public List<Reservation> getReservations() {
+		return reservations;
+	}
+
+	public void setReservations(List<Reservation> reservations) {
+		this.reservations = reservations;
+	}
+	
 }

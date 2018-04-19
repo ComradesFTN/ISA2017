@@ -42,7 +42,6 @@ public class ProjectionController {
 	public ResponseEntity<List<Integer>> getSeats(@PathVariable Long id) {
 		Projection projection = projectionService.findOne(id);
 		List<Integer> seats = projection.getSeats();
-		System.out.println(projection.getDate());
 		return new ResponseEntity<>(seats, HttpStatus.OK);
 	}
 	

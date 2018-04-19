@@ -274,4 +274,9 @@ public class IndexController {
 	public String reserveMovie2() {
 		return "Posetioci/reserveMovie2";
 	}
+	
+	@GetMapping("/Posetioci/ticketReservations")
+	public String ticketReservations() {
+		return "Posetioci/ticketReservations";
+	}
 }

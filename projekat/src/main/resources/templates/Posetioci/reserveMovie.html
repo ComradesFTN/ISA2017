@@ -56,62 +56,25 @@
 					var movie=film;					
 					var termin=$("#inputTerms option:selected").text(); 
 					var projection;
+					var projectionId=0;
 					var filmId=movie.id;
 					$.ajax({
 						url : "http://localhost:8080/projections/getProjections",
-						async: false
-					}).then(
+						async : false,
+						success :
 							function(data){	
 								for(i=0;i<data.length;i++){
-									if(data[i].auditorium_id===salaId && data[i].term===termin && data[i].date===UserDate ) { 
+									if(data[i].auditoriumId===salaId && data[i].term===termin && data[i].date===UserDate ) { 
 										projectionId=data[i].id;
 										break;
 									}
 								}	
-								window.location.href = 'http://localhost:8080/Posetioci/reserveMovie2.html?id='+projectionId;
+								window.location.href = 'http://localhost:8080/Posetioci/reserveMovie2.html?id='+projectionId+'&rows='+sala.rows+'&cols='+sala.columns;
 								
-							});
-					
-					/* mesta=$(document).data('mesta');
-					for(i=1;i<=sala.rows;i++){
-						newRow=  '   <div class="row">  '  + 
-						 '   				<div class="btn-group mx-auto">  ';
-						for(j=1;j<=sala.columns;j++){
-							index+=1;
-							classText ="";
-							if(mesta[index]===0){
-								classText='btn-dark disabled'
 							}
-							else if(mesta[index]===1){
-								classText='btn-secondary'
-							}
-							else if(mesta[index]===2){
-								classText='btn-warning'
-							}	
-							newRow+= '   				    <button type="button" class="seat '+classText+'" data-id="'+index+'">'+j+'</button>  ' 
-						}
-						newRow+= '   				 </div>  '  + 
-						 '  			</div>  ' ; 
-						$("#sala").append(newRow);	 */				
-					}
+					});
 				});
-			});	
-			/* $(document).on("click", ".seat", function(event){
-				event.preventDefault();
-				mesta = $(document).data('mesta');
-				index=$(this).attr("data-id");
-				classText="";
-				if(mesta[index]===2){	
-					mesta[index]=1;
-					classText='seat btn-secondary';				
-				}
-				else if(mesta[index]===1){
-					mesta[index]=2;
-					classText='seat btn-warning';				
-				}
-				$(document).data('mesta', mesta);
-				$(this).attr("class",classText);
-			}); */
+			});				
 			
 			function TDate() {
 			    var UserDate = $("#inputDate").val();
