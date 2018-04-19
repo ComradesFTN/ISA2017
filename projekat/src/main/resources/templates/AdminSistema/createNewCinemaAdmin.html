@@ -96,21 +96,15 @@
 			$("input[type='submit']").click(function(event) {
 				event.preventDefault();
 				function validate() {
-				    if ($('#inputName').val() == "" || $('#inputDescription').val() == "") {
-				        alert("Pri kreiranju oglasa, obavezna polja su naziv, opis i cena.");
-				        $('#inputName').focus();
+					if (($('#inputName').val()) == "" || ($('#inputEmail').val() == "") || ($('#inputPass').val() == "") || ($('#inputLastName').val() == "") || ($('#inputCity').val() == "") || ($('#inputPhone').val() == "")) {
+				        alert("Pri kreiranju admina molimo vas da popunite sva polja!.");
 				        return false;
-				    }
-				    if($('#inputPrice').val()==""){
-				    	alert("Cena mora biti broj bez dodatnih znakova!");
-					    $('#inputPrice').focus();
-					    return false;
 				    }
 				    return true;
 				}
-				/* if(!validate()) {
+				 if(!validate()) {
 					return;
-				} */
+				} 
 				var formData = JSON.stringify({
 					email:$("#inputEmail").val(),
 					password:$("#inputPass").val(),

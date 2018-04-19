@@ -19,7 +19,7 @@
 					<a class="nav-link text-white" href="cinemasPage.html">Bioskopi</a>
 				</li>	
 				<li class="nav-item">
-					<a class="nav-link active text-danger" th:href="settings.html">Podesavanja</a>
+					<a class="nav-link active text-danger" th:href="updateAdmin.html">Podesavanja</a>
 				</li>						
 			</ul>
 			<a class="nav-link mr-0 text-white" href="/index.html">Odjava</a>
@@ -118,6 +118,7 @@
 							firstName:$("#name").val(),
 							lastName:$("#lastname").val(),
 							city:$("#grad").val(),
+							firstTime:false,
 							phone:$("#brtel").val(),
 						});
 						/*]]>*/
@@ -129,7 +130,7 @@
 							datatype: "text/html",
 							success: function(data){
 								console.log("Ajax zahtev za update user infoa.");
-								window.location.href = "http://localhost:8080/Posetioci/homePage.html";
+								window.location.href = "http://localhost:8080/AdminPozoristaBioskopi/homePage.html";
 								
 							}
 						});

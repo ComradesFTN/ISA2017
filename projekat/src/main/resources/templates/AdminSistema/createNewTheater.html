@@ -89,21 +89,15 @@
 			$("input[type='submit']").click(function(event) {
 				event.preventDefault();
 				function validate() {
-				    if ($('#inputName').val() == "" || $('#inputDescription').val() == "") {
-				        alert("Pri kreiranju oglasa, obavezna polja su naziv, opis i cena.");
-				        $('#inputName').focus();
+					if (($('#inputName').val() == "") || ($('#inputDescription').val() == "") || ($('#address').val() == "") || ($('#inputLat').val() == "") || ($('#inputLng').val() == "")) {
+				        alert("Pri kreiranju bioskopa morate popuniti sva polja, ako su polja geografske sirine i duzine prazna, znaci da adresu niste uneli isparvno!");
 				        return false;
-				    }
-				    if($('#inputPrice').val()==""){
-				    	alert("Cena mora biti broj bez dodatnih znakova!");
-					    $('#inputPrice').focus();
-					    return false;
-				    }
+					}
 				    return true;
 				}
-				/* if(!validate()) {
+				 if(!validate()) {
 					return;
-				} */
+				} 
 				var test = $("#inputLng").val();
 				var formData = JSON.stringify({
 					name:$("#inputName").val(),
