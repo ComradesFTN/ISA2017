@@ -269,4 +269,9 @@ public class IndexController {
 	public String createFanZoneAdmin() {
 		return "AdminSistema/createFanZoneAdmin";
 	}
+	
+	@GetMapping("/Posetioci/reserveMovie2")
+	public String reserveMovie2() {
+		return "Posetioci/reserveMovie2";
+	}
 }

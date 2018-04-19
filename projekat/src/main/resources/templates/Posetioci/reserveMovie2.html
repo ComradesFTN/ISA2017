@@ -6,7 +6,8 @@
 		<meta charset="UTF-8">
 		<title>Rezervacija filma</title>		
 		<script>
-			var id;	
+			var id;	//?
+			var projectionId
 			var filmId;
 			var saleId=[];
 			var sale=[];
@@ -15,7 +16,7 @@
 			var film;
 			var mesta=[];
 			$(document).ready(function(){				
-				id = getUrlParameter('id');	
+				projectionId = getUrlParameter('id');	
 				filmId = getUrlParameter('filmId');
 				$("#home").attr("href", "cinemaDetails.html?id="+id);
 				$("#repertoar").attr("href", "cinemaRepertoar.html?id="+id);
@@ -152,7 +153,7 @@
 					<a class="nav-link text-white" href="homePage.html">Home</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link active text-danger">Bioskopi</a>
+					<a class="nav-link text-white" th:href="cinemasPage.html">Bioskopi</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link text-white" th:href="friends.html">Prijatelji</a>
@@ -168,56 +169,28 @@
 				</li>					
 			</ul>
 			<a class="nav-link mr-0 text-white" href="/index.html">Odjava</a>
-		</div>		
-			<nav class="navbar bg-dark justify-content-center">
-		    <div>
-		        <div class="nav nav-pills bg-dark flex-row">
-					<ul class="nav nav-tabs bg-danger flex-row ">	
-						<li class="nav-item">
-							<a class="nav-link text-white" id="home" href="#">Home</a>				
-						</li>		
-						<li class="nav-item">
-							<a class="nav-link text-white" id="repertoar" href="#">Repertoar</a>				
-						</li>
-						<li class="nav-item">
-							<a class="nav-link text-white" href="cinemaPopusti.html">Popusti</a>
-						</li>
-					</ul>
-				</div>
-		    </div>
-		</nav>
-		<div class="container col-md-4 mt-5">
-			<div class="text-center">				
-				<h1 id="naslov"></h1>
+		</div>	
+		<div class="container col-md-4 mt-5 text-center">
+			<div class="row">
+				<div class="btn-group mx-auto"> 
+				    <button type="button" class="btn btn-dark">Nedostupno mesto</button>
+				    <button type="button" class="btn btn-secondary">Slobodno mesto</button>
+				    <button type="button" class="btn btn-warning">Rezervisano mesto</button>
+				 </div>
 			</div>
-			<br/>
-			<br/>
-			<div class="row">				
-				<div class="col-sm-10">
-				  <label for="inputDate" class="col-form-label">Izaberi datum</label>
-			      <input type="date" id="inputDate" class="form-control" onchange="TDate()" required>
-			    <br/>
-			    </div>			     
-			</div>
-			<div class="row">				
-				<div class="col-sm-10">
-				  <label for="inputAuditoriums" class="col-form-label">Izaberi salu</label>
-			      <select id="inputAuditoriums" class="form-control">			       
-			      </select>
-			    <br/>
-			    </div>			     
-			</div>
-			<div class="row">				
-				<div class="col-sm-10">
-				  <label for="inputTerms" class="col-form-label">Izaberi termin</label>
-			      <select id="inputTerms" class="form-control">			       
-			      </select>
-			    <br/>
-			    </div>			     
-			</div>			
-			<div>
-	    			<button id="draw" class="btn btn-danger">Dalje</button>
-			</div>
+		</div>
+		<br/>
+		<div id="sala" class="container col-md-4 mt-5 text-center">			
+			
+		</div>
+		<div class="container col-md-4 mt-5 text-center">			
+			<div class="row">		
+				<div class="mx-auto"> 
+				    <form>
+		    			<input type="submit" value="Dalje" class="btn btn-danger" />
+		    		</form>
+	    		</div>	   
+			 </div>
 		</div>
 	</body>
 </html>
