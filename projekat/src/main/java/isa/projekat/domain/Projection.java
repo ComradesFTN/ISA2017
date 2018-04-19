@@ -58,6 +58,10 @@ public class Projection {
 	@JsonIgnoreProperties("projection")
 	private List<Reservation> reservations = new ArrayList<Reservation>();
 	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "projection")
+	@JsonIgnoreProperties("projection")
+	private List<Visit> visits = new ArrayList<Visit>();
+	
 	public Projection() {
 		
 	}

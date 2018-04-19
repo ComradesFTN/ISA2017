@@ -61,10 +61,27 @@
 				</table>
 			</div>
 		</div>
+		<br/>
+		<br/>
+		<div class="row">
+			<div class="col-md-2 col-md-offset-4 text-center">
+				<table class="table" id="historyTable">
+				<thead class="thead-dark">
+					<tr>
+						<th>Istorija poseta</th>
+					</tr>
+				</thead>
+				<tbody id="historyTableBody">
+				</tbody>
+				</table>
+			</div>
+		</div>
 		<script th:inline="javascript">
 		/*<![CDATA[*/
 			$(document).ready(function() {
 				$(".table").tablesorter(); 
+				var loggedUser = /*[[${session.loggedUser.getId()}]]*/ '';
+				var todayDate = new Date();
 				$.ajax({
 					url: "/getFriendRequests",
 					type: "GET",
@@ -72,9 +89,8 @@
 							if (data === undefined) {
 								console.log("Data empty.");
 							} else {
-								var loggedUser = /*[[${session.loggedUser.getId()}]]*/ '';
 								for(i = 0; i < data.length; i++) {
-									if(loggedUser === data[i].userId) { // (loggedUser === data[i].friendId)) 
+									if(loggedUser === data[i].userId) {
 										if(data[i].accepted) {
 											var id = data[i].friendId;
 											var frReqId = data[i].id;
@@ -121,9 +137,37 @@
 							
 						}
 					);
+				$.ajax({
+					url: "/reservations/getReservations",
+					type: "GET",
+				}).then(function(allReservations) {
+					for(i = 0; i < allReservations.length; i++) {
+						if(allReservations[i].user.id === loggedUser) {
+							var userProjection = allReservations[i].projection.id;
+							$.ajax({
+								url: "/projections/"+userProjection, //dobavi projekciju, pa onda mazni datum od projekcije i poredi s danasnjim, ako je ok, ubacis
+								type: "GET",
+							}).then(function(projection) {
+								
+								/* var d = projection.date;
+								var projectionDate = new Date(d);
+								var projectionMovieId = projection.movie.id;
+								if(projectionDate.getTime() < todayDate.getTime()) {
+									$.ajax({
+										url: "/movies/"+projectionMovieId,
+										type: "GET"
+									}).then(function(movie){
+										
+									}); */
+								}
+							});
+						}
+					}
+				});
 					
 			});
 			$(document).on("click", ".ukloniPrijatelja", function(event) {
+				event.preventDefault();
 				var frReqId = $(this).attr("frReq-id");
 				var frReqData = JSON.stringify({
 					id:frReqId,

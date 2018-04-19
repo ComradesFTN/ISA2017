@@ -39,7 +39,7 @@ public class UserController {
 	@RequestMapping(method = RequestMethod.POST, consumes = "application/json", value = "/users")
 	public ResponseEntity<User> addUser(@RequestBody User user) {
 		
-		User newUser = userService.save(user); // TODO proveri da li ima email isti pre toga
+		User newUser = userService.save(user);
 
 		if(user.getUserType()==0) {
 			try {

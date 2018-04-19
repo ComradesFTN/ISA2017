@@ -63,6 +63,10 @@ public class User {
 	@JsonIgnoreProperties("user")
 	private List<Reservation> reservations = new ArrayList<Reservation>();
 	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+	@JsonIgnoreProperties("user")
+	private List<Visit> visits = new ArrayList<Visit>();
+	
 	public User() {
 		this.enabled = false;
 		this.userType = 0;
