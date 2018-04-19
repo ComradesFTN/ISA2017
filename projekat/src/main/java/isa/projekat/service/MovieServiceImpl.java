@@ -80,24 +80,31 @@ public class MovieServiceImpl implements MovieService {
 		}
 		Movie savedMovie=movieRepository.save(movie);
 		
+		List<Projection> projections = projectionRepository.findAll();
+		for(Projection proj : projections) {
+			if(proj.getMovie().getId()==savedMovie.getId()){
+				projectionRepository.delete(proj);
+			}
+		}
+		
 		for(String term : savedMovie.getTerm()){			
 			for(Auditorium audit : savedMovie.getAuditoriums()){
-				for(int i=0; i<10;i++){
+				for(int i=1; i<=10;i++){
 					Projection proj = new Projection();
-					proj.setAuditorium_id(audit.getId());
+					proj.setAuditoriumId(audit.getId());
 					proj.setDate(new Date(date.getTime() + TimeUnit.DAYS.toMillis( i )));
 					proj.setMovie(savedMovie);
 					proj.setTerm(term);
 					List<Integer> seats = new ArrayList<Integer>();
-					for(Integer seat : audit.getSeats()){
+					for(Integer seat : auditoriumRepository.findOne(audit.getId()).getSeats()){
 						seats.add(seat);
 					}
-					proj.setSeats(seats);
-					projectionRepository.save(proj);
+					Projection saveProj=projectionRepository.save(proj);
+					saveProj.setSeats(seats);
+					projectionRepository.save(saveProj);
 				}
 			}
-		}		
-		//ne
+		}	
 		return savedMovie;
 	}
 
@@ -105,6 +112,8 @@ public class MovieServiceImpl implements MovieService {
 	public Movie findOne(Long id) {
 		return movieRepository.findOne(id);
 	}
+	
+	
 	
 	public static void decoder(String base64Image, String pathFile) {
 		try (FileOutputStream imageOutFile = new FileOutputStream(pathFile)) {
@@ -125,6 +134,7 @@ public class MovieServiceImpl implements MovieService {
 			throw new IllegalArgumentException("Tried to delete"
 					+ "non-existant movie");
 		}
+		projectionRepository.delete(projectionRepository.findByMovie_id(id));
 		movieRepository.delete(movie);
 		return movie;
 	}

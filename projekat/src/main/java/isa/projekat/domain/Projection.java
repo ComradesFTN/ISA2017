@@ -31,7 +31,7 @@ public class Projection {
 	private Date date;
 	
 	@Column(name="sala_id")
-	private long auditorium_id;	
+	private long auditoriumId;	
 	
 	/*
 	 *			PRAVILA ZA STATUSE MESTA: 
@@ -63,13 +63,13 @@ public class Projection {
 	public void setDate(Date date) {
 		this.date = date;
 	}
-
-	public long getAuditorium_id() {
-		return auditorium_id;
+	
+	public long getAuditoriumId() {
+		return auditoriumId;
 	}
 
-	public void setAuditorium_id(long auditorium_id) {
-		this.auditorium_id = auditorium_id;
+	public void setAuditoriumId(long auditoriumId) {
+		this.auditoriumId = auditoriumId;
 	}
 
 	public String getTerm() {

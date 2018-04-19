@@ -82,6 +82,14 @@
 				window.location.href = 'http://localhost:8080/AdminPozoristaBioskopi/createNewMovie.html?id='+id;
 			});
 			
+			$(document).on("click", "#refresh", function(event){
+				$.ajax({
+					url : "http://localhost:8080/cinemas/refreshCinema/"+id
+				}).then(function(data){
+					alert("Uspesno odradjen refresh");
+				});
+			});
+			
 			$(document).on("click", ".edit", function(event){
 				filmId=$(this).attr('data-id');
 				window.location.href = 'http://localhost:8080/AdminPozoristaBioskopi/updateMovie.html?id='+id+'&filmId='+filmId;
@@ -170,7 +178,9 @@
 				<ul class="row list-inline" id="filmovi">				
 				</ul>			
 			</div>
-			<div class="col"/>					
+			<div class="col mt-5 text-center">				
+	    		<button class="btn btn-danger" id="refresh">Refresh projekcija</button>
+			</div>					
 		</div>
 	</body>
 </html>

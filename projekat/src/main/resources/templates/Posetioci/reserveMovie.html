@@ -58,63 +58,26 @@
 					var projection;
 					var filmId=movie.id;
 					$.ajax({
-						url : "http://localhost:8080/projections/getProjections"
+						url : "http://localhost:8080/projections/getProjections",
+						async: false
 					}).then(
-							function(data){
-								var nasao=false;	
-								for(i=0;i<=data.length;i++){
-									if(data[i].auditorium_id===salaId && data[i].term===termin && data[i].date===UserDate ) {  
-										nasao=true;
+							function(data){	
+								for(i=0;i<data.length;i++){
+									if(data[i].auditorium_id===salaId && data[i].term===termin && data[i].date===UserDate ) { 
 										projection=data[i];
-										mesta=projection.mesta;
+										$.ajax({
+											url: "http://localhost:8080/projections/getSeats/"+projection.id,
+											async: false,
+											contentType: "application/json",
+											success: function(data){
+												$(document).data('mesta', data);
+											}
+										});
 										break;
 									}
-								}
-								if(!nasao){
-									var formData = JSON.stringify({
-										date:UserDate,
-										auditorium_id:salaId,
-										term:termin									
-									});
-									$.ajax({
-										url: "http://localhost:8080/projections/"+filmId,
-										type: 'POST',
-										data: formData,
-										async: false,
-										contentType: "application/json",
-										success: function(data){
-											projection=data;
-											mesta=data.seats;
-										}
-									});
-								}
-							});	
-					if(projection===undefined){
-						var formData = JSON.stringify({
-							date:UserDate,
-							auditorium_id:salaId,
-							term:termin									
-						});
-						$.ajax({
-							url: "http://localhost:8080/projections/"+filmId,
-							type: 'POST',
-							data: formData,
-							async: false,
-							contentType: "application/json",
-							success: function(data){
-								projection=data;								
-							}
-						});
-						$.ajax({
-							url: "http://localhost:8080/projections/getSeats/"+projection.id,
-							async: false,
-							contentType: "application/json",
-							success: function(data){
-								mesta=data;
-							}
-						});
-					}		 
-					$(document).data('mesta', mesta);
+								}								
+							});
+					mesta=$(document).data('mesta');
 					for(i=1;i<=sala.rows;i++){
 						newRow=  '   <div class="row">  '  + 
 						 '   				<div class="btn-group mx-auto">  ';
@@ -122,13 +85,13 @@
 							index+=1;
 							classText ="";
 							if(mesta[index]===0){
-								classText='btn-dark'
+								classText='btn-dark disabled'
 							}
 							else if(mesta[index]===1){
 								classText='btn-secondary'
 							}
 							else if(mesta[index]===2){
-								classText='btn-warning disabled'
+								classText='btn-warning'
 							}	
 							newRow+= '   				    <button type="button" class="seat '+classText+'" data-id="'+index+'">'+j+'</button>  ' 
 						}

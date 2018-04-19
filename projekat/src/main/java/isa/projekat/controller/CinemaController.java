@@ -91,4 +91,11 @@ public class CinemaController {
 		return new ResponseEntity<>(movie, HttpStatus.OK);
 	}
 	
+	@RequestMapping(value = "/refreshCinema/{id}", method = RequestMethod.GET)
+	public ResponseEntity<Cinema> refreshCinema(@PathVariable Long id) {
+		Cinema cinema = cinemaService.findOne(id);
+		cinemaService.refresh(cinema);
+		return new ResponseEntity<>(cinema, HttpStatus.OK);
+	}
+	
 }

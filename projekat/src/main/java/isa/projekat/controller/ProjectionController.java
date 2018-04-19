@@ -56,7 +56,7 @@ public class ProjectionController {
 	public ResponseEntity<Projection> addProjection(@PathVariable Long id, @RequestBody Projection projection) {
 		Movie movie = movieService.findOne(id);
 		projection.setMovie(movie);
-		Auditorium auditorium = auditoriumService.findOne(projection.getAuditorium_id());
+		Auditorium auditorium = auditoriumService.findOne(projection.getAuditoriumId());
 		List<Integer> seats = new ArrayList<Integer>();
 		for(Integer i : auditorium.getSeats()){
 			seats.add(i);
