@@ -106,6 +106,10 @@ public class UserController {
 		int userType = temp.getUserType();
 		if(userType==1) {
 			user.setUserType(userType);
+		}else if(userType==2) {
+			user.setUserType(userType);
+		}else if(userType==3) {
+			user.setUserType(userType);
 		}
 		userService.updateUser(user);
 		session.setAttribute("loggedUser", user);

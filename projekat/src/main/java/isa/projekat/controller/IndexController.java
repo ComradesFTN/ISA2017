@@ -279,4 +279,14 @@ public class IndexController {
 	public String ticketReservations() {
 		return "Posetioci/ticketReservations";
 	}
+	
+	@GetMapping("AdminSistema/adminSettings")
+	public String mainAdminSettings() {
+		return "AdminSistema/adminSettings";
+	}
+	
+	@GetMapping("/AdminPozoristaBioskopi/updateAdmin")
+	public String updateAdmin() {
+		return "AdminPozoristaBioskopi/updateAdmin";
+	}
 }

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<script th:src="@{/scripts/jquery-3.2.1.min.js}"></script>
+		<link rel="stylesheet" th:href="@{/stylesheets/bootstrap.css}">
+		<meta charset="UTF-8">
+		<title>Home</title>			
+	</head>
+	<body class="bg-light">			
+		<div class="nav nav-tabs bg-danger">
+			<ul class="nav nav-tabs mr-auto bg-danger">	
+				<li class="nav-item">
+					<a class="nav-link text-white" th:href="homePage.html">Home</a>
+				</li>		
+				<li class="nav-item">
+					<a class="nav-link text-white" href="theatresPage.html">Pozorista</a>				
+				</li>
+				<li class="nav-item">
+					<a class="nav-link text-white" href="cinemasPage.html">Bioskopi</a>
+				</li>	
+				<li class="nav-item">
+					<a class="nav-link active text-danger" th:href="settings.html">Podesavanja</a>
+				</li>						
+			</ul>
+			<a class="nav-link mr-0 text-white" href="/index.html">Odjava</a>
+			
+		</div>
+		<div class="container mx-auto">
+		<form class="mt-5 text-center needs-validation" id="editForm">
+			<div class="form-row">
+				<div class="form-group col-md-2">
+					<label for="name">Ime</label>
+				    <input class="form-control text-center w-26 mx-auto" type="text" id="name" th:value="${session.loggedUser.getFirstName()}" required>
+				</div>
+				<div class="form-group col-md-2">
+				    <label for="lastname">Prezime</label>
+				    <input class="form-control text-center w-26 mx-auto" type="text" id="lastname" th:value="${session.loggedUser.getLastName()}" required>
+				</div>
+				<div class="form-group col-md-2">
+					<label for="grad">Grad</label>
+					<input class="form-control text-center w-26 mx-auto" type="text" id="grad" th:value="${session.loggedUser.getCity()}" required><br/>
+				</div>
+			</div>
+			<div class="form-row">
+				<div class="form-group col-md-2">
+						<label for="email">Email</label>
+						<input class="form-control text-center w-26 mx-auto" type="email" name="email" id="email" th:value="${session.loggedUser.getEmail()}" required><br/>
+				</div>
+				<div class="form-group col-md-2">
+					<label for="brtel">Broj telefona</label> 
+					<input class="form-control text-center w-26 mx-auto" type="text" id="brtel" th:value="${session.loggedUser.getPhone()}" required><br/>
+				</div>
+			</div>
+			<div class="form-row">
+				<div class="form-group col-md-2">
+					<label for="password">Lozinka</label>
+				    <input class="form-control text-center w-26 mx-auto" type="password"  id="pass" required>
+				</div>
+				<div class="form-group col-md-2">
+				    <label for="repeatedPassword">Ponovite lozinku</label>
+				    <input class="form-control text-center w-26 mx-auto" type="password"  id="repPass" required>				    
+				</div>
+			</div>
+			<input type="submit" class="btn btn-primary bg-danger" value="Update settings">
+		</form>	
+		</div>
+		<script th:inline="javascript">
+			function validateForm() {
+				
+				var pass = $("#pass").val();
+				var repPass = $("#repPass").val();
+				if (pass != repPass) {
+					alert("Lozinke moraju biti iste.");
+					$("#pass").val("");
+					$("#repPass").val("");
+					return false;
+				}
+				if (document.getElementById("name").validity.valueMissing) {
+					alert("Popunite ime.")
+					return false;
+				}
+				if (document.getElementById("lastname").validity.valueMissing) {
+					alert("Popunite prezime.")
+					return false;
+				}
+				if (document.getElementById("grad").validity.valueMissing) {
+					alert("Popunite polje grad.")
+					return false;
+				}
+				if (document.getElementById("email").validity.valueMissing) {
+					alert("Popunite polje email.")
+					return false;
+				}
+				if (document.getElementById("brtel").validity.valueMissing) {
+					alert("Popunite polje broj telefona.")
+					return false;
+				}
+				if (document.getElementById("pass").validity.valueMissing) {
+					alert("Popunite polje lozinke.")
+					return false;
+				}
+				if (document.getElementById("repPass").validity.valueMissing) {
+					alert("Popunite polje ponovljene lozinke.")
+					return false;
+				}
+				return true;
+				}
+			
+				$("input[type='submit']").click(function(event) {
+					event.preventDefault();
+					if(validateForm()) {
+						/*<![CDATA[*/
+						var formData = JSON.stringify({		
+						    id:/*[[${session.loggedUser.getId()}]]*/ 'id',
+						    enabled:true,
+							email:$('input[name="email"]').val(),
+							password:$("#pass").val(),
+							firstName:$("#name").val(),
+							lastName:$("#lastname").val(),
+							city:$("#grad").val(),
+							phone:$("#brtel").val(),
+						});
+						/*]]>*/
+						$.ajax({
+							url: "/userEdit",
+							type: 'POST',
+							data: formData,
+							contentType: "application/json",
+							datatype: "text/html",
+							success: function(data){
+								console.log("Ajax zahtev za update user infoa.");
+								window.location.href = "http://localhost:8080/Posetioci/homePage.html";
+								
+							}
+						});
+					}					
+				});
+				
+			
+		</script>
+		
+	</body>
+</html>
