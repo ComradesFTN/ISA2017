@@ -30,7 +30,15 @@ public class AuditoriumController {
 	@RequestMapping(value = "{id}", method = RequestMethod.GET)
 	public ResponseEntity<Auditorium> getAuditorium(@PathVariable Long id) {
 		Auditorium auditorium = auditoriumService.findOne(id);
+		System.out.println("usaoooo");
 		return new ResponseEntity<>(auditorium, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/getSeats/{id}", method = RequestMethod.GET)
+	public ResponseEntity<List<Integer>> getSeats(@PathVariable Long id) {
+		Auditorium auditorium = auditoriumService.findOne(id);
+		List<Integer> seats = auditorium.getSeats();
+		return new ResponseEntity<>(seats, HttpStatus.OK);
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, consumes = "application/json")
@@ -44,10 +52,19 @@ public class AuditoriumController {
 	
 	@RequestMapping(value = "{id}",method = RequestMethod.PUT, consumes = "application/json")
 	public ResponseEntity<Auditorium> editAuditorium(@PathVariable Long id,@RequestBody Auditorium auditorium) {
+		System.out.print(auditorium.getSeats().size());
 		Auditorium editAuditorium = auditoriumService.findOne(id);		
 		auditorium.setId(id);
 		auditorium.setMovies(editAuditorium.getMovies());
 		auditoriumService.save(auditorium);
 		return new ResponseEntity<>(auditorium,HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/setSeats/{id}",method = RequestMethod.PUT, consumes = "application/json")
+	public ResponseEntity<Auditorium> editSeats(@PathVariable Long id,@RequestBody List<Integer> seats) {		
+		Auditorium editAuditorium = auditoriumService.findOne(id);		
+		editAuditorium.setSeats(seats);
+		auditoriumService.saveAndEditSeats(editAuditorium);
+		return new ResponseEntity<>(editAuditorium,HttpStatus.OK);
 	}
 }

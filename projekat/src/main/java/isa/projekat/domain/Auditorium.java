@@ -48,6 +48,7 @@ public class Auditorium {
 	 * 			0 - NEDOSTUPNO
 	 *  		1 - SLOBODNO
 	 * 			2 - REZERVISANO
+	 * 			3 - MESTO SA POPUSTOM
 	 */	
 	@ElementCollection(fetch=FetchType.LAZY)
 	@JsonIgnore

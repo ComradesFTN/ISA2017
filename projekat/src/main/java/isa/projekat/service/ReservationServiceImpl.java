@@ -95,7 +95,7 @@ public class ReservationServiceImpl implements ReservationService {
 		User inviter = userRepository.findOne(inviterId);
 		Reservation reservation=reservationRepository.findOne(reservationId);
 		Projection projection = reservation.getProjection();
-		int index = (int) (reservation.getSeat()-1);
+		int index =reservation.getSeat()-1;
 		projection.getSeats().set(index, 1);
 		projection.getReservations().remove(reservation);
 		projectionRepository.save(projection);
@@ -103,6 +103,17 @@ public class ReservationServiceImpl implements ReservationService {
 		userRepository.save(user);
 		reservationRepository.delete(reservation);
 		emailService.sendReservationInviteRejected(user, inviter);
+	}
+
+	@Override
+	public Boolean isEditable(Long id) {
+		List<Reservation> reservations = this.findAll();
+		for(Reservation reservation : reservations){
+			if(reservation.getProjection().getMovie().getId()==id){
+				return false;
+			}
+		}
+		return true;
 	}
 
 }

@@ -6,13 +6,13 @@ import java.util.List;
 public class ReservationDTO {
 	
 	private long projectionId;
-	private long seat;
+	private Integer seat;
 	private long userId;
 	private boolean friend;
 	private List<Integer> seats = new ArrayList<Integer>();
 	private long inviterId;
 	
-	public ReservationDTO(long projectionId, long seat, long userId, boolean friend, List<Integer> seats ) {	
+	public ReservationDTO(long projectionId, Integer seat, long userId, boolean friend, List<Integer> seats ) {	
 		this.projectionId = projectionId;
 		this.seat = seat;
 		this.userId = userId;
@@ -56,11 +56,11 @@ public class ReservationDTO {
 		this.projectionId = projectionId;
 	}
 
-	public long getSeat() {
+	public Integer getSeat() {
 		return seat;
 	}
 
-	public void setSeat(long seat) {
+	public void setSeat(Integer seat) {
 		this.seat = seat;
 	}
 

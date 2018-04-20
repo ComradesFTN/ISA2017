@@ -22,7 +22,7 @@ public class Reservation {
 	private User user;
 	
 	@Column(name="Mesto")
-	private long seat;
+	private Integer seat;
 	
 	@ManyToOne
 	@JsonIgnoreProperties("reservations")
@@ -48,11 +48,11 @@ public class Reservation {
 		this.user = user;
 	}
 
-	public long getSeat() {
+	public Integer getSeat() {
 		return seat;
 	}
 
-	public void setSeat(long seat) {
+	public void setSeat(Integer seat) {
 		this.seat = seat;
 	}
 

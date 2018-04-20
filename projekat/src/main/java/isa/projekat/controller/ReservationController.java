@@ -1,5 +1,6 @@
 package isa.projekat.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,5 +56,24 @@ public class ReservationController {
 		reservationService.Rejected(userId, inviterId, reservationId);
 		return new RedirectView("http://localhost:8080/index.html");
 	}
+	
+	@RequestMapping(value = "getReservedSeats/{salaId}", method = RequestMethod.GET )
+	public ResponseEntity<List<Integer>> getReservedSeats(@PathVariable Long salaId) {
+		List<Reservation> reservations = reservationService.findAll();
+		List<Integer> reservedSeats= new ArrayList<Integer>();
+		for(Reservation reservation : reservations){
+			if(reservation.getProjection().getAuditoriumId()==salaId){
+				reservedSeats.add(reservation.getSeat());
+			}
+		}
+		return new ResponseEntity<>(reservedSeats, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "isEditable/{id}", method = RequestMethod.GET)
+	public ResponseEntity<Boolean> isEditable(@PathVariable Long id) {
+		Boolean isEditable=reservationService.isEditable(id);
+		return new ResponseEntity<>(isEditable, HttpStatus.OK);
+	}
+	
 	
 }

@@ -10,63 +10,89 @@
 			var id;	
 			var salaId;
 			var mesta=[];
+			var staraMesta=[];
 			var sala;
 			var index=-1;
+			var reservations=[];
 			$(document).ready(function(){				
 				id = getUrlParameter('id');	
 				salaId = getUrlParameter('salaId');
 				$("#home").attr("href", "cinemaDetails.html?id="+id);
 				$("#repertoar").attr("href", "cinemaRepertoar.html?id="+id);
 				$.ajax({
-					url : "http://localhost:8080/auditoriums/"+salaId
-				}).then(
-						function(data){
-							mesta=data.seats;
+					url : "http://localhost:8080/reservations/getReservedSeats/"+salaId,
+					async : false,
+					success : function(data){
+							reservations=data;
+					}
+				});
+				$.ajax({
+					url : "http://localhost:8080/auditoriums/getSeats/"+salaId,
+					async : false,
+					success : function(data){
+							mesta=data;
+							staraMesta=data;
+					}
+				});
+				$.ajax({
+					url : "http://localhost:8080/auditoriums/"+salaId,
+					success : function(data){														
 							sala=data;
 							for(i=1;i<=data.rows;i++){
 									newRow=  '   <div class="row">  '  + 
 									 '   				<div class="btn-group mx-auto">  ';
 									for(j=1;j<=data.columns;j++){
 										index+=1;
-										classText ="";
-										if(data.seats[index]===0){
+										classText ="";										
+										for(p=0;p<reservations.length;p++){
+											poredjenje=parseInt(reservations[p])-1;
+											if(index===poredjenje){
+												mesta[index]=2;
+												break;
+											}
+										}
+										disabledText="";
+										if(mesta[index]===0){
 											classText='btn-dark'
 										}
-										else if(data.seats[index]===1){
+										else if(mesta[index]===1){
 											classText='btn-secondary'
 										}
-										else if(data.seats[index]===2){
-											classText='btn-warning disabled'
-										}	
-										newRow+= '   				    <button type="button" class="seat '+classText+'" data-id="'+index+'">'+j+'</button>  ' 
+										else if(mesta[index]===2){
+											classText='btn-warning'
+											disabledText='disabled';
+										}
+										else if(mesta[index]===3){
+											classText='btn-info'
+										}
+										newRow+= '   				    <button type="button" class="seat '+classText+'" data-id="'+index+'"'+disabledText+'>'+j+'</button>  ' 
 									}
 									newRow+= '   				 </div>  '  + 
 									 '  			</div>  ' ; 
 									$("#sala").append(newRow);
 								}
-						});	
+						}
+				});	
 				$("input[type='submit']").click(function(event) {
 					event.preventDefault();
 					for(i=0;i<mesta.length;i++){
 						if(mesta[i]===2){
-							mesta[i]=1;
+							mesta[i]=staraMesta[i];
 						}	
 					}
-					var formData = JSON.stringify({
-						name:sala.name,
-						rows:sala.rows,
-						columns:sala.columns,
-						seats:mesta,
-					});
+					novaMesta=[];
+					for(i=0;i<mesta.length;i++){
+						novaMesta[i]=parseInt(mesta[i]);
+					}
 					$.ajax({
-						url: "http://localhost:8080/auditoriums/"+salaId,
+						url: "http://localhost:8080/auditoriums/setSeats/"+salaId,
 						type: 'PUT',
-						data: formData,
+						data: JSON.stringify(novaMesta),
 						contentType: "application/json",
 						success: function(data){
 							alert("Uspesno sacuvana sala");
 							window.location.href = 'http://localhost:8080/AdminPozoristaBioskopi/updateCinema.html?id='+id;
-						}								
+						}
 					});	
 				});
 			});
@@ -79,6 +105,10 @@
 					classText='seat btn-secondary';				
 				}
 				else if(mesta[index]===1){
+					mesta[index]=3;
+					classText='seat btn-info';				
+				}
+				else if(mesta[index]===3){
 					mesta[index]=0;
 					classText='seat btn-dark';				
 				}
@@ -111,10 +141,7 @@
 				</li>
 				<li class="nav-item">
 					<a class="nav-link active text-danger" href="cinemasPage.html">Bioskopi</a>
-				</li>	
-				<li class="nav-item">
-					<a class="nav-link text-white" th:href="updateAdmin.html">Podesavanja</a>
-				</li>		
+				</li>			
 			</ul>
 			<a class="nav-link mr-0 text-white" href="../NeregistrovaniKorisnici/login.html">Odjava</a>
 		</div>
@@ -141,6 +168,7 @@
 				    <button type="button" class="btn btn-dark">Nedostupno mesto</button>
 				    <button type="button" class="btn btn-secondary">Slobodno mesto</button>
 				    <button type="button" class="btn btn-warning">Rezervisano mesto</button>
+				    <button type="button" class="btn btn-info">Mesto sa popustom</button>
 				 </div>
 			</div>
 		</div>

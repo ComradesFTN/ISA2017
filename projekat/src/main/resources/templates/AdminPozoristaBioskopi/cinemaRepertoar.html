@@ -92,7 +92,17 @@
 			
 			$(document).on("click", ".edit", function(event){
 				filmId=$(this).attr('data-id');
-				window.location.href = 'http://localhost:8080/AdminPozoristaBioskopi/updateMovie.html?id='+id+'&filmId='+filmId;
+				$.ajax({
+					url : "http://localhost:8080/reservations/isEditable/"+filmId
+				}).then(function(data){
+					if(data){
+						window.location.href = 'http://localhost:8080/AdminPozoristaBioskopi/updateMovie.html?id='+id+'&filmId='+filmId;
+					}
+					else{
+						alert("Ne mozete menjati podatke posto postoje rezervacije za dati film");
+					}
+				});
+				
 			});
 			
 			$(document).on("click", ".delete", function(event){

@@ -11,5 +11,7 @@ public interface AuditoriumService {
 	Auditorium save(Auditorium auditorium);
 
 	Auditorium findOne(Long id);
+
+	Auditorium saveAndEditSeats(Auditorium auditorium);
 	
 }
