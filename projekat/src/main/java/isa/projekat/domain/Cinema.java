@@ -135,9 +135,13 @@ public class Cinema {
 	public void setMyLang(float myLang) {
 		this.myLang = myLang;
 	}
-	
-	
-	
-	
+
+	public List<Visit> getVisits() {
+		return visits;
+	}
+
+	public void setVisits(List<Visit> visits) {
+		this.visits = visits;
+	}	
 	
 }
