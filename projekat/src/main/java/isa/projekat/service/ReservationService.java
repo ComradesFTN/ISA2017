@@ -21,8 +21,10 @@ public interface ReservationService {
 
 	Boolean isEditable(Long id);
 	
-	List<Reservation> findByUser_id(long user);
+	List<Reservation> findByProjection_id(long projection);
 	
 	List<Reservation> findByUser_idAndProjection_id(long user, long projection);
+
+	Reservation delete(Long id);
 
 }

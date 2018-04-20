@@ -7,6 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity(name = "Poseta")
 public class Visit {
@@ -15,21 +16,29 @@ public class Visit {
 	private long id;
 
 	@ManyToOne
-	@JsonIgnoreProperties("visits")
-	private User user;
+	@JsonManagedReference
+	private User userVisit;
 
 	@ManyToOne
-	@JsonIgnoreProperties("visits")
-	private Projection projection;
+	@JsonManagedReference
+	private Projection projectionVisit;
 
 	@ManyToOne
-	@JsonIgnoreProperties("visits")
-	private Cinema cinema;
+	@JsonManagedReference
+	private Cinema cinemaVisit;
 
 	private boolean cinemaRated;
 
 	private boolean movieRated;
 
+	public Projection getProjectionVisit() {
+		return projectionVisit;
+	}
+
+	public void setProjectionVisit(Projection projectionVisit) {
+		this.projectionVisit = projectionVisit;
+	}
+	
 	public long getId() {
 		return id;
 	}
@@ -38,20 +47,20 @@ public class Visit {
 		this.id = id;
 	}
 
-	public User getUser() {
-		return user;
+	public User getUserVisit() {
+		return userVisit;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setUserVisit(User userVisit) {
+		this.userVisit = userVisit;
 	}
 
-	public Projection getProjection() {
-		return projection;
+	public Cinema getCinemaVisit() {
+		return cinemaVisit;
 	}
 
-	public void setProjection(Projection projection) {
-		this.projection = projection;
+	public void setCinemaVisit(Cinema cinemaVisit) {
+		this.cinemaVisit = cinemaVisit;
 	}
 
 	public boolean isCinemaRated() {
@@ -68,15 +77,7 @@ public class Visit {
 
 	public void setMovieRated(boolean movieRated) {
 		this.movieRated = movieRated;
-	}
-
-	public Cinema getCinema() {
-		return cinema;
-	}
-
-	public void setCinema(Cinema cinema) {
-		this.cinema = cinema;
-	}
+	}	
 
 	public Visit() {
 		this.cinemaRated = false;

@@ -18,6 +18,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /*0 - Registrovani korisnik	
@@ -63,8 +64,8 @@ public class User {
 	@JsonIgnoreProperties("user")
 	private List<Reservation> reservations = new ArrayList<Reservation>();
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-	@JsonIgnoreProperties("user")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "userVisit")
+	@JsonBackReference
 	private List<Visit> visits = new ArrayList<Visit>();
 	
 	public User() {

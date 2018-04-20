@@ -7,6 +7,7 @@ import org.springframework.mail.MailException;
 import org.springframework.stereotype.Service;
 
 import isa.projekat.domain.Cinema;
+import isa.projekat.domain.Movie;
 import isa.projekat.domain.Projection;
 import isa.projekat.domain.Reservation;
 import isa.projekat.domain.User;
@@ -117,13 +118,24 @@ public class ReservationServiceImpl implements ReservationService {
 	}
 
 	@Override
-	public List<Reservation> findByUser_id(long user) {
-		return reservationRepository.findByUser_id(user);
+	public List<Reservation> findByProjection_id(long projection) {
+		return reservationRepository.findByProjection_id(projection);
 	}
 
 	@Override
 	public List<Reservation> findByUser_idAndProjection_id(long user, long projection) {
 		return reservationRepository.findByUser_idAndProjection_id(user, projection);
+	}
+	
+	@Override
+	public Reservation delete(Long id) {
+		Reservation reservation = reservationRepository.findOne(id);
+		if(reservation == null){
+			throw new IllegalArgumentException("Tried to delete"
+					+ "non-existant reservation");
+		}
+		reservationRepository.delete(reservation);
+		return reservation;
 	}
 
 }

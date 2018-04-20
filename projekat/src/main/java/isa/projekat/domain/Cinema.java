@@ -19,6 +19,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity(name="Bioskop")
@@ -60,8 +61,8 @@ public class Cinema {
 })
 	Set<Auditorium> auditoriums= new HashSet<Auditorium>();
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "cinema")
-	@JsonIgnoreProperties("cinema")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "cinemaVisit")
+	@JsonBackReference
 	private List<Visit> visits = new ArrayList<Visit>();
 
 	public long getId() {

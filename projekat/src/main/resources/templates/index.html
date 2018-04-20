@@ -5,6 +5,16 @@
 <script th:src="@{/scripts/jquery-3.2.1.min.js}"></script>
 <link rel="stylesheet" th:href="@{stylesheets/bootstrap.css}">
 <title>HomePage</title>
+<script>
+		$(document).ready(function() {
+			$.ajax({
+				url: "/visit/refreshVisits",
+				type: "POST",
+			}).then(function() {
+				console.log('uspeo sam');
+			});
+		});
+</script>
 </head>
 <body class="bg-light">	
 	<ul class="nav nav-tabs bg-danger justify-content-end mr-2">	

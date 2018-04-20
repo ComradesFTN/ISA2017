@@ -12,7 +12,7 @@ import isa.projekat.domain.User;
 @Repository
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
 	
-	List<Reservation> findByUser_id(long user);
+	List<Reservation> findByProjection_id(long projection);
 	
 	List<Reservation> findByUser_idAndProjection_id(long user, long projection);
 }

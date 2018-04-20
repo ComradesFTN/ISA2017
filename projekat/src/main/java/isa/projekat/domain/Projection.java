@@ -18,6 +18,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -58,13 +59,15 @@ public class Projection {
 	@JsonIgnoreProperties("projection")
 	private List<Reservation> reservations = new ArrayList<Reservation>();
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "projection")
-	@JsonIgnoreProperties("projection")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "projectionVisit")
+	@JsonBackReference
 	private List<Visit> visits = new ArrayList<Visit>();
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "projection")
 	@JsonIgnoreProperties("projection")
 	private List<Ticket> tickets = new ArrayList<Ticket>();
+	
+	private boolean old = false;
 	
 	public List<Visit> getVisits() {
 		return visits;
@@ -140,5 +143,13 @@ public class Projection {
 
 	public void setTickets(List<Ticket> tickets) {
 		this.tickets = tickets;
+	}
+
+	public boolean getOld() {
+		return old;
+	}
+
+	public void setOld(boolean old) {
+		this.old = old;
 	}
 }

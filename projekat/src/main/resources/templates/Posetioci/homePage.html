@@ -138,35 +138,19 @@
 						}
 					);
 				$.ajax({
-					url: "/reservations/getReservations",
+					url: "/visit/displayVisit/"+loggedUser,
 					type: "GET",
 					async: false,
-					success: function(allReservations) {
-						for(i = 0; i < allReservations.length; i++) {
-							if(allReservations[i].user.id === loggedUser) {
-								var userProjection = allReservations[i].projection.id;
-								var formData = JSON.stringify({	
-								    user:loggedUser,
-								    projection:userProjection,
-								});
-								$.ajax({
-									url: "/visit/displayVisit",
-									type: "POST",
-									data: formData,
-									async: false,
-									contentType: "application/json",
-									success: function(visit) {
-										newRow = 
-											"<tr>"
-												+ "<td>" + visit.cinema.name + "</td>"
-												+ "<td><button type=\"button\" visit-id=\"" + visit.id + "\" class=\"btn btn-danger dodajOcenu\">Oceni</button></td>"
-												
-											+ "</tr>"
-											$("#tableBody").append(newRow)
-											$(".table").trigger("update");
-									}
-								});
-							}
+					success: function(visit) {
+						for(i=0;i<visit.length;i++){
+							newRow = 
+								"<tr>"
+									+ "<td>" + visit[i].cinemaName + "</td>"
+									+ "<td><button type=\"button\" visit-id=\"" + visit[i].id + "\" class=\"btn btn-danger dodajOcenu\">Oceni</button></td>"
+									
+								+ "</tr>"
+								$("#historyTableBody").append(newRow)
+								$(".table").trigger("update");
 						}
 					}
 				});
