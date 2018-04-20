@@ -7,11 +7,14 @@
 		<title>Popusti</title>		
 		<script th:inline="javascript">
 			$(document).ready(function(){
+				/*<![CDATA[*/
 				id = getUrlParameter('id');	
+				var userId = /*[[${session.loggedUser.getId()}]]*/ 'id'	
+					/*]]>*/
 				$("#home").attr("href", "cinemaDetails.html?id="+id);
 				$("#repertoar").attr("href", "cinemaRepertoar.html?id="+id);
 				$.ajax({
-					url: 'http://localhost:8080/tickets/getTickets/'+id,	
+					url: 'http://localhost:8080/tickets/getTickets/'+id+'/'+userId,	
 					async:false,
 					success: function(data) {
 						for (i = 0; i < data.length; i++) {

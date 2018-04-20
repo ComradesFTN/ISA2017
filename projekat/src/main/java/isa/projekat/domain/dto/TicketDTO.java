@@ -12,8 +12,9 @@ public class TicketDTO {
 	private int price;
 	private long id;
 	private String poster;
+	private String userMembership;
 	
-	public TicketDTO(long id, Integer seat, Date date, String term, String auditoriumName, String projectionName, int price,String poster) {
+	public TicketDTO(long id, Integer seat, Date date, String term, String auditoriumName, String projectionName, int price,String poster,String userMembership) {
 		this.id=id;
 		this.seat = seat;
 		this.date = date;
@@ -22,6 +23,7 @@ public class TicketDTO {
 		this.projectionName = projectionName;
 		this.price = price;
 		this.poster= poster;
+		this.setUserMembership(userMembership);
 	}
 	public TicketDTO() {
 		
@@ -73,6 +75,12 @@ public class TicketDTO {
 	}
 	public void setPoster(String poster) {
 		this.poster = poster;
+	}
+	public String getUserMembership() {
+		return userMembership;
+	}
+	public void setUserMembership(String userMembership) {
+		this.userMembership = userMembership;
 	}
 	
 	

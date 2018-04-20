@@ -5,9 +5,124 @@
 		<script th:src="@{/scripts/jquery.tablesorter.js}"></script>	
 		<link rel="stylesheet" th:href="@{/stylesheets/bootstrap.css}">
 		<meta charset="UTF-8">
-		<title>Rezervacije</title>			
+		<title>Rezervacije</title>
+		<script>
+				/* $(document).ready(function(){
+					$(".table").trigger("update");
+					$('.table').trigger("appendCache");
+					$.ajax({
+						url : "http://localhost:8080/cinemas/getCinemas"
+					}).then(
+							function(data) {
+								for (i = 0; i < data.length; i++) {
+									rating=data[i].rating;
+									ratingText="";
+									for(j = 0; j < 5; j++){
+										if(rating<0.5){
+											ratingText+="&#9734;";
+										}
+										else{
+											ratingText+="&#9733;";
+											rating-=1;
+										}
+									}
+									newRow = 
+										"<tr>"
+											+ "<td><a class=\"cinemas\" href=\"\" id=\""+data[i].id+"\">" + data[i].name + "</a></td>"
+											+ "<td>" + data[i].adress + "</td>"
+											+ "<td>" + ratingText + "</td>"
+											+ "<td><form action=\"\"><input type=\"submit\" value=\"Pogledaj\" class=\"repertoar\" id-look=\""+data[i].id+"\"/></form></td>"
+										+ "</tr>"
+									$("#tableBody").append(newRow)
+									
+								}
+							$(".table").tablesorter(); 	
+							});
+				});
+				$(document).on("click", ".cinemas", function(event) {
+					event.preventDefault();
+					id=$(this).closest("a").attr("id");	
+					var redirect = function(url, method) {
+						var div = document.createElement('div');
+						var form = document.createElement('form');
+						div.setAttribute("class","invisible");
+						div.appendChild(form);
+						document.body.appendChild(div);
+						var input = document.createElement('input');
+						input.name='id';
+						input.value=id;
+						form.appendChild(input);
+						form.method = method;
+						form.action = url;
+						form.submit();
+					};
+					redirect('cinemaDetails.html','GET');
+				});
+				
+				$(document).on("click", ".repertoar", function(event) {
+					event.preventDefault();
+					id=$(this).attr("id-look");	
+					var redirect = function(url, method) {
+						var div = document.createElement('div');
+						var form = document.createElement('form');
+						div.setAttribute("class","invisible");
+						div.appendChild(form);
+						document.body.appendChild(div);
+						var input = document.createElement('input');
+						input.name='id';
+						input.value=id;
+						form.appendChild(input);
+						form.method = method;
+						form.action = url;
+						form.submit();
+					};
+					redirect('cinemaRepertoar.html','GET');
+				}); */
+				
+		</script>			
 	</head>
-<body class="bg-light">	
- cao
-</body>
+<body class="bg-light">		
+	<div class="nav nav-tabs bg-danger">
+		<ul class="nav nav-tabs mr-auto bg-danger">		
+			<li class="nav-item">
+				<a class="nav-link text-white" href="theatresPage.html">Pozorista</a>				
+			</li>
+			<li class="nav-item">
+				<a class="nav-link text-white" href="homePage.html">Home</a>
+			</li>		
+			<li class="nav-item">
+				<a class="nav-link text-white" href="cinemasPage.html">Bioskopi</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link text-white" th:href="friends.html">Prijatelji</a>
+			</li>	
+			<li class="nav-item">
+				<a class="nav-link active text-danger">Rezervacije</a>
+			</li>	
+			<li class="nav-item">
+				<a class="nav-link text-white" th:href="settings.html">Podesavanja</a>
+			</li>	
+			<li class="nav-item">
+				<a class="nav-link text-white" href="fanZonaPage.html">Fan Zona</a>
+			</li>							
+		</ul>
+		<a class="nav-link mr-0 text-white" href="/index.html">Odjava</a>
+	</div>
+		<div class="container">
+			<table class="table">
+			<thead class="thead-dark">
+				<tr>
+					<th>Projekcija</th>
+					<th>Mesto</th>
+					<th>Datum</th>
+					<th>Termin</th>
+					<th>Sala</th>
+					<th>Otkazi</th>
+				</tr>
+			</thead>
+			<tbody id="tableBody">					
+			</tbody>
+			</table>
+		</div>	
+	</body>
 </html>

@@ -49,16 +49,18 @@ public class TicketController {
 	@Autowired
 	private ProjectionService projectionService;
 	
-	@RequestMapping(value = "getTickets/{id}", method = RequestMethod.GET )
-	public ResponseEntity<List<TicketDTO>> getTickets(@PathVariable Long id) {
+	@RequestMapping(value = "getTickets/{id}/{userId}", method = RequestMethod.GET )
+	public ResponseEntity<List<TicketDTO>> getTickets(@PathVariable Long id,@PathVariable Long userId) {
 		System.out.println("Uso sam ovde");
 		List<Ticket> tickets = ticketService.findAll();
 		List<TicketDTO> ticketsDTO = new ArrayList<TicketDTO>();
 		Cinema cinema = cinemaService.findOne(id);
+		User user = userService.findOne(userId);
 		for(Ticket ticket : tickets){
 			if(cinema.getMovies().contains(ticket.getProjection().getMovie())){
+				
 				String auditoriumName=auditoriumService.findOne(ticket.getProjection().getAuditoriumId()).getName();
-				TicketDTO ticketDTO = new TicketDTO(ticket.getId(),ticket.getSeat(),ticket.getProjection().getDate(),ticket.getProjection().getTerm(),auditoriumName,ticket.getProjection().getMovie().getName(),ticket.getProjection().getMovie().getPrice(),ticket.getProjection().getMovie().getPoster());
+				TicketDTO ticketDTO = new TicketDTO(ticket.getId(),ticket.getSeat(),ticket.getProjection().getDate(),ticket.getProjection().getTerm(),auditoriumName,ticket.getProjection().getMovie().getName(),ticket.getProjection().getMovie().getPrice(),ticket.getProjection().getMovie().getPoster(),user.getMembership());
 				ticketsDTO.add(ticketDTO);
 			}
 		}
