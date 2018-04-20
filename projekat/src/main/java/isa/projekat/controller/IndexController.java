@@ -299,4 +299,8 @@ public class IndexController {
 	public String addRating() {
 		return "Posetioci/addRating";
 	}
+	@GetMapping("/NeregistrovaniKorisnici/cinemasPage") 
+	public String cinemaPage() {
+		return "NeregistrovaniKorisnici/cinemasPage";
+	}
 }
