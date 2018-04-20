@@ -144,27 +144,18 @@
 					for(i = 0; i < allReservations.length; i++) {
 						if(allReservations[i].user.id === loggedUser) {
 							var userProjection = allReservations[i].projection.id;
-							var formData = JSON.stringify({		//ne salje nesto kako treba, stalno mi null na backendu
-							    user:/*[[${session.loggedUser.getId()}]]*/ '',
+							var formData = JSON.stringify({	
+							    user:loggedUser,
 							    projection:userProjection,
 							});
 							$.ajax({
 								url: "/visit/displayVisit",
 								type: "POST",
 								data: formData,
+								async: false,
 								contentType: "application/json",
 								success: function() {
 									console.log("Proslo.");
-								/* var d = projection.date;
-								var projectionDate = new Date(d);
-								var projectionMovieId = projection.movie.id;
-								if(projectionDate.getTime() < todayDate.getTime()) {
-									$.ajax({
-										url: "/movies/"+projectionMovieId,
-										type: "GET"
-									}).then(function(movie){
-										
-									}); */
 								}
 							});
 						}

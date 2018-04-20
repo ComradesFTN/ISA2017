@@ -22,6 +22,10 @@ public class Visit {
 	@JsonIgnoreProperties("visits")
 	private Projection projection;
 	
+	@ManyToOne
+	@JsonIgnoreProperties("visits")
+	private Cinema cinema;
+	
 	private boolean cinemaRated;
 	
 	private boolean movieRated;

@@ -27,7 +27,7 @@ public class Reservation {
 	@ManyToOne
 	@JsonIgnoreProperties("reservations")
 	private Projection projection;
-
+	
 	public Reservation() {
 		
 	}

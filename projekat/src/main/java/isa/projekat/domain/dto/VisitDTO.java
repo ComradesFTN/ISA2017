@@ -9,6 +9,11 @@ public class VisitDTO {
 	public VisitDTO() {
 		
 	}
+	
+	public VisitDTO(long user, long projection) {
+		this.user = user;
+		this.projection = projection;
+	}
 
 	public long getUser() {
 		return user;

@@ -1,6 +1,8 @@
 package isa.projekat.domain;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.AttributeOverride;
@@ -10,11 +12,14 @@ import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity(name="Bioskop")
 public class Cinema {
@@ -54,6 +59,10 @@ public class Cinema {
 		@AttributeOverride(name = "id", column = @Column(name = "auditorium_id"))       
 })
 	Set<Auditorium> auditoriums= new HashSet<Auditorium>();
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "cinema")
+	@JsonIgnoreProperties("cinema")
+	private List<Visit> visits = new ArrayList<Visit>();
 
 	public long getId() {
 		return id;

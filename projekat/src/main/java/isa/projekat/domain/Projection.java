@@ -62,6 +62,16 @@ public class Projection {
 	@JsonIgnoreProperties("projection")
 	private List<Visit> visits = new ArrayList<Visit>();
 	
+	
+	
+	public List<Visit> getVisits() {
+		return visits;
+	}
+
+	public void setVisits(List<Visit> visits) {
+		this.visits = visits;
+	}
+
 	public Projection() {
 		
 	}
