@@ -20,6 +20,9 @@
 						for (i = 0; i < data.length; i++) {
 							console.log("uso sam i ovde");
 							popust=data[i].price-50;
+							popustBronzani=data[i].price-60;
+							popustSrebrni=data[i].price-70;
+							popustZlatni=data[i].price-80;
 							if(data[i].poster===("Bez slike")){
 								poster='imagesMovies\\nemaslike.png';
 							}
@@ -35,9 +38,17 @@
 							 '   										<li><p class="card-text">Datum : '+data[i].date+'</p></li>  '  + 
 							 '   										<li><p class="card-text">Termin : '+data[i].term+'</p></li>  '  + 
 							 '   										<li><p class="card-text">Sala : '+data[i].auditoriumName+'</p></li>  '  + 
-							 '   										<li><p class="card-text">Mesto : '+data[i].seat+'</p></li>  '  + 
-							 '   										<li><p class="card-text">Originalna cena : '+data[i].price+'din  -   Popust  :  '+popust+'</p></li>  '  + 
-							 '   									</ul>  '  + 
+							 '   										<li><p class="card-text">Mesto : '+data[i].seat+'</p></li>  '  ;
+																		if(data[i].userMembership.indexOf("Bronzani")>=0){								 
+							 												newRow+='<li><p class="card-text">Originalna cena : '+data[i].price+'din  -   Popust  :  '+popustBronzani+'din</p></li>  ';
+																		}else if(data[i].userMembership.indexOf("Srebrni")>=0){
+																			newRow+='<li><p class="card-text">Originalna cena : '+data[i].price+'din  -   Popust  :  '+popustSrebrni+'din</p></li>  ';
+																		}else if(data[i].userMembership.indexOf("Zlatni")>=0){
+																			newRow+='<li><p class="card-text">Originalna cena : '+data[i].price+'din  -   Popust  :  '+popustZlatni+'din</p></li>  ';
+																		}else{
+																			newRow+='<li><p class="card-text">Originalna cena : '+data[i].price+'din  -   Popust  :  '+popust+'din</p></li>  ';
+																		}
+							 											newRow+='</ul>  '  + 
 							 '   									<a href="#" data-id="'+data[i].id+'" class="btn btn-primary reserve">Rezervisi</a>  '  + 
 							 '   								</div>  '  + 
 							 '   							</div>  '  + 
