@@ -176,6 +176,24 @@
 				});
 			});
 			
+			$(document).on("click", ".dodajOcenu", function(event){
+				event.preventDefault();
+				var visitId = $(this).attr("visit-id");
+				var dataRating = JSON.stringify({
+					id:visitId,
+				});
+				$.ajax({
+					url: "/visit/addRating",
+					type: "POST",
+					data: dataRating,
+					contentType: "application/json",
+					success: function() {
+						console.log("Ide na ocenjivanje.");
+						window.location = "http://localhost:8080/Posetioci/addRating";
+					}
+				});
+			});
+			
 		/*]]>*/
 		</script>
 

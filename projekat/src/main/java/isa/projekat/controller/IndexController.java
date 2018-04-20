@@ -294,4 +294,9 @@ public class IndexController {
 	public String cinemaDiscounts(){
 		return "Posetioci/cinemaDiscounts";
 	}
+	
+	@GetMapping("/Posetioci/addRating") 
+	public String addRating() {
+		return "Posetioci/addRating";
+	}
 }

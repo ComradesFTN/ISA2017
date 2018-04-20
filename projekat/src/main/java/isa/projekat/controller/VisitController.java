@@ -105,4 +105,10 @@ public class VisitController {
 		return new ResponseEntity<List<VisitDTO>>(visitsDTO,HttpStatus.OK);
 		
 	}
+	
+	@RequestMapping(value = "/addRating", method = RequestMethod.POST, consumes="application/json")
+	public ResponseEntity<List<VisitDTO>> displayVisit(@RequestBody VisitDTO visitDTO) {	
+		
+		return new ResponseEntity<List<VisitDTO>>(HttpStatus.OK);
+	}
 }
