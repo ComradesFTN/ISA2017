@@ -6,7 +6,7 @@
 		<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyC-YyCq09kOBAfdxzfvceBtUov8tfj5Mh4&libraries=places"></script>
 		<script th:src="@{/scripts/jquery.geocomplete.js}"></script>
 		<meta charset="UTF-8">
-		<title>Kreiranje novog oglasa</title>			
+		<title>Kreiranje novog bioskopa</title>			
 	</head>
 
 	<body>
@@ -74,7 +74,30 @@
 			  <div class="form-group row">
 			    <label for="inputLng" class="col-sm-2 col-form-label">Geografska visina: </label>
 			    <div class="col-sm-10">
-			      <input type="text" class="ml-2" name="lng" id="inputLng" placeholder="Geografska visina" >
+			      <input type="text" class="ml-2" name="lng" id="inputLng" placeholder="Geografska visina" readonly>
+			    </div>
+			  </div>
+			  <label class="font-weight-bold">Dodaj sale:</label>
+			  <br/>
+			  <br/>
+			  <div class="form-group row">
+			    <label for="inputAuditoriumName" class="col-form-label">Naziv sale:  </label>
+			    <div class="col-sm">
+			      <input type="text" class="ml-2" id="inputAuditoriumName" placeholder="Naziv" >
+			    </div>
+			  </div>
+			  <div class="form-group row">
+			    <label for="inputRows" class="col-form-label">Broj redova: </label>
+			    <div class="col-sm">
+			      <input type="number" class="ml-2" id="inputRows" placeholder="Broj redova" >
+			    </div>
+			  </div>
+			  <div class="form-group row">
+			    <label for="inputCols" class="col-form-label">Broj kolona: </label>
+			    <div class="col-sm">
+			      <input type="number" class="ml-2" id="inputCols" placeholder="Broj kolona" >
+			      <input value="Dodaj salu" type="button" id="addAuditorium" class="btn btn-danger addAuditorium"/>
+			      <div><ul class="list-unstyled" id="auditoriums"></br></ul></div>
 			    </div>
 			  </div>
 			  
@@ -86,12 +109,46 @@
 			</form>
 		</div>
 		<script>
+			var saleBioskop = [];
+			
+			$("#addAuditorium").click(function(event){
+				event.preventDefault();
+				if($('#inputAuditoriumName').val()==""){
+			    	alert("Morate popuniti sva polja pri kreiranju sale, to su: naziv sale, broj redova i kolona sale!");
+				    return;
+			    }
+				if($('#inputRows').val()=="" || $('#inputCols').val()==""){
+					alert("Morate popuniti broj redova i kolona. Moraju biti ceo broj!");
+					return;
+				}
+				var auditoriumName=$("#inputAuditoriumName").val();
+				var audRows = $("#inputRows").val();
+				var audCols = $("#inputCols").val();
+				var sala = {name:auditoriumName, rows:audRows, columns:audCols};
+				var index;
+				saleBioskop.push(sala);
+				index = saleBioskop.indexOf(sala);
+				alert("Kreirao sam Auditorium!");
+				sala='<li name='+auditoriumName+'>'+auditoriumName+'  <input type=button class="btn btn-danger brisi" data-index="'+index+'" value="Ukloni salu"></li>';				
+				$("#auditoriums").append(sala);
+			});
+			$(document).on("click", ".brisi", function(event){
+				event.preventDefault();
+				li_parent = $(this).closest("li");
+				deleteTerm=li_parent.attr('name');
+				saleBioskop.splice(saleBioskop.indexOf(deleteTerm),1);
+				li_parent.remove();
+			});
 			$("input[type='submit']").click(function(event) {
 				event.preventDefault();
 				function validate() {
 				    if (($('#inputName').val() == "") || ($('#inputDescription').val() == "") || ($('#address').val() == "") || ($('#inputLat').val() == "") || ($('#inputLng').val() == "")) {
 				        alert("Pri kreiranju bioskopa morate popuniti sva polja, ako su polja geografske sirine i duzine prazna, znaci da adresu niste uneli isparvno!");
 				        return false;
+				    }
+				    if(saleBioskop.length==0){
+				    	alert("Morate napraviti barem jednu salu!");
+				    	return false;
 				    }
 				    return true;
 				}
@@ -104,6 +161,7 @@
 					adress:$("#address").val(),
 					myLat:$("#inputLat").val(),
 					myLang:test,
+					auditoriums:saleBioskop,
 					description:$("#inputDescription").val(),
 				});
 				$.ajax({
