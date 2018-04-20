@@ -4,17 +4,44 @@
 		<script th:src="@{/scripts/jquery-3.2.1.min.js}"></script>
 		<link rel="stylesheet" th:href="@{/stylesheets/bootstrap.css}">
 		<meta charset="UTF-8">
-		<title>Fan Zona</title>
+		<title>Fan Zona</title>		
 		<script th:inline="javascript">
 			$(document).ready(function(){
+				id = getUrlParameter('id');	
 				$("#home").attr("href", "cinemaDetails.html?id="+id);
 				$("#repertoar").attr("href", "cinemaRepertoar.html?id="+id);
-				
+				$.ajax({
+					url: 'http://localhost:8080/tickets/getTickets/'+id,					
+				}).then({
+					function(data) {
+						for (i = 0; i < data.length; i++) {
+							popust=data[i].price-50;
+							newRow= '   </br>  '  + 
+							 '   						<li>  '  + 
+							 '   							<div class="card text-center" style="width: 22rem;">  '  + 
+							 '   								<img class="card-img-top" style="height: 12rem;" src="../'+data[i].poster+'"">  '  + 
+							 '   								<div class="card-body">  '  + 
+							 '   									<h5 class="card-title">'+data[i].projectionName+'</h5>  '  + 
+							 '   									<ul class="list-unstyled">  '  + 
+							 '   										<li><p class="card-text">Datum : '+data[i].date+'</p></li>  '  + 
+							 '   										<li><p class="card-text">Termin : '+data[i].term+'</p></li>  '  + 
+							 '   										<li><p class="card-text">Sala : '+data[i].auditoriumName+'</p></li>  '  + 
+							 '   										<li><p class="card-text">Mesto : '+data[i].seat+'</p></li>  '  + 
+							 '   										<li><p class="card-text">Originalna cena : '+data[i].price+'din  -   Popust  :  '+popust+'</p></li>  '  + 
+							 '   									</ul>  '  + 
+							 '   									<a href="#" data-id="'+data[i].id+'" class="btn btn-primary">Rezervisi</a>  '  + 
+							 '   								</div>  '  + 
+							 '   							</div>  '  + 
+							 '  						</li>  ' ; 
+							 $("#tickets").append(newRow);							 
+						}
+					}
+				});
 			});
 			
 			$(document).on("click", ".reserve", function(event){
 				event.preventDefault(); 
-				var confirmed = confirm("Da li ste sigurni da zelite da rezervisete ovaj oglas?");
+				var confirmed = confirm("Da li ste sigurni da zelite da rezervisete ovu kartu?");
 				if(confirmed){
 					/*<![CDATA[*/
 					var userId = /*[[${session.loggedUser.getId()}]]*/ 'id'
@@ -34,6 +61,20 @@
 					/*]]>*/
 				}
 			});
+			var getUrlParameter = function getUrlParameter(sParam) {
+			    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+			        sURLVariables = sPageURL.split('&'),
+			        sParameterName,
+			        i;
+
+			    for (i = 0; i < sURLVariables.length; i++) {
+			        sParameterName = sURLVariables[i].split('=');
+
+			        if (sParameterName[0] === sParam) {
+			            return sParameterName[1] === undefined ? true : sParameterName[1];
+			        }
+			    }
+			};
 			
 		</script>			
 	</head>
@@ -78,20 +119,6 @@
 					</div>
 				<div class="col-6 mx-auto">
 					<ul class="list-unstyled" id="tickets">
-						</br>
-						<li>
-							<div class="card text-right" style="width: 18rem;">
-								<img class="card-img-top" style="height: 12rem;" th:src="@{/images/movie.jpg}">
-								<div class="card-body">
-									<h5 class="card-title">Card title</h5>
-									<ul class="list-unstyled">
-										<li><p class="card-text">Termin : 16:00</p></li>
-										<li><p class="card-text">datum : 16:00</p></li>
-									</ul>
-									<a href="#" class="btn btn-primary">Go somewhere</a>
-								</div>
-							</div>
-						</li>
 					</ul>
 				</div>
 				<div class="col-3">

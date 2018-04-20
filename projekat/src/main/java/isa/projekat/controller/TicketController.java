@@ -1,5 +1,6 @@
 package isa.projekat.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import isa.projekat.domain.Auditorium;
+import isa.projekat.domain.Cinema;
 import isa.projekat.domain.Ticket;
+import isa.projekat.domain.dto.TicketDTO;
+import isa.projekat.service.AuditoriumService;
+import isa.projekat.service.CinemaService;
 import isa.projekat.service.TicketService;
 
 
@@ -23,10 +28,25 @@ public class TicketController {
 	@Autowired
 	private TicketService ticketService;
 	
-	@RequestMapping(value = "getTickets", method = RequestMethod.GET )
-	public ResponseEntity<List<Ticket>> getTickets() {
+	@Autowired
+	private CinemaService cinemaService;
+	
+	@Autowired
+	private AuditoriumService auditoriumService;
+	
+	@RequestMapping(value = "getTickets/{id}", method = RequestMethod.GET )
+	public ResponseEntity<List<TicketDTO>> getTickets(@PathVariable Long id) {
 		List<Ticket> tickets = ticketService.findAll();
-		return new ResponseEntity<>(tickets, HttpStatus.OK);
+		List<TicketDTO> ticketsDTO = new ArrayList<TicketDTO>();
+		Cinema cinema = cinemaService.findOne(id);
+		for(Ticket ticket : tickets){
+			if(cinema.getMovies().contains(ticket.getProjection().getMovie())){
+				String auditoriumName=auditoriumService.findOne(ticket.getProjection().getAuditoriumId()).getName();
+				TicketDTO ticketDTO = new TicketDTO(ticket.getId(),ticket.getSeat(),ticket.getProjection().getDate(),ticket.getProjection().getTerm(),auditoriumName,ticket.getProjection().getMovie().getName(),ticket.getProjection().getMovie().getPrice(),ticket.getProjection().getMovie().getPoster());
+				ticketsDTO.add(ticketDTO);
+			}
+		}
+		return new ResponseEntity<>(ticketsDTO, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "{id}", method = RequestMethod.GET)

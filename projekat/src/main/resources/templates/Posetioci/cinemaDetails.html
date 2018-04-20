@@ -13,6 +13,7 @@
 				
 				var id = getUrlParameter('id');	
 				$("#repertoar").attr("href", "cinemaRepertoar.html?id="+id);
+				$("#popusti").attr("href", "cinemaDiscounts.html?id="+id);
 				$.ajax({
 					url : "http://localhost:8080/cinemas/"+id
 				}).then(
@@ -97,7 +98,7 @@
 							<a class="nav-link text-white" id="repertoar" href="#">Repertoar</a>				
 						</li>
 						<li class="nav-item">
-							<a class="nav-link text-white" href="cinemaDiscounts.html">Popusti</a>
+							<a class="nav-link text-white" id="popusti" href="#">Popusti</a>
 						</li>
 					</ul>
 				</div>

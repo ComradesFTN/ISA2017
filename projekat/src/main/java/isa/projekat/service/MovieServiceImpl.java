@@ -63,7 +63,7 @@ public class MovieServiceImpl implements MovieService {
 		if(!movie.getPoster().contains("Bez slike")) {			
 			if(!movie.getPoster().contains("imagesAd")) {
 				if(this.findOne(movie.getId())!=null) {
-					if(this.findOne(movie.getId()).getPoster().contains("Bez")) {
+					if(this.findOne(movie.getId()).getPoster().contains("Bez slike")) {
 						String pathFile = putanja+"imagesMovies\\film"+System.currentTimeMillis()+".jpg";
 						decoder(movie.getPoster(), pathFile);
 						String splitPath[] = pathFile.split("static\\\\");
