@@ -8,6 +8,7 @@
 		<meta charset="UTF-8">
 		<title>Bioskop</title>	
 		<script>
+		var podatak;
 			var id=0;
 			$(document).ready(function(){				
 				id = getUrlParameter('id');	
@@ -16,6 +17,7 @@
 					url : "http://localhost:8080/cinemas/"+id
 				}).then(
 						function(data) {
+							podatak = data;
 							$('#name').text(data.name);
 							$('#adress').text(data.adress);
 							rating=data.rating;
