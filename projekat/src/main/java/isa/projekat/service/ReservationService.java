@@ -18,5 +18,7 @@ public interface ReservationService {
 	void Rejected(long userId, long inviterId, long reservationId);
 
 	Boolean isEditable(Long id);
+	
+	List<Reservation> FindByUser(long user);
 
 }

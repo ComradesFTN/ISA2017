@@ -116,4 +116,9 @@ public class ReservationServiceImpl implements ReservationService {
 		return true;
 	}
 
+	@Override
+	public List<Reservation> FindByUser(long user) {
+		return reservationRepository.FindByUser(user);
+	}
+
 }
