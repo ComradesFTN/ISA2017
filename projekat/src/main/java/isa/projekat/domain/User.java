@@ -70,14 +70,19 @@ public class User {
 	@JsonBackReference
 	private List<Visit> visits = new ArrayList<Visit>();
 	
+	@Column(name = "Clanstvo",columnDefinition="VARCHAR(100)")
+	private String membership="Nemate clanstvo";
+	
 	public User() {
 		this.enabled = false;
 		this.userType = 0;
 		this.firstTime = true;
+		this.membership = "Nemate clanstvo";
 	}
 
 	public User(long id, String email, String password, String firstName, String lastName, String city, String phone,
-			boolean enabled, int userType, Boolean firstTime) {
+			boolean enabled, int userType, Boolean firstTime, List<Reservation> reservations, List<Visit> visits,
+			String membership) {
 		this.id = id;
 		this.email = email;
 		this.password = password;
@@ -88,7 +93,12 @@ public class User {
 		this.enabled = enabled;
 		this.userType = userType;
 		this.firstTime = firstTime;
+		this.reservations = reservations;
+		this.visits = visits;
+		this.membership = membership;
 	}
+
+
 
 	public String getEmail() {
 		return email;
@@ -185,7 +195,12 @@ public class User {
 	public void setVisits(List<Visit> visits) {
 		this.visits = visits;
 	}
-	
-	
-	
+
+	public String getMembership() {
+		return membership;
+	}
+
+	public void setMembership(String membership) {
+		this.membership = membership;
+	}
 }

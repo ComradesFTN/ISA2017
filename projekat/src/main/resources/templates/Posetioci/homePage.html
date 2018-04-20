@@ -44,6 +44,7 @@
 			  	<div class="row mx-auto">Email:<strong><p class="col" th:text="${session.loggedUser.getEmail()}" th:unless="${session == null}"></p></strong></div>
 				<div class="row mx-auto">Telefon:<strong><p class="col" th:text="${session.loggedUser.getPhone()}" th:unless="${session == null}"></p></strong></div>
 				<div class="row mx-auto">Grad:<strong><p class="col" th:text="${session.loggedUser.getCity()}" th:unless="${session == null}"></p></strong></div>
+				<div class="row mx-auto">Clanstvo:<strong><p class="col" th:text="${session.loggedUser.getMembership()}" th:unless="${session == null}"></p></strong></div>
 			</div>
 		
 

@@ -109,6 +109,28 @@ public class VisitController {
 				visitsDTO.add(visitDTO);
 			}
 		}
+		
+		User user = userService.findOne(id);
+		List<Visit> posete = user.getVisits();
+		int brojac=0;
+		for(Visit v:posete) {
+			brojac++;
+		}
+		if(brojac==1) {
+			user.setMembership("Bronzani");
+			
+			brojac=0;
+		}else if(brojac==2){
+			user.setMembership("Srebrni");
+			brojac=0;
+		}else if(brojac>=3) {
+			user.setMembership("Zlatni");
+			brojac=0;
+		}else {
+			user.setMembership("Nema clanstva");
+			brojac=0;
+		}
+		userService.save(user);
 		return new ResponseEntity<List<VisitDTO>>(visitsDTO,HttpStatus.OK);
 		
 	}
