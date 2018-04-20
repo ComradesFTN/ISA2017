@@ -100,7 +100,7 @@ public class VisitController {
 	}
 
 	@RequestMapping(value = "/displayVisit/{id}", method = RequestMethod.GET)
-	public ResponseEntity<List<VisitDTO>> displayVisit(@PathVariable Long id) {		
+	public ResponseEntity<List<VisitDTO>> displayVisit(@PathVariable Long id, HttpSession session) {		
 		List<Visit> visits=visitService.findAll();
 		List<VisitDTO> visitsDTO = new ArrayList<VisitDTO>();
 		for(Visit visit : visits){
@@ -112,25 +112,27 @@ public class VisitController {
 		
 		User user = userService.findOne(id);
 		List<Visit> posete = user.getVisits();
-		int brojac=0;
-		for(Visit v:posete) {
+		int brojac = 0;
+		for (Visit v : posete) {
 			brojac++;
 		}
-		if(brojac==1) {
+		if (brojac == 1) {
 			user.setMembership("Bronzani");
+			brojac = 0;
 			
-			brojac=0;
-		}else if(brojac==2){
+		} else if (brojac == 2) {
 			user.setMembership("Srebrni");
-			brojac=0;
-		}else if(brojac>=3) {
+			brojac = 0;
+			
+		} else if (brojac >= 3) {
 			user.setMembership("Zlatni");
-			brojac=0;
-		}else {
+			brojac = 0;
+		} else {
 			user.setMembership("Nema clanstva");
-			brojac=0;
+			brojac = 0;
 		}
 		userService.save(user);
+		session.setAttribute("loggedUser", user);
 		return new ResponseEntity<List<VisitDTO>>(visitsDTO,HttpStatus.OK);
 		
 	}
