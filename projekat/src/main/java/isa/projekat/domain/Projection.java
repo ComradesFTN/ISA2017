@@ -62,7 +62,9 @@ public class Projection {
 	@JsonIgnoreProperties("projection")
 	private List<Visit> visits = new ArrayList<Visit>();
 	
-	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "projection")
+	@JsonIgnoreProperties("projection")
+	private List<Ticket> tickets = new ArrayList<Ticket>();
 	
 	public List<Visit> getVisits() {
 		return visits;
@@ -131,9 +133,12 @@ public class Projection {
 	public void setReservations(List<Reservation> reservations) {
 		this.reservations = reservations;
 	}
-	
-	
-	
-	
-	
+
+	public List<Ticket> getTickets() {
+		return tickets;
+	}
+
+	public void setTickets(List<Ticket> tickets) {
+		this.tickets = tickets;
+	}
 }

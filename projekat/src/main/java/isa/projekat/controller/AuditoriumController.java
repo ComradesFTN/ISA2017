@@ -30,7 +30,6 @@ public class AuditoriumController {
 	@RequestMapping(value = "{id}", method = RequestMethod.GET)
 	public ResponseEntity<Auditorium> getAuditorium(@PathVariable Long id) {
 		Auditorium auditorium = auditoriumService.findOne(id);
-		System.out.println("usaoooo");
 		return new ResponseEntity<>(auditorium, HttpStatus.OK);
 	}
 	

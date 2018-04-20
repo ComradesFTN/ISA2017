@@ -16,10 +16,12 @@ import isa.projekat.domain.Auditorium;
 import isa.projekat.domain.Cinema;
 import isa.projekat.domain.Movie;
 import isa.projekat.domain.Projection;
+import isa.projekat.domain.Ticket;
 import isa.projekat.repository.AuditoriumRepository;
 import isa.projekat.repository.CinemaRepository;
 import isa.projekat.repository.MovieRepository;
 import isa.projekat.repository.ProjectionRepository;
+import isa.projekat.repository.TicketRepository;
 
 @Service
 public class CinemaServiceImpl implements CinemaService {
@@ -35,6 +37,9 @@ public class CinemaServiceImpl implements CinemaService {
 	
 	@Autowired
 	private ProjectionRepository projectionRepository;
+	
+	@Autowired
+	private TicketRepository ticketRepository;
 	
 	@Temporal(TemporalType.DATE)
 	private Date date = new Date();
@@ -73,12 +78,21 @@ public class CinemaServiceImpl implements CinemaService {
 								seats.add(seat);
 							}
 							proj.setSeats(seats);
-							projectionRepository.save(proj);
+							Projection savedProj=projectionRepository.save(proj);
+							for(int j=0;i<auditoriumRepository.findOne(audit.getId()).getSeats().size();j++){
+								Integer seat = auditoriumRepository.findOne(audit.getId()).getSeats().get(j);
+								if(seat==3){
+									Ticket ticket = new Ticket();
+									int seatIndex=j+1;
+									ticket.setSeat(seatIndex);
+									ticket.setProjection(savedProj);
+									ticketRepository.save(ticket);
+								}
+							}
 						}
 					}
 				}
 			}
 		}
-	}	
-
+	}
 }
