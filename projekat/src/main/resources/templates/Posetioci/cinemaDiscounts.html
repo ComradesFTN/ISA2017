@@ -8,7 +8,8 @@
 		<script th:inline="javascript">
 			$(document).ready(function(){
 				$("#home").attr("href", "cinemaDetails.html?id="+id);
-				$("#repertoar").attr("href", "cinemaRepertoar.html?id="+id);				
+				$("#repertoar").attr("href", "cinemaRepertoar.html?id="+id);
+				
 			});
 			
 			$(document).on("click", ".reserve", function(event){
@@ -70,30 +71,32 @@
 		</nav>
 			<div>
 				 <div class="row">
-				 	<div class="col mt-5">
+				 	<div class="col-3 ml-5 mt-5">
 						<figure class="figure">
 							<img height="250" width="380" hspace="20" th:src="@{/images/cinema.jpg}" class="figure-img img-responsive " /> 
 						</figure>
 					</div>
-			<div class="col-6">
-				<ul class="list-unstyled" id="tickets">
-					</br>
-					<li>
-						<div class="card" style="width: 18rem;">
-							<img class="card-img-top" src="..." alt="Card image cap">
-							<div class="card-body">
-								<h5 class="card-title">Card title</h5>
-								<p class="card-text">Some quick example text to build on the
-									card title and make up the bulk of the card's content.</p>
-								<a href="#" class="btn btn-primary">Go somewhere</a>
+				<div class="col-6 mx-auto">
+					<ul class="list-unstyled" id="tickets">
+						</br>
+						<li>
+							<div class="card text-right" style="width: 18rem;">
+								<img class="card-img-top" style="height: 12rem;" th:src="@{/images/movie.jpg}">
+								<div class="card-body">
+									<h5 class="card-title">Card title</h5>
+									<ul class="list-unstyled">
+										<li><p class="card-text">Termin : 16:00</p></li>
+										<li><p class="card-text">datum : 16:00</p></li>
+									</ul>
+									<a href="#" class="btn btn-primary">Go somewhere</a>
+								</div>
 							</div>
-						</div>
-					</li>
-				</ul>
-			</div>
-			<div class="col">
+						</li>
+					</ul>
+				</div>
+				<div class="col-3">
 						
-					</div>
+				</div>
 			</div>
 	</body>
 </html>

@@ -104,8 +104,10 @@ public class VisitController {
 		List<Visit> visits=visitService.findAll();
 		List<VisitDTO> visitsDTO = new ArrayList<VisitDTO>();
 		for(Visit visit : visits){
-			VisitDTO visitDTO = new VisitDTO(visit.getId(),visit.getUserVisit().getId(),visit.getProjectionVisit().getId(),visit.getCinemaVisit().getName());
-			visitsDTO.add(visitDTO);
+			if(visit.getUserVisit().getId()==id){
+				VisitDTO visitDTO = new VisitDTO(visit.getId(),visit.getUserVisit().getId(),visit.getProjectionVisit().getId(),visit.getCinemaVisit().getName());
+				visitsDTO.add(visitDTO);
+			}
 		}
 		return new ResponseEntity<List<VisitDTO>>(visitsDTO,HttpStatus.OK);
 		

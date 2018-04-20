@@ -1,30 +1,32 @@
 package isa.projekat.domain;
 
+import java.lang.annotation.Repeatable;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity(name = "Poseta")
+@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class Visit {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 
 	@ManyToOne
-	@JsonManagedReference
 	private User userVisit;
 
 	@ManyToOne
-	@JsonManagedReference
 	private Projection projectionVisit;
 
 	@ManyToOne
-	@JsonManagedReference
 	private Cinema cinemaVisit;
 
 	private int cinemaRated;
