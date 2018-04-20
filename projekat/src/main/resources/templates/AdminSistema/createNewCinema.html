@@ -110,7 +110,6 @@
 		</div>
 		<script>
 			var saleBioskop = [];
-			
 			$("#addAuditorium").click(function(event){
 				event.preventDefault();
 				if($('#inputAuditoriumName').val()==""){
@@ -128,7 +127,6 @@
 				var index;
 				saleBioskop.push(sala);
 				index = saleBioskop.indexOf(sala);
-				alert("Kreirao sam Auditorium!");
 				sala='<li name='+auditoriumName+'>'+auditoriumName+'  <input type=button class="btn btn-danger brisi" data-index="'+index+'" value="Ukloni salu"></li>';				
 				$("#auditoriums").append(sala);
 			});

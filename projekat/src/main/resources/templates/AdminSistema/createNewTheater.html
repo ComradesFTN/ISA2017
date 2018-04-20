@@ -78,6 +78,30 @@
 			    </div>
 			  </div>
 			  
+			  <label class="font-weight-bold">Dodaj sale:</label>
+			  <br/>
+			  <br/>
+			  <div class="form-group row">
+			    <label for="inputAuditoriumName" class="col-form-label">Naziv sale:  </label>
+			    <div class="col-sm">
+			      <input type="text" class="ml-2" id="inputAuditoriumName" placeholder="Naziv" >
+			    </div>
+			  </div>
+			  <div class="form-group row">
+			    <label for="inputRows" class="col-form-label">Broj redova: </label>
+			    <div class="col-sm">
+			      <input type="number" class="ml-2" id="inputRows" placeholder="Broj redova" >
+			    </div>
+			  </div>
+			  <div class="form-group row">
+			    <label for="inputCols" class="col-form-label">Broj kolona: </label>
+			    <div class="col-sm">
+			      <input type="number" class="ml-2" id="inputCols" placeholder="Broj kolona" >
+			      <input value="Dodaj salu" type="button" id="addAuditorium" class="btn btn-danger addAuditorium"/>
+			      <div><ul class="list-unstyled" id="auditoriums"></br></ul></div>
+			    </div>
+			  </div>
+			  
 			  <div class="form-group row">
 			    <div class="col-sm-10">
 	    			<input type="submit" value="Napravi pozoriste" class="btn btn-danger" />
@@ -86,6 +110,34 @@
 			</form>
 		</div>
 		<script>
+			var saleBioskop = [];
+			$("#addAuditorium").click(function(event){
+				event.preventDefault();
+				if($('#inputAuditoriumName').val()==""){
+			    	alert("Morate popuniti sva polja pri kreiranju sale, to su: naziv sale, broj redova i kolona sale!");
+				    return;
+			    }
+				if($('#inputRows').val()=="" || $('#inputCols').val()==""){
+					alert("Morate popuniti broj redova i kolona. Moraju biti ceo broj!");
+					return;
+				}
+				var auditoriumName=$("#inputAuditoriumName").val();
+				var audRows = $("#inputRows").val();
+				var audCols = $("#inputCols").val();
+				var sala = {name:auditoriumName, rows:audRows, columns:audCols};
+				var index;
+				saleBioskop.push(sala);
+				index = saleBioskop.indexOf(sala);
+				sala='<li name='+auditoriumName+'>'+auditoriumName+'  <input type=button class="btn btn-danger brisi" data-index="'+index+'" value="Ukloni salu"></li>';				
+				$("#auditoriums").append(sala);
+			});
+			$(document).on("click", ".brisi", function(event){
+				event.preventDefault();
+				li_parent = $(this).closest("li");
+				deleteTerm=li_parent.attr('name');
+				saleBioskop.splice(saleBioskop.indexOf(deleteTerm),1);
+				li_parent.remove();
+			});
 			$("input[type='submit']").click(function(event) {
 				event.preventDefault();
 				function validate() {
@@ -107,13 +159,13 @@
 					description:$("#inputDescription").val(),
 				});
 				$.ajax({
-					url: "http://localhost:8080/cinemas",
+					url: "http://localhost:8080/theatres",
 					type: 'POST',
 					data: formData,
 					contentType: "application/json",
 					success: function(){
 						console.log("Kreirao sam BIOSKOP!");
-						window.location.href = "http://localhost:8080/AdminSistema/cinemasAdmin.html";
+						window.location.href = "http://localhost:8080/AdminSistema/theatresAdmin.html";
 						
 					}
 				});
