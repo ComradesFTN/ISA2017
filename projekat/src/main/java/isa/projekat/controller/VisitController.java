@@ -2,6 +2,9 @@ package isa.projekat.controller;
 
 import java.util.List;
 import java.util.Set;
+
+import javax.servlet.http.HttpSession;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -21,7 +24,9 @@ import isa.projekat.domain.Projection;
 import isa.projekat.domain.Reservation;
 import isa.projekat.domain.User;
 import isa.projekat.domain.Visit;
+import isa.projekat.domain.dto.RatingDTO;
 import isa.projekat.domain.dto.VisitDTO;
+import isa.projekat.repository.VisitRepository;
 import isa.projekat.service.CinemaService;
 import isa.projekat.service.ProjectionService;
 import isa.projekat.service.ReservationService;
@@ -107,8 +112,28 @@ public class VisitController {
 	}
 	
 	@RequestMapping(value = "/addRating", method = RequestMethod.POST, consumes="application/json")
-	public ResponseEntity<List<VisitDTO>> displayVisit(@RequestBody VisitDTO visitDTO) {	
-		
+	public ResponseEntity<List<VisitDTO>> addRating(@RequestBody VisitDTO visitDTO, HttpSession session) {	
+		session.setAttribute("visitId", visitDTO.getId());
 		return new ResponseEntity<List<VisitDTO>>(HttpStatus.OK);
 	}
+	
+	@RequestMapping(value = "/populateRatingPage", method = RequestMethod.GET)
+	public ResponseEntity<Visit> populateRatingPage(HttpSession session) {	
+		Visit visit = visitService.findOne((Long) session.getAttribute("visitId"));
+
+/*		System.out.println(visit.getId());
+		System.out.println(visit.getCinemaVisit().getId());
+		System.out.println(visit.getProjectionVisit().getId());*/
+		return new ResponseEntity<>(visit, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/saveRating", method = RequestMethod.PUT, consumes="application/json")
+	public ResponseEntity<Visit> saveRating(@RequestBody RatingDTO ratingDTO, HttpSession session) {	
+		Visit visit = visitService.findOne((Long) session.getAttribute("visitId"));
+		visit.setCinemaRated(ratingDTO.getCinemaRating());
+		visit.setMovieRated(ratingDTO.getMovieRating());
+		visitService.save(visit);
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
 }

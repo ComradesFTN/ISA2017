@@ -27,9 +27,9 @@ public class Visit {
 	@JsonManagedReference
 	private Cinema cinemaVisit;
 
-	private boolean cinemaRated;
+	private int cinemaRated;
 
-	private boolean movieRated;
+	private int movieRated;
 
 	public Projection getProjectionVisit() {
 		return projectionVisit;
@@ -63,24 +63,26 @@ public class Visit {
 		this.cinemaVisit = cinemaVisit;
 	}
 
-	public boolean isCinemaRated() {
+	
+
+	public int getCinemaRated() {
 		return cinemaRated;
 	}
 
-	public void setCinemaRated(boolean cinemaRated) {
+	public void setCinemaRated(int cinemaRated) {
 		this.cinemaRated = cinemaRated;
 	}
 
-	public boolean isMovieRated() {
+	public int getMovieRated() {
 		return movieRated;
 	}
 
-	public void setMovieRated(boolean movieRated) {
+	public void setMovieRated(int movieRated) {
 		this.movieRated = movieRated;
-	}	
+	}
 
 	public Visit() {
-		this.cinemaRated = false;
-		this.movieRated = false;
+		this.cinemaRated = 0;
+		this.movieRated = 0;
 	}
 }

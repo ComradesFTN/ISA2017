@@ -10,27 +10,93 @@
 		<div class="nav nav-tabs bg-danger">
 			<ul class="nav nav-tabs mr-auto bg-danger">			
 				<li class="nav-item">
-					<a class="nav-link text-white" href="theatresPage.html">Pozorista</a>				
+					<a class="nav-link text-white" th:href="homePage.html">Home</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link active text-danger">Home</a>
+					<a class="nav-link text-danger active">Ocenjivanje</a>
 				</li>
-				<li class="nav-item">
-					<a class="nav-link text-white" href="cinemasPage.html">Bioskopi</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link text-white" th:href="friends.html">Prijatelji</a>
-				</li>	
-				<li class="nav-item">
-					<a class="nav-link text-white" href="cinemasPage.html">Rezervacije</a>
-				</li>	
-				<li class="nav-item">
-					<a class="nav-link text-white" th:href="settings.html">Podesavanja</a>
-				</li>	
-				<li class="nav-item">
-					<a class="nav-link text-white" href="fanZonaPage.html">Fan Zona</a>
-				</li>					
 			</ul>
 			<a class="nav-link mr-0 text-white" href="/index.html">Odjava</a>
 			
 		</div>
+		<br/>
+		
+		<div class="col-md-2 text-center">
+		  	<div class="row mx-auto">Bioskop:<strong><p class="col" id="bioskop"></p></strong></div>
+		  	<div class="row mx-auto">Film:<strong><p class="col" id="film"></p></strong></div>
+		  	<div class="row mx-auto">Vreme i datum:<strong><p class="col" id="DatVreme"></p></strong></div>
+		  	<br/>
+			<div class="row mx-auto">Ocena ambijenta:</div>
+		 	<select class="col" id="ambOcena">
+			  <option value="1">1</option>
+			  <option value="2">2</option>
+			  <option value="3">3</option>
+			  <option value="4">4</option>
+			  <option value="5">5</option>
+			</select>
+			<div class="row mx-auto">Ocena filma:</div>
+			<select class="col" id="filmOcena">
+			  <option value="1">1</option>
+			  <option value="2">2</option>
+			  <option value="3">3</option>
+			  <option value="4">4</option>
+			  <option value="5">5</option>
+			</select>
+			<div class="row mx-auto"><button type="submit" class="btn btn-danger oceni">Oceni</button></div>
+		</div>
+		<script>
+			var visitObj;
+			$(document).ready(function() {
+				$.ajax({
+					url: "/visit/populateRatingPage",
+					type: "GET",
+					success: function(visit) {
+						visitObj = visit;
+						console.log(visit.cinemaVisit.name);
+						console.log(visit.projectionVisit.movie.name);
+						console.log(visit.projectionVisit.movie.term[0]);
+						console.log(visit.projectionVisit.date);
+						var bioskop = document.getElementById("bioskop");
+						bioskop.innerHTML = visit.cinemaVisit.name;
+						var film = document.getElementById("film");
+						film.innerHTML = visit.projectionVisit.movie.name;
+						var DatVreme = document.getElementById("DatVreme");
+						DatVreme.innerHTML = visit.projectionVisit.movie.term[0] + ", " + visit.projectionVisit.date;
+						
+					}
+				});
+			});
+			
+			$(document).on("click", ".oceni", function(event) {
+				event.preventDefault();
+				var amb = document.getElementById("ambOcena");
+				var selectedAmb = amb.options[amb.selectedIndex].value; //pokupi
+				var fil = document.getElementById("filmOcena");
+				var selectedFil = fil.options[fil.selectedIndex].value; //pokupi
+				if((visitObj.cinemaRated === 0) && (visitObj.movieRated === 0)) {
+					sendingData = JSON.stringify({
+						cinemaRating:selectedAmb,
+						movieRating:selectedFil,
+					});
+					$.ajax({
+						url: "/visit/saveRating",
+						type: "PUT",
+						data: sendingData,
+						contentType: "application/json",
+						success: function(){
+							alert("Ocena dodata.");
+							window.location.href="http://localhost:8080/Posetioci/homePage.html";
+						}
+						
+					});
+				} else {
+					alert("Vec ste ocenili.");
+					window.location.href="http://localhost:8080/Posetioci/homePage.html";
+				}
+				
+				
+			});
+		</script>
+		
+	</body>
+</html>
