@@ -14,11 +14,17 @@ import org.springframework.web.bind.annotation.RestController;
 
 import isa.projekat.domain.Auditorium;
 import isa.projekat.domain.Cinema;
+import isa.projekat.domain.Projection;
+import isa.projekat.domain.Reservation;
 import isa.projekat.domain.Ticket;
+import isa.projekat.domain.User;
 import isa.projekat.domain.dto.TicketDTO;
 import isa.projekat.service.AuditoriumService;
 import isa.projekat.service.CinemaService;
+import isa.projekat.service.ProjectionService;
 import isa.projekat.service.TicketService;
+import isa.projekat.service.UserService;
+import isa.projekat.service.ReservationService;
 
 
 @RestController
@@ -33,9 +39,19 @@ public class TicketController {
 	
 	@Autowired
 	private AuditoriumService auditoriumService;
+
+	@Autowired
+	private UserService userService;
+	
+	@Autowired
+	private ReservationService reservationService;
+	
+	@Autowired
+	private ProjectionService projectionService;
 	
 	@RequestMapping(value = "getTickets/{id}", method = RequestMethod.GET )
 	public ResponseEntity<List<TicketDTO>> getTickets(@PathVariable Long id) {
+		System.out.println("Uso sam ovde");
 		List<Ticket> tickets = ticketService.findAll();
 		List<TicketDTO> ticketsDTO = new ArrayList<TicketDTO>();
 		Cinema cinema = cinemaService.findOne(id);
@@ -61,4 +77,27 @@ public class TicketController {
 		return new ResponseEntity<>(newTicket, HttpStatus.OK);
 	}
 	
+	@RequestMapping(value = "reserveTicket/{id}/{userId}", method = RequestMethod.GET)
+	public ResponseEntity<Ticket> reserveTicket(@PathVariable Long id, @PathVariable Long userId) {
+		Ticket ticket = ticketService.findOne(id);
+		User user = userService.findOne(userId);
+		Reservation reservation = new Reservation();
+		reservation.setUser(user);
+		reservation.setProjection(ticket.getProjection());
+		reservation.setSeat(ticket.getSeat());
+		int index = ticket.getSeat()-1;
+		for(int i=0;i<reservation.getProjection().getSeats().size();i++){
+			if(i==index){
+				System.out.println("OBOJICU CASE OD KRISTALA"+i);
+				Projection projection = reservation.getProjection();
+				projection.getSeats().set(i,2);
+				System.out.println(projection.getSeats().get(i));
+				projectionService.save(projection);
+			}
+		}
+		reservationService.save(reservation);
+		ticketService.delete(ticket);
+		
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
 }

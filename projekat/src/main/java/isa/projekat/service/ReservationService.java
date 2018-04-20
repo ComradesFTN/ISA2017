@@ -27,4 +27,8 @@ public interface ReservationService {
 
 	Reservation delete(Long id);
 
+	Reservation save(Reservation reservation);
+	
+	List<Reservation> findByUser_id(long user);
+
 }

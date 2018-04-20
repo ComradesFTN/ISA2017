@@ -75,5 +75,18 @@ public class ReservationController {
 		return new ResponseEntity<>(isEditable, HttpStatus.OK);
 	}
 	
+	/*@RequestMapping(value = "getReservations/{userId}", method = RequestMethod.GET )
+	public ResponseEntity<List<Reservation>> getReservations(@PathVariable Long userId) {
+		List<Reservation> reservations = reservationService.findByUser_id(userId);
+		List<Integer> reservedSeats= new ArrayList<Integer>();
+		for(Reservation reservation : reservations){
+			if(reservation.getProjection().getAuditoriumId()==salaId){
+				reservedSeats.add(reservation.getSeat());
+			}
+		}
+		return new ResponseEntity<>(reservedSeats, HttpStatus.OK);
+	}*/
+	
+	
 	
 }

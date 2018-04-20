@@ -120,7 +120,7 @@
 					}
 					if($("#prijatelji").is(':checked')){
 						checkboxes=$('.prijatelji:checkbox:checked')
-						if(checkboxes.length>rezervacije.length){
+						if((checkboxes.length) >= (rezervacije.length)){
 							alert("Morate izabrati vise mesta za svoje prijatelje");
 							return;
 						}
@@ -246,7 +246,7 @@
 				});
 			});
 				
-			 $(document).on("click", ".seat", function(event){
+			$(document).on("click", ".seat", function(event){
 				event.preventDefault();
 				mesta = $(document).data('mesta');
 				index=$(this).attr("data-id");
@@ -254,7 +254,7 @@
 				if(mesta[index]===2){	
 					mesta[index]=1;
 					rezervacije=$(document).data('rezervacije');
-					rezervacije.splice($.inArray(index,rezervacije),1)
+					rezervacije.splice(rezervacije.indexOf(index),1)
 					$(document).data('rezervacije',rezervacije);
 					classText='seat btn-secondary';				
 				}

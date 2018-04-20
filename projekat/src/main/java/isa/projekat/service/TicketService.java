@@ -15,5 +15,7 @@ public interface TicketService {
 	List<Ticket> findByProjection_idAndSeat(long projection_id,Integer seat);
 	
 	List<Ticket> findByProjection_id(long projection_id);
+
+	void delete(Ticket ticket);
 	
 }

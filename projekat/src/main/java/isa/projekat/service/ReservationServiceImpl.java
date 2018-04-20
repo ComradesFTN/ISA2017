@@ -137,5 +137,16 @@ public class ReservationServiceImpl implements ReservationService {
 		reservationRepository.delete(reservation);
 		return reservation;
 	}
+	
+	@Override
+	public Reservation save(Reservation reservation){
+		return reservationRepository.save(reservation);
+		
+	}
+
+	@Override
+	public List<Reservation> findByUser_id(long user) {
+		return reservationRepository.findByUser_id(user);
+	}
 
 }

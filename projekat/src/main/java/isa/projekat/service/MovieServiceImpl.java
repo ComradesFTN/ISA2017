@@ -154,7 +154,11 @@ public class MovieServiceImpl implements MovieService {
 			throw new IllegalArgumentException("Tried to delete"
 					+ "non-existant movie");
 		}
-		projectionRepository.delete(projectionRepository.findByMovie_id(id));
+		List<Projection> projections = projectionRepository.findByMovie_id(id);
+		for(Projection projection : projections){
+			ticketRepository.delete(projection.getTickets());
+		}
+		projectionRepository.delete(projections);
 		movieRepository.delete(movie);
 		return movie;
 	}

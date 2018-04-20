@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import isa.projekat.domain.Movie;
 import isa.projekat.domain.Ticket;
 import isa.projekat.repository.ProjectionRepository;
 import isa.projekat.repository.TicketRepository;
@@ -43,4 +44,13 @@ public class TicketServiceImpl implements TicketService {
 		return ticketRepository.findByProjection_id(projection_id);
 	}
 
+	@Override
+	public void delete(Ticket ticket) {		
+		if(ticket == null){
+			throw new IllegalArgumentException("Tried to delete"
+					+ "non-existant ticket");
+		}
+		ticketRepository.delete(ticket);
+		return;
+	}
 }
