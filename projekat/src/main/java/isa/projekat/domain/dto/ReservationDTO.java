@@ -1,6 +1,7 @@
 package isa.projekat.domain.dto;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class ReservationDTO {
@@ -11,6 +12,12 @@ public class ReservationDTO {
 	private boolean friend;
 	private List<Integer> seats = new ArrayList<Integer>();
 	private long inviterId;
+	private String movieName;
+	private Date date;
+	private String term;
+	private String placeName;
+	private String auditoriumName;
+	private long id;
 	
 	public ReservationDTO(long projectionId, Integer seat, long userId, boolean friend, List<Integer> seats ) {	
 		this.projectionId = projectionId;
@@ -70,6 +77,54 @@ public class ReservationDTO {
 
 	public void setUserId(long userId) {
 		this.userId = userId;
+	}
+
+	public String getMovieName() {
+		return movieName;
+	}
+
+	public void setMovieName(String movieName) {
+		this.movieName = movieName;
+	}
+
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
+
+	public String getTerm() {
+		return term;
+	}
+
+	public void setTerm(String term) {
+		this.term = term;
+	}
+
+	public String getPlaceName() {
+		return placeName;
+	}
+
+	public void setPlaceName(String placeName) {
+		this.placeName = placeName;
+	}
+
+	public String getAuditoriumName() {
+		return auditoriumName;
+	}
+
+	public void setAuditoriumName(String auditoriumName) {
+		this.auditoriumName = auditoriumName;
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
 	}
 
 	

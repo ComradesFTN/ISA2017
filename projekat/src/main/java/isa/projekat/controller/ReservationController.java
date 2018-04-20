@@ -2,6 +2,7 @@ package isa.projekat.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,8 +15,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.view.RedirectView;
 
+import isa.projekat.domain.Cinema;
+import isa.projekat.domain.Movie;
 import isa.projekat.domain.Reservation;
 import isa.projekat.domain.dto.ReservationDTO;
+import isa.projekat.service.AuditoriumService;
+import isa.projekat.service.CinemaService;
 import isa.projekat.service.ReservationService;
 
 @Controller
@@ -24,6 +29,12 @@ public class ReservationController {
 	
 	@Autowired
 	private ReservationService reservationService;
+	
+	@Autowired
+	private AuditoriumService auditoriumService;
+	
+	@Autowired
+	private CinemaService cinemaService;
 	
 	@RequestMapping(value = "getReservations", method = RequestMethod.GET )
 	public ResponseEntity<List<Reservation>> getReservations() {
@@ -75,18 +86,35 @@ public class ReservationController {
 		return new ResponseEntity<>(isEditable, HttpStatus.OK);
 	}
 	
-	/*@RequestMapping(value = "getReservations/{userId}", method = RequestMethod.GET )
+	@RequestMapping(value = "getReservations/{userId}", method = RequestMethod.GET )
 	public ResponseEntity<List<Reservation>> getReservations(@PathVariable Long userId) {
 		List<Reservation> reservations = reservationService.findByUser_id(userId);
-		List<Integer> reservedSeats= new ArrayList<Integer>();
+		List<ReservationDTO> reservationsDTO=new ArrayList<ReservationDTO>();
 		for(Reservation reservation : reservations){
-			if(reservation.getProjection().getAuditoriumId()==salaId){
-				reservedSeats.add(reservation.getSeat());
+			ReservationDTO dto = new ReservationDTO();
+			dto.setDate(reservation.getProjection().getDate());
+			dto.setAuditoriumName(auditoriumService.findOne(reservation.getProjection().getAuditoriumId()).getName());
+			dto.setTerm(reservation.getProjection().getTerm());
+			List<Cinema> cinemas = cinemaService.findAll();
+			Cinema visitCinema = new Cinema();
+			for(int i=0; i<cinemas.size(); i++) {
+				Cinema cinema = cinemas.get(i);
+				Set<Movie> movies = cinema.getMovies();
+					for(Movie movieTemp : movies ) {
+						if(movieTemp.getId() == reservation.getProjection().getId()) {
+							visitCinema = cinema;
+							break;
+						}
+					}
+				if(visitCinema.getName() != null) {
+					break;
+				}
+			dto.setPlaceName(visitCinema.getName());
+			dto.setMovieName(reservation.getProjection().getMovie().getName());
+			dto.setId(reservation.getId());
+			reservationsDTO.add(dto);			
 			}
 		}
-		return new ResponseEntity<>(reservedSeats, HttpStatus.OK);
-	}*/
-	
-	
-	
-}
+		return new ResponseEntity<>(reservations, HttpStatus.OK);
+		}
+	}
