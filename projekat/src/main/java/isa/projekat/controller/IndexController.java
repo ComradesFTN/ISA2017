@@ -289,4 +289,9 @@ public class IndexController {
 	public String updateAdmin() {
 		return "AdminPozoristaBioskopi/updateAdmin";
 	}
+	
+	@GetMapping("/Posetioci/cinemaDiscounts")
+	public String cinemaDiscounts(){
+		return "Posetioci/cinemaDiscounts";
+	}
 }

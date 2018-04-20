@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<script th:src="@{/scripts/jquery-3.2.1.min.js}"></script>
+		<link rel="stylesheet" th:href="@{/stylesheets/bootstrap.css}">
+		<meta charset="UTF-8">
+		<title>Fan Zona</title>
+		<script th:inline="javascript">
+			$(document).ready(function(){
+				$("#home").attr("href", "cinemaDetails.html?id="+id);
+				$("#repertoar").attr("href", "cinemaRepertoar.html?id="+id);				
+			});
+			
+			$(document).on("click", ".reserve", function(event){
+				event.preventDefault(); 
+				var confirmed = confirm("Da li ste sigurni da zelite da rezervisete ovaj oglas?");
+				if(confirmed){
+					/*<![CDATA[*/
+					var userId = /*[[${session.loggedUser.getId()}]]*/ 'id'
+					var url2 = $(this).attr("href")
+					var test = url2+"/"+userId;
+					//red koji se treba izbrisati ako je brisanje na serveru bilo uspesno
+					tr_parent = $(this).closest("tr")
+					$.ajax({
+			        	url: url2+"/"+userId,
+			        	type: 'PUT',
+			        	success: function(){
+			        		//ukloni i na strani 
+							tr_parent.remove()
+							console.log(test)
+				        }
+					});
+					/*]]>*/
+				}
+			});
+			
+		</script>			
+	</head>
+	<body class="bg-light">			
+		<div class="nav nav-tabs bg-danger">
+			<ul class="nav nav-tabs mr-auto bg-danger">	
+				<li class="nav-item">
+					<a class="nav-link text-white" href="homePage.html">Home</a>
+				</li>				
+				<li class="nav-item">
+					<a class="nav-link text-white" href="theatresPage.html">Pozorista</a>				
+				</li>
+				<li class="nav-item">
+					<a class="nav-link active text-danger" href="cinemasPage.html">Bioskopi</a>
+				</li>			
+			</ul>
+			<a class="nav-link mr-0 text-white" href="../NeregistrovaniKorisnici/login.html">Odjava</a>
+		</div>
+		<nav class="navbar bg-dark justify-content-center">
+		    <div>
+		        <div class="nav nav-pills bg-dark flex-row">
+					<ul class="nav nav-tabs bg-danger flex-row ">	
+						<li class="nav-item">
+							<a class="nav-link text-white" id="home" href="#">Home</a>				
+						</li>		
+						<li class="nav-item">
+							<a class="nav-link text-white" id="repertoar" href="#">Repertoar</a>				
+						</li>
+						<li class="nav-item">
+							<a class="nav-link active text-danger">Popusti</a>
+						</li>
+					</ul>
+				</div>
+		    </div>
+		</nav>
+			<div>
+				 <div class="row">
+				 	<div class="col mt-5">
+						<figure class="figure">
+							<img height="250" width="380" hspace="20" th:src="@{/images/cinema.jpg}" class="figure-img img-responsive " /> 
+						</figure>
+					</div>
+			<div class="col-6">
+				<ul class="list-unstyled" id="tickets">
+					</br>
+					<li>
+						<div class="card" style="width: 18rem;">
+							<img class="card-img-top" src="..." alt="Card image cap">
+							<div class="card-body">
+								<h5 class="card-title">Card title</h5>
+								<p class="card-text">Some quick example text to build on the
+									card title and make up the bulk of the card's content.</p>
+								<a href="#" class="btn btn-primary">Go somewhere</a>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+			<div class="col">
+						
+					</div>
+			</div>
+	</body>
+</html>
