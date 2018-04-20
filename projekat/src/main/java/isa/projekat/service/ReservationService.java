@@ -2,7 +2,9 @@ package isa.projekat.service;
 
 import java.util.List;
 
+import isa.projekat.domain.Projection;
 import isa.projekat.domain.Reservation;
+import isa.projekat.domain.User;
 import isa.projekat.domain.dto.ReservationDTO;
 
 public interface ReservationService {
@@ -19,6 +21,8 @@ public interface ReservationService {
 
 	Boolean isEditable(Long id);
 	
-	List<Reservation> FindByUser(long user);
+	List<Reservation> findByUser_id(long user);
+	
+	List<Reservation> findByUser_idAndProjection_id(long user, long projection);
 
 }

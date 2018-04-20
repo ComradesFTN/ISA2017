@@ -13,21 +13,21 @@ public class Visit {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	
+
 	@ManyToOne
 	@JsonIgnoreProperties("visits")
 	private User user;
-	
+
 	@ManyToOne
 	@JsonIgnoreProperties("visits")
 	private Projection projection;
-	
+
 	@ManyToOne
 	@JsonIgnoreProperties("visits")
 	private Cinema cinema;
-	
+
 	private boolean cinemaRated;
-	
+
 	private boolean movieRated;
 
 	public long getId() {
@@ -37,7 +37,7 @@ public class Visit {
 	public void setId(long id) {
 		this.id = id;
 	}
-			
+
 	public User getUser() {
 		return user;
 	}
@@ -68,6 +68,14 @@ public class Visit {
 
 	public void setMovieRated(boolean movieRated) {
 		this.movieRated = movieRated;
+	}
+
+	public Cinema getCinema() {
+		return cinema;
+	}
+
+	public void setCinema(Cinema cinema) {
+		this.cinema = cinema;
 	}
 
 	public Visit() {

@@ -140,24 +140,33 @@
 				$.ajax({
 					url: "/reservations/getReservations",
 					type: "GET",
-				}).then(function(allReservations) {
-					for(i = 0; i < allReservations.length; i++) {
-						if(allReservations[i].user.id === loggedUser) {
-							var userProjection = allReservations[i].projection.id;
-							var formData = JSON.stringify({	
-							    user:loggedUser,
-							    projection:userProjection,
-							});
-							$.ajax({
-								url: "/visit/displayVisit",
-								type: "POST",
-								data: formData,
-								async: false,
-								contentType: "application/json",
-								success: function() {
-									console.log("Proslo.");
-								}
-							});
+					async: false,
+					success: function(allReservations) {
+						for(i = 0; i < allReservations.length; i++) {
+							if(allReservations[i].user.id === loggedUser) {
+								var userProjection = allReservations[i].projection.id;
+								var formData = JSON.stringify({	
+								    user:loggedUser,
+								    projection:userProjection,
+								});
+								$.ajax({
+									url: "/visit/displayVisit",
+									type: "POST",
+									data: formData,
+									async: false,
+									contentType: "application/json",
+									success: function(visit) {
+										newRow = 
+											"<tr>"
+												+ "<td>" + visit.cinema.name + "</td>"
+												+ "<td><button type=\"button\" visit-id=\"" + visit.id + "\" class=\"btn btn-danger dodajOcenu\">Oceni</button></td>"
+												
+											+ "</tr>"
+											$("#tableBody").append(newRow)
+											$(".table").trigger("update");
+									}
+								});
+							}
 						}
 					}
 				});

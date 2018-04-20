@@ -117,8 +117,13 @@ public class ReservationServiceImpl implements ReservationService {
 	}
 
 	@Override
-	public List<Reservation> FindByUser(long user) {
-		return reservationRepository.FindByUser(user);
+	public List<Reservation> findByUser_id(long user) {
+		return reservationRepository.findByUser_id(user);
+	}
+
+	@Override
+	public List<Reservation> findByUser_idAndProjection_id(long user, long projection) {
+		return reservationRepository.findByUser_idAndProjection_id(user, projection);
 	}
 
 }
