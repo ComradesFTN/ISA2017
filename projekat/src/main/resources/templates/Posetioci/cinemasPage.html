@@ -31,7 +31,7 @@
 											+ "<td><a class=\"cinemas\" href=\"\" id=\""+data[i].id+"\">" + data[i].name + "</a></td>"
 											+ "<td>" + data[i].adress + "</td>"
 											+ "<td>" + ratingText + "</td>"
-											+ "<td><form action=\"http://google.com\"><input type=\"submit\" value=\"Pogledaj\" /></form></td>"
+											+ "<td><form action=\"\"><input type=\"submit\" value=\"Pogledaj\" class=\"repertoar\" id-look=\""+data[i].id+"\"/></form></td>"
 										+ "</tr>"
 									$("#tableBody").append(newRow)
 									
@@ -57,6 +57,26 @@
 						form.submit();
 					};
 					redirect('cinemaDetails.html','GET');
+				});
+				
+				$(document).on("click", ".repertoar", function(event) {
+					event.preventDefault();
+					id=$(this).attr("id-look");	
+					var redirect = function(url, method) {
+						var div = document.createElement('div');
+						var form = document.createElement('form');
+						div.setAttribute("class","invisible");
+						div.appendChild(form);
+						document.body.appendChild(div);
+						var input = document.createElement('input');
+						input.name='id';
+						input.value=id;
+						form.appendChild(input);
+						form.method = method;
+						form.action = url;
+						form.submit();
+					};
+					redirect('cinemaRepertoar.html','GET');
 				});
 				
 		</script>
