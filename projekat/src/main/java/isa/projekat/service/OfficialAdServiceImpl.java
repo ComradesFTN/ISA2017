@@ -26,7 +26,7 @@ public class OfficialAdServiceImpl implements OfficialAdService{
 	@Override
 	public OfficialAd save(OfficialAd officialAd) {
 		if(officialAd.getImage().contains("Bez slike")==false) {
-			System.out.println("h"+officialAd.getImage()+"h"+"NADJI ME!!!!!!!!!!!!");
+			//System.out.println("h"+officialAd.getImage()+"h"+"NADJI ME!!!!!!!!!!!!");
 			if(!officialAd.getImage().contains("imagesAd")) {
 				if(this.findOne(officialAd.getId())!=null) {
 					if(this.findOne(officialAd.getId()).getImage().contains("Bez slike")) {
@@ -50,7 +50,7 @@ public class OfficialAdServiceImpl implements OfficialAdService{
 			}
 		}
 		
-		System.out.println("h"+officialAd.getImage()+"h"+"NADJI ME2!!!!!!!!!!!!");
+		//System.out.println("h"+officialAd.getImage()+"h"+"NADJI ME2!!!!!!!!!!!!");
 		return officialAdRepository.save(officialAd);
 	}
 
