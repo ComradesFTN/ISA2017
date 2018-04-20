@@ -24,5 +24,15 @@
 			</ul>
 			<a class="nav-link mr-0 text-white" href="../NeregistrovaniKorisnici/login.html">Odjava</a>
 		</div>
+		
+		<div class="row">
+			<div class="col-md-2 col-md-offset-3 text-center" style="margin: 20px">
+			  	<div class="row mx-auto">Ime:<strong><p class="col" th:text="${session.loggedUser.getFirstName()}" th:unless="${session == null}"></p></strong></div>
+			  	<div class="row mx-auto">Prezime:<strong><p class="col" th:text="${session.loggedUser.getLastName()}" th:unless="${session == null}"></p></strong></div>
+			  	<div class="row mx-auto">Email:<strong><p class="col" th:text="${session.loggedUser.getEmail()}" th:unless="${session == null}"></p></strong></div>
+				<div class="row mx-auto">Telefon:<strong><p class="col" th:text="${session.loggedUser.getPhone()}" th:unless="${session == null}"></p></strong></div>
+				<div class="row mx-auto">Grad:<strong><p class="col" th:text="${session.loggedUser.getCity()}" th:unless="${session == null}"></p></strong></div>
+			</div>
+		</div>
 	</body>
 </html>
