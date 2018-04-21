@@ -12,6 +12,7 @@
 				$("#director").text("proba");
 				id = getUrlParameter('id');	
 				$("#home").attr("href", "cinemaDetails.html?id="+id);
+				$("#popusti").attr("href", "cinemaDiscounts.html?id="+id);
 				$.ajax({
 					url : "http://localhost:8080/cinemas/"+id+"/getMovies"
 				}).then(
@@ -103,16 +104,19 @@
 		<div class="nav nav-tabs bg-danger">
 			<ul class="nav nav-tabs mr-auto bg-danger">
 				<li class="nav-item">
-					<a class="nav-link text-white" href="homePage.html">Home</a>
-				</li>					
-				<li class="nav-item">
 					<a class="nav-link text-white" href="theatresPage.html">Pozorista</a>				
 				</li>
+				<li class="nav-item">
+					<a class="nav-link text-white" href="homePage.html">Home</a>
+				</li>		
 				<li class="nav-item">
 					<a class="nav-link active text-danger" href="cinemasPage.html">Bioskopi</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link text-white" href="cinemasPage.html">Rezervacije</a>
+					<a class="nav-link text-white" th:href="friends.html">Prijatelji</a>
+				</li>	
+				<li class="nav-item">
+					<a class="nav-link text-white" href="ticketReservations.html">Rezervacije</a>
 				</li>	
 				<li class="nav-item">
 					<a class="nav-link text-white" th:href="settings.html">Podesavanja</a>
@@ -121,7 +125,7 @@
 					<a class="nav-link text-white" href="fanZonaPage.html">Fan Zona</a>
 				</li>			
 			</ul>
-			<a class="nav-link mr-0 text-white" href="../NeregistrovaniKorisnici/login.html">Odjava</a>
+			<a class="nav-link mr-0 text-white" href="/index.html">Odjava</a>
 		</div>
 		<nav class="navbar bg-dark justify-content-center">
 		    <div>
@@ -134,7 +138,7 @@
 							<a class="nav-link active text-danger">Repertoar</a>				
 						</li>
 						<li class="nav-item">
-							<a class="nav-link text-white" href="cinemaPopusti.html">Popusti</a>
+							<a class="nav-link text-white" id="popusti" href="#">Popusti</a>
 						</li>
 					</ul>
 				</div>
