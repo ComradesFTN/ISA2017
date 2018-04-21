@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import javax.persistence.Temporal;
@@ -18,24 +17,25 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import isa.projekat.domain.Auditorium;
-import isa.projekat.domain.Cinema;
 import isa.projekat.domain.Movie;
 import isa.projekat.domain.Projection;
+import isa.projekat.domain.Show;
 import isa.projekat.domain.Ticket;
 import isa.projekat.repository.AuditoriumRepository;
 import isa.projekat.repository.CinemaRepository;
 import isa.projekat.repository.MovieRepository;
 import isa.projekat.repository.ProjectionRepository;
+import isa.projekat.repository.ShowRepository;
 import isa.projekat.repository.TicketRepository;
 
 @Service
-public class MovieServiceImpl implements MovieService {
+public class ShowServiceImpl implements ShowService {
 
 	@Value("${paths.menjaj}")
 	private String putanja;
 	
 	@Autowired
-	private MovieRepository movieRepository;
+	private ShowRepository showRepository;	
 	
 	@Autowired 
 	private AuditoriumRepository auditoriumRepository;
@@ -47,45 +47,44 @@ public class MovieServiceImpl implements MovieService {
 	private TicketRepository ticketRepository;
 	
 	@Override
-	public List<Movie> findAll() {
-		return movieRepository.findAll();
+	public List<Show> findAll() {
+		return showRepository.findAll();
 	}
 	
 	@Temporal(TemporalType.DATE)
 	private Date date = new Date();
 
 	@Override
-	public Movie save(Movie movie) {
-		
-		if(!movie.getPoster().contains("Bez slike")) {			
-			if(!movie.getPoster().contains("imagesMovies")) {
-				if(this.findOne(movie.getId())!=null) {
-					if(this.findOne(movie.getId()).getPoster().contains("Bez slike")) {
-						String pathFile = putanja+"imagesMovies\\film"+System.currentTimeMillis()+".jpg";
-						decoder(movie.getPoster(), pathFile);
+	public Show save(Show show) {
+		if(!show.getPoster().contains("Bez slike")) {			
+			if(!show.getPoster().contains("imagesShows")) {
+				if(this.findOne(show.getId())!=null) {
+					if(this.findOne(show.getId()).getPoster().contains("Bez slike")) {
+						String pathFile = putanja+"imagesShows\\film"+System.currentTimeMillis()+".jpg";
+						decoder(show.getPoster(), pathFile);
 						String splitPath[] = pathFile.split("static\\\\");
-						movie.setPoster(splitPath[1]);
+						show.setPoster(splitPath[1]);
 					}
 					else {
-						String pathFile = putanja+this.findOne(movie.getId()).getPoster();
-						decoder(movie.getPoster(), pathFile);
+						String pathFile = putanja+this.findOne(show.getId()).getPoster();
+						decoder(show.getPoster(), pathFile);
 						String splitPath[] = pathFile.split("static\\\\");
-						movie.setPoster(splitPath[1]);
+						show.setPoster(splitPath[1]);
 					}
 				}else {
-					String pathFile = putanja+"imagesMovies\\film"+System.currentTimeMillis()+".jpg";
-					decoder(movie.getPoster(), pathFile);
+					String pathFile = putanja+"imagesShows\\film"+System.currentTimeMillis()+".jpg";
+					decoder(show.getPoster(), pathFile);
 					String splitPath[] = pathFile.split("static\\\\");
-					movie.setPoster(splitPath[1]);
+					show.setPoster(splitPath[1]);
 				}
 			}
 		}
-		Movie savedMovie=movieRepository.save(movie);
+		Show savedShow=showRepository.save(show);
 		
 		List<Projection> projections = projectionRepository.findAll();
 		for(Projection proj : projections) {
-			if(proj.isMovie()){
-				if(proj.getMovie().getId()==savedMovie.getId()){
+			if(!proj.isMovie()){
+				if(proj.getShow().getId()==savedShow.getId()){
 					for(Ticket ticket : ticketRepository.findAll()){
 						if(ticket.getProjection().getId()==proj.getId()){
 							ticketRepository.delete(ticket);
@@ -96,13 +95,13 @@ public class MovieServiceImpl implements MovieService {
 			}
 		}
 		
-		for(String term : savedMovie.getTerm()){			
-			for(Auditorium audit : savedMovie.getAuditoriums()){
+		for(String term : savedShow.getTerm()){			
+			for(Auditorium audit : savedShow.getAuditoriums()){
 				for(int i=1; i<=10;i++){
 					Projection proj = new Projection();
 					proj.setAuditoriumId(audit.getId());
 					proj.setDate(new Date(date.getTime() + TimeUnit.DAYS.toMillis( i )));
-					proj.setMovie(savedMovie);
+					proj.setShow(savedShow);
 					proj.setTerm(term);
 					List<Integer> seats = new ArrayList<Integer>();
 					for(Integer seat : auditoriumRepository.findOne(audit.getId()).getSeats()){
@@ -124,16 +123,14 @@ public class MovieServiceImpl implements MovieService {
 				}
 			}
 		}	
-		return savedMovie;
+		return savedShow;
 	}
 
 	@Override
-	public Movie findOne(Long id) {
-		return movieRepository.findOne(id);
+	public Show findOne(Long id) {
+		return showRepository.findOne(id);
 	}
-	
-	
-	
+
 	public static void decoder(String base64Image, String pathFile) {
 		try (FileOutputStream imageOutFile = new FileOutputStream(pathFile)) {
 			// Converting a Base64 String into Image byte array
@@ -145,21 +142,21 @@ public class MovieServiceImpl implements MovieService {
 			System.out.println("Exception while reading the Image " + ioe);
 		}
 	}
-
+	
 	@Override
-	public Movie delete(Long id) {
-		Movie movie = movieRepository.findOne(id);
-		if(movie == null){
+	public Show delete(Long id) {
+		Show show = showRepository.findOne(id);
+		if(show == null){
 			throw new IllegalArgumentException("Tried to delete"
-					+ "non-existant movie");
+					+ "non-existant show");
 		}
-		List<Projection> projections = projectionRepository.findByMovie_id(id);
+		List<Projection> projections = projectionRepository.findByShow_id(id);
 		for(Projection projection : projections){
 			ticketRepository.delete(projection.getTickets());
 		}
 		projectionRepository.delete(projections);
-		movieRepository.delete(movie);
-		return movie;
+		showRepository.delete(show);
+		return show;
 	}
-	
+
 }

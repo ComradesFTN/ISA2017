@@ -4,6 +4,8 @@ public class RatingDTO {
 	
 	private int cinemaRating;
 	private int movieRating;
+	private int theaterRating;
+	private int showRating;
 	
 	public RatingDTO() {
 		
@@ -23,6 +25,22 @@ public class RatingDTO {
 
 	public void setMovieRating(int movieRating) {
 		this.movieRating = movieRating;
+	}
+
+	public int getTheaterRating() {
+		return theaterRating;
+	}
+
+	public void setTheaterRating(int theaterRating) {
+		this.theaterRating = theaterRating;
+	}
+
+	public int getShowRating() {
+		return showRating;
+	}
+
+	public void setShowRating(int showRating) {
+		this.showRating = showRating;
 	}
 	
 	

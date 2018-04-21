@@ -52,6 +52,10 @@ public class Projection {
 	@JsonIgnoreProperties("projections")
 	private Movie movie;
 	
+	@ManyToOne
+	@JsonIgnoreProperties("projections")
+	private Show show;
+	
 	@Column(name="termin")
 	private String term;	
 	
@@ -68,6 +72,8 @@ public class Projection {
 	private List<Ticket> tickets = new ArrayList<Ticket>();
 	
 	private boolean old = false;
+	
+	private boolean isMovie;
 	
 	public List<Visit> getVisits() {
 		return visits;
@@ -152,4 +158,22 @@ public class Projection {
 	public void setOld(boolean old) {
 		this.old = old;
 	}
+
+	public Show getShow() {
+		return show;
+	}
+
+	public void setShow(Show show) {
+		this.show = show;
+	}
+
+	public boolean isMovie() {
+		return isMovie;
+	}
+
+	public void setMovie(boolean isMovie) {
+		this.isMovie = isMovie;
+	}
+	
+	
 }

@@ -16,6 +16,7 @@ import isa.projekat.domain.Auditorium;
 import isa.projekat.domain.Cinema;
 import isa.projekat.domain.Projection;
 import isa.projekat.domain.Reservation;
+import isa.projekat.domain.Theater;
 import isa.projekat.domain.Ticket;
 import isa.projekat.domain.User;
 import isa.projekat.domain.dto.TicketDTO;
@@ -25,6 +26,7 @@ import isa.projekat.service.ProjectionService;
 import isa.projekat.service.TicketService;
 import isa.projekat.service.UserService;
 import isa.projekat.service.ReservationService;
+import isa.projekat.service.TheaterService;
 
 
 @RestController
@@ -48,20 +50,34 @@ public class TicketController {
 	
 	@Autowired
 	private ProjectionService projectionService;
+
+	@Autowired
+	private TheaterService theaterService;
 	
 	@RequestMapping(value = "getTickets/{id}/{userId}", method = RequestMethod.GET )
 	public ResponseEntity<List<TicketDTO>> getTickets(@PathVariable Long id,@PathVariable Long userId) {
 		System.out.println("Uso sam ovde");
 		List<Ticket> tickets = ticketService.findAll();
 		List<TicketDTO> ticketsDTO = new ArrayList<TicketDTO>();
-		Cinema cinema = cinemaService.findOne(id);
 		User user = userService.findOne(userId);
 		for(Ticket ticket : tickets){
-			if(cinema.getMovies().contains(ticket.getProjection().getMovie())){
-				
-				String auditoriumName=auditoriumService.findOne(ticket.getProjection().getAuditoriumId()).getName();
-				TicketDTO ticketDTO = new TicketDTO(ticket.getId(),ticket.getSeat(),ticket.getProjection().getDate(),ticket.getProjection().getTerm(),auditoriumName,ticket.getProjection().getMovie().getName(),ticket.getProjection().getMovie().getPrice(),ticket.getProjection().getMovie().getPoster(),user.getMembership());
-				ticketsDTO.add(ticketDTO);
+			if(ticket.getProjection().isMovie()){
+				Cinema cinema = cinemaService.findOne(id);
+				if(cinema.getMovies().contains(ticket.getProjection().getMovie())){
+					
+					String auditoriumName=auditoriumService.findOne(ticket.getProjection().getAuditoriumId()).getName();
+					TicketDTO ticketDTO = new TicketDTO(ticket.getId(),ticket.getSeat(),ticket.getProjection().getDate(),ticket.getProjection().getTerm(),auditoriumName,ticket.getProjection().getMovie().getName(),ticket.getProjection().getMovie().getPrice(),ticket.getProjection().getMovie().getPoster(),user.getMembership());
+					ticketsDTO.add(ticketDTO);
+				}
+			}
+			else{
+				Theater theater = theaterService.findOne(id);
+				if(theater.getShows().contains(ticket.getProjection().getShow())){
+					
+					String auditoriumName=auditoriumService.findOne(ticket.getProjection().getAuditoriumId()).getName();
+					TicketDTO ticketDTO = new TicketDTO(ticket.getId(),ticket.getSeat(),ticket.getProjection().getDate(),ticket.getProjection().getTerm(),auditoriumName,ticket.getProjection().getShow().getName(),ticket.getProjection().getShow().getPrice(),ticket.getProjection().getShow().getPoster(),user.getMembership());
+					ticketsDTO.add(ticketDTO);
+				}
 			}
 		}
 		return new ResponseEntity<>(ticketsDTO, HttpStatus.OK);
@@ -90,7 +106,6 @@ public class TicketController {
 		int index = ticket.getSeat()-1;
 		for(int i=0;i<reservation.getProjection().getSeats().size();i++){
 			if(i==index){
-				System.out.println("OBOJICU CASE OD KRISTALA"+i);
 				Projection projection = reservation.getProjection();
 				projection.getSeats().set(i,2);
 				System.out.println(projection.getSeats().get(i));

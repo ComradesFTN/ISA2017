@@ -15,9 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 import isa.projekat.domain.Auditorium;
 import isa.projekat.domain.Movie;
 import isa.projekat.domain.Projection;
+import isa.projekat.domain.Show;
 import isa.projekat.service.AuditoriumService;
 import isa.projekat.service.MovieService;
 import isa.projekat.service.ProjectionService;
+import isa.projekat.service.ShowService;
 
 @RestController
 @RequestMapping(value = "/projections")
@@ -28,6 +30,9 @@ public class ProjectionController {
 	
 	@Autowired
 	private MovieService movieService;
+	
+	@Autowired
+	private ShowService showService;
 	
 	@Autowired
 	private ProjectionService projectionService;
@@ -53,8 +58,14 @@ public class ProjectionController {
 	
 	@RequestMapping(value = "{id}", method = RequestMethod.POST, consumes = "application/json")
 	public ResponseEntity<Projection> addProjection(@PathVariable Long id, @RequestBody Projection projection) {
-		Movie movie = movieService.findOne(id);
-		projection.setMovie(movie);
+		if(projection.isMovie()){
+			Movie movie = movieService.findOne(id);		
+			projection.setMovie(movie);
+		}
+		else{
+			Show show = showService.findOne(id);
+			projection.setShow(show);
+		}
 		Auditorium auditorium = auditoriumService.findOne(projection.getAuditoriumId());
 		List<Integer> seats = new ArrayList<Integer>();
 		for(Integer i : auditorium.getSeats()){

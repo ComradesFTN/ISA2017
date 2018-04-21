@@ -16,19 +16,22 @@ import isa.projekat.domain.Auditorium;
 import isa.projekat.domain.Cinema;
 import isa.projekat.domain.Movie;
 import isa.projekat.domain.Projection;
+import isa.projekat.domain.Show;
+import isa.projekat.domain.Theater;
 import isa.projekat.domain.Ticket;
 import isa.projekat.repository.AuditoriumRepository;
-import isa.projekat.repository.CinemaRepository;
 import isa.projekat.repository.MovieRepository;
 import isa.projekat.repository.ProjectionRepository;
+import isa.projekat.repository.ShowRepository;
+import isa.projekat.repository.TheaterRepository;
 import isa.projekat.repository.TicketRepository;
 
 @Service
-public class CinemaServiceImpl implements CinemaService {
+public class TheaterServiceImpl implements TheaterService {
 
 	@Autowired
-	private CinemaRepository cinemaRepository;
-	
+	private TheaterRepository theaterRepository;
+		
 	@Autowired 
 	private AuditoriumRepository auditoriumRepository;
 	
@@ -40,35 +43,34 @@ public class CinemaServiceImpl implements CinemaService {
 	
 	@Temporal(TemporalType.DATE)
 	private Date date = new Date();
-
+	
 	@Override
-	public List<Cinema> findAll() {
-		return cinemaRepository.findAll();
+	public List<Theater> findAll() {
+		return theaterRepository.findAll();
 	}
 
 	@Override
-	public Cinema save(Cinema cinema) {
-		return cinemaRepository.save(cinema);
+	public Theater save(Theater theater) {
+		return theaterRepository.save(theater);	
 	}
 
 	@Override
-	public Cinema findOne(Long id) {
-		return cinemaRepository.findOne(id);
+	public Theater findOne(Long id) {
+		return theaterRepository.findOne(id);
 	}
 
-	@Override
-	public void refresh(Cinema cinema) {		
-		Set<Movie> movies = cinema.getMovies();
-		for(Movie movie : movies){
-			for(String term : movie.getTerm()){			
-				for(Auditorium audit : movie.getAuditoriums()){
+	public void refresh(Theater theater) {		
+		Set<Show> shows = theater.getShows();
+		for(Show show : shows){
+			for(String term : show.getTerm()){			
+				for(Auditorium audit : show.getAuditoriums()){
 					for(int i=1; i<=10;i++){
-						Projection proj = projectionRepository.findByMovie_idAndDateAndAuditoriumIdAndTerm(movie.getId(), new Date(date.getTime() + TimeUnit.DAYS.toMillis( i )), audit.getId(), term);
+						Projection proj = projectionRepository.findByShow_idAndDateAndAuditoriumIdAndTerm(show.getId(), new Date(date.getTime() + TimeUnit.DAYS.toMillis( i )), audit.getId(), term);
 						if(proj==null){
 							proj = new Projection();
 							proj.setAuditoriumId(audit.getId());
 							proj.setDate(new Date(date.getTime() + TimeUnit.DAYS.toMillis( i )));
-							proj.setMovie(movie);
+							proj.setShow(show);
 							proj.setTerm(term);
 							List<Integer> seats = new ArrayList<Integer>();
 							for(Integer seat : auditoriumRepository.findOne(audit.getId()).getSeats()){
@@ -92,4 +94,5 @@ public class CinemaServiceImpl implements CinemaService {
 			}
 		}
 	}
+
 }

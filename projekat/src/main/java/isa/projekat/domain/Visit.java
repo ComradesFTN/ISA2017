@@ -28,10 +28,17 @@ public class Visit {
 
 	@ManyToOne
 	private Cinema cinemaVisit;
+	
+	@ManyToOne
+	private Theater theaterVisit;
 
 	private int cinemaRated;
 
 	private int movieRated;
+	
+	private int theaterRated;
+	
+	private int showRated;
 
 	public Projection getProjectionVisit() {
 		return projectionVisit;
@@ -65,8 +72,6 @@ public class Visit {
 		this.cinemaVisit = cinemaVisit;
 	}
 
-	
-
 	public int getCinemaRated() {
 		return cinemaRated;
 	}
@@ -86,5 +91,33 @@ public class Visit {
 	public Visit() {
 		this.cinemaRated = 0;
 		this.movieRated = 0;
+		this.theaterRated = 0;
+		this.showRated = 0;
 	}
+
+	public Theater getTheaterVisit() {
+		return theaterVisit;
+	}
+
+	public void setTheaterVisit(Theater theaterVisit) {
+		this.theaterVisit = theaterVisit;
+	}
+
+	public int getTheaterRated() {
+		return theaterRated;
+	}
+
+	public void setTheaterRated(int theaterRated) {
+		this.theaterRated = theaterRated;
+	}
+
+	public int getShowRated() {
+		return showRated;
+	}
+
+	public void setShowRated(int showRated) {
+		this.showRated = showRated;
+	}
+	
+	
 }

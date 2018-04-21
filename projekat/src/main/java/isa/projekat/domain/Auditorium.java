@@ -36,6 +36,10 @@ public class Auditorium {
 	@JsonIgnoreProperties("auditoriums")	
 	List<Movie> movies= new ArrayList<Movie>();
 	
+	@ManyToMany(mappedBy = "auditoriums",fetch=FetchType.LAZY)
+	@JsonIgnoreProperties("auditoriums")	
+	List<Show> shows= new ArrayList<Show>();
+	
 	@Column(name="BrojRedova")
 	private long rows;
 	
@@ -107,6 +111,15 @@ public class Auditorium {
 	public void setSeats(List<Integer> seats) {
 		this.seats = seats;		
 	}
+
+	public List<Show> getShows() {
+		return shows;
+	}
+
+	public void setShows(List<Show> shows) {
+		this.shows = shows;
+	}
+	
 	
 	
 	

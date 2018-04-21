@@ -7,6 +7,7 @@ public class VisitDTO {
 	private long user;
 	private long projection;
 	private String cinemaName;
+	private String theaterName;	
 	
 	public VisitDTO() {
 		
@@ -17,6 +18,12 @@ public class VisitDTO {
 		this.user = user;
 		this.projection = projection;
 		this.cinemaName = cinemaName;
+	}
+	
+	public VisitDTO(long id, long user, long projection) {
+		this.setId(id);
+		this.user = user;
+		this.projection = projection;
 	}
 
 	public long getUser() {
@@ -49,6 +56,14 @@ public class VisitDTO {
 
 	public void setId(long id) {
 		this.id = id;
+	}
+
+	public String getTheaterName() {
+		return theaterName;
+	}
+
+	public void setTheaterName(String theaterName) {
+		this.theaterName = theaterName;
 	}
 
 }

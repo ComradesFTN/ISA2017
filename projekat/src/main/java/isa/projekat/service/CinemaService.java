@@ -1,6 +1,5 @@
 package isa.projekat.service;
 
-import java.util.HashSet;
 import java.util.List;
 
 import isa.projekat.domain.Cinema;

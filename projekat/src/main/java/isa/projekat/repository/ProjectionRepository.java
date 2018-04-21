@@ -15,6 +15,10 @@ public interface ProjectionRepository extends JpaRepository<Projection, Long> {
 
 	Projection findByMovie_idAndDateAndAuditoriumIdAndTerm(long movie_id,Date date,long auditoriumId,String term);
 	
+	Projection findByShow_idAndDateAndAuditoriumIdAndTerm(long show_id,Date date,long auditoriumId,String term);
+	
 	List<Projection> findByMovie_id(long movie_id);
+
+	List<Projection> findByShow_id(long id);
 	
 }

@@ -22,6 +22,8 @@ import isa.projekat.domain.Cinema;
 import isa.projekat.domain.Movie;
 import isa.projekat.domain.Projection;
 import isa.projekat.domain.Reservation;
+import isa.projekat.domain.Show;
+import isa.projekat.domain.Theater;
 import isa.projekat.domain.User;
 import isa.projekat.domain.Visit;
 import isa.projekat.domain.dto.RatingDTO;
@@ -30,6 +32,7 @@ import isa.projekat.repository.VisitRepository;
 import isa.projekat.service.CinemaService;
 import isa.projekat.service.ProjectionService;
 import isa.projekat.service.ReservationService;
+import isa.projekat.service.TheaterService;
 import isa.projekat.service.UserService;
 import isa.projekat.service.VisitService;
 
@@ -52,6 +55,9 @@ public class VisitController {
 	@Autowired
 	private ReservationService reservationService;
 	
+	@Autowired
+	private TheaterService theaterService;
+	
 	@RequestMapping(value = "/refreshVisits", method = RequestMethod.POST)
 	public ResponseEntity<List<VisitDTO>> refreshVisits(){
 		List<Projection> projections = projectionService.findAll();
@@ -62,21 +68,41 @@ public class VisitController {
 				System.out.println("bogami i ovde");
 				List<Reservation> listReservation = reservationService.findByProjection_id(projection.getId());
 				Set<Integer> users = new HashSet<Integer>();
-				List<Cinema> cinemas = cinemaService.findAll();
 				Cinema visitCinema = new Cinema();
-				for(int i=0; i<cinemas.size(); i++) {
-					Cinema cinema = cinemas.get(i);
-					Set<Movie> movies = cinema.getMovies();
-						for(Movie movieTemp : movies ) {
-							if(movieTemp.getId() == projection.getMovie().getId()) {
-								visitCinema = cinema;
-								break;
+				Theater visitTheater = new Theater();
+				if(projection.isMovie()){
+					List<Cinema> cinemas = cinemaService.findAll();					
+					for(int i=0; i<cinemas.size(); i++) {
+						Cinema cinema = cinemas.get(i);
+						Set<Movie> movies = cinema.getMovies();
+							for(Movie movieTemp : movies ) {
+								if(movieTemp.getId() == projection.getMovie().getId()) {
+									visitCinema = cinema;
+									break;
+								}
 							}
+						if(visitCinema.getName() != null) {
+							break;
 						}
-					if(visitCinema.getName() != null) {
-						break;
+	
 					}
-
+				}
+				else{
+					List<Theater> theaters = theaterService.findAll();
+					for(int i=0; i<theaters.size(); i++) {
+						Theater theater = theaters.get(i);
+						Set<Show> shows= theater.getShows();
+							for(Show showTemp : shows ) {
+								if(showTemp.getId() == projection.getShow().getId()) {
+									visitTheater = theater;
+									break;
+								}
+							}
+						if(visitTheater.getName() != null) {
+							break;
+						}
+	
+					}
 				}
 				for(Reservation reservation : listReservation){
 					users.add((int) reservation.getUser().getId());					
@@ -86,7 +112,12 @@ public class VisitController {
 				}
 				for(Integer userId : users){
 					Visit visit = new Visit();
-					visit.setCinemaVisit(visitCinema);
+					if(projection.isMovie()){
+						visit.setCinemaVisit(visitCinema);
+					}
+					else{
+						visit.setTheaterVisit(visitTheater);
+					}
 					visit.setProjectionVisit(projection);
 					visit.setUserVisit(userService.findOne((long)userId));
 					visitService.save(visit);					
@@ -105,7 +136,14 @@ public class VisitController {
 		List<VisitDTO> visitsDTO = new ArrayList<VisitDTO>();
 		for(Visit visit : visits){
 			if(visit.getUserVisit().getId()==id){
-				VisitDTO visitDTO = new VisitDTO(visit.getId(),visit.getUserVisit().getId(),visit.getProjectionVisit().getId(),visit.getCinemaVisit().getName());
+				VisitDTO visitDTO = new VisitDTO();
+				if(visit.getProjectionVisit().isMovie()){
+					visitDTO = new VisitDTO(visit.getId(),visit.getUserVisit().getId(),visit.getProjectionVisit().getId(),visit.getCinemaVisit().getName());
+				}
+				else{
+					visitDTO = new VisitDTO(visit.getId(),visit.getUserVisit().getId(),visit.getProjectionVisit().getId());
+					visitDTO.setTheaterName(visit.getTheaterVisit().getName());
+				}
 				visitsDTO.add(visitDTO);
 			}
 		}
@@ -156,8 +194,14 @@ public class VisitController {
 	@RequestMapping(value = "/saveRating", method = RequestMethod.PUT, consumes="application/json")
 	public ResponseEntity<Visit> saveRating(@RequestBody RatingDTO ratingDTO, HttpSession session) {	
 		Visit visit = visitService.findOne((Long) session.getAttribute("visitId"));
-		visit.setCinemaRated(ratingDTO.getCinemaRating());
-		visit.setMovieRated(ratingDTO.getMovieRating());
+		if(visit.getProjectionVisit().isMovie()){
+			visit.setCinemaRated(ratingDTO.getCinemaRating());
+			visit.setMovieRated(ratingDTO.getMovieRating());
+		}
+		else{
+			visit.setTheaterRated(ratingDTO.getTheaterRating());
+			visit.setShowRated(ratingDTO.getShowRating());
+		}
 		visitService.save(visit);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
