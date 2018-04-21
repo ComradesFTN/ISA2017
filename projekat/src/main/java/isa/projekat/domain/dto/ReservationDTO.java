@@ -12,7 +12,7 @@ public class ReservationDTO {
 	private boolean friend;
 	private List<Integer> seats = new ArrayList<Integer>();
 	private long inviterId;
-	private String movieName;
+	private String projectionName;
 	private Date date;
 	private String term;
 	private String placeName;
@@ -79,12 +79,12 @@ public class ReservationDTO {
 		this.userId = userId;
 	}
 
-	public String getMovieName() {
-		return movieName;
+	public String getProjectionName() {
+		return projectionName;
 	}
 
-	public void setMovieName(String movieName) {
-		this.movieName = movieName;
+	public void setProjectionName(String projectionName) {
+		this.projectionName = projectionName;
 	}
 
 	public Date getDate() {

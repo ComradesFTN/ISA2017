@@ -68,6 +68,12 @@ public class ReservationController {
 		return new RedirectView("http://localhost:8080/index.html");
 	}
 	
+	@RequestMapping(value = "/reservationCanceled/{userId}/{reservationId}", method = RequestMethod.GET)
+	public ResponseEntity<Reservation> reservationRejected(@PathVariable Long userId, @PathVariable Long reservationId ) {
+		reservationService.Canceled(userId,reservationId);
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
 	@RequestMapping(value = "getReservedSeats/{salaId}", method = RequestMethod.GET )
 	public ResponseEntity<List<Integer>> getReservedSeats(@PathVariable Long salaId) {
 		List<Reservation> reservations = reservationService.findAll();
@@ -87,10 +93,12 @@ public class ReservationController {
 	}
 	
 	@RequestMapping(value = "getReservations/{userId}", method = RequestMethod.GET )
-	public ResponseEntity<List<Reservation>> getReservations(@PathVariable Long userId) {
+	public ResponseEntity<List<ReservationDTO>> getReservations(@PathVariable Long userId) {
+		System.out.println(userId);
 		List<Reservation> reservations = reservationService.findByUser_id(userId);
 		List<ReservationDTO> reservationsDTO=new ArrayList<ReservationDTO>();
 		for(Reservation reservation : reservations){
+			System.out.println("???");
 			ReservationDTO dto = new ReservationDTO();
 			dto.setDate(reservation.getProjection().getDate());
 			dto.setAuditoriumName(auditoriumService.findOne(reservation.getProjection().getAuditoriumId()).getName());
@@ -101,7 +109,7 @@ public class ReservationController {
 				Cinema cinema = cinemas.get(i);
 				Set<Movie> movies = cinema.getMovies();
 					for(Movie movieTemp : movies ) {
-						if(movieTemp.getId() == reservation.getProjection().getId()) {
+						if(movieTemp.getId() == reservation.getProjection().getMovie().getId()) {
 							visitCinema = cinema;
 							break;
 						}
@@ -109,12 +117,13 @@ public class ReservationController {
 				if(visitCinema.getName() != null) {
 					break;
 				}
+			}
 			dto.setPlaceName(visitCinema.getName());
-			dto.setMovieName(reservation.getProjection().getMovie().getName());
+			dto.setProjectionName(reservation.getProjection().getMovie().getName());
 			dto.setId(reservation.getId());
+			System.out.println("???");
 			reservationsDTO.add(dto);			
 			}
-		}
-		return new ResponseEntity<>(reservations, HttpStatus.OK);
+		return new ResponseEntity<>(reservationsDTO, HttpStatus.OK);
 		}
 	}

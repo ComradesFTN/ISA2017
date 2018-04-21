@@ -6,79 +6,71 @@
 		<link rel="stylesheet" th:href="@{/stylesheets/bootstrap.css}">
 		<meta charset="UTF-8">
 		<title>Rezervacije</title>
-		<script>
-				/* $(document).ready(function(){
-					$(".table").trigger("update");
-					$('.table').trigger("appendCache");
+		<script th:inline="javascript">	
+				/*<![CDATA[*/	
+				 $(document).ready(function(){					
+					var userId = /*[[${session.loggedUser.getId()}]]*/ 					
 					$.ajax({
-						url : "http://localhost:8080/cinemas/getCinemas"
+						url : "http://localhost:8080/reservations/getReservations/"+userId,
+						async : false,
 					}).then(
 							function(data) {
-								for (i = 0; i < data.length; i++) {
-									rating=data[i].rating;
-									ratingText="";
-									for(j = 0; j < 5; j++){
-										if(rating<0.5){
-											ratingText+="&#9734;";
-										}
-										else{
-											ratingText+="&#9733;";
-											rating-=1;
-										}
-									}
+								$(document).data('rezervacije',data);
+								for (i = 0; i < data.length; i++) {									
 									newRow = 
 										"<tr>"
-											+ "<td><a class=\"cinemas\" href=\"\" id=\""+data[i].id+"\">" + data[i].name + "</a></td>"
-											+ "<td>" + data[i].adress + "</td>"
-											+ "<td>" + ratingText + "</td>"
-											+ "<td><form action=\"\"><input type=\"submit\" value=\"Pogledaj\" class=\"repertoar\" id-look=\""+data[i].id+"\"/></form></td>"
+											+ "<td>"+data[i].projectionName+"</td>"
+											+ "<td>" + data[i].placeName+ "</td>"
+											+ "<td>" + data[i].date + "</td>"
+											+ "<td>" + data[i].term + "</td>"
+											+ "<td>" + data[i].auditoriumName + "</td>"											
+											+ "<td><form action=\"\"><input type=\"submit\" value=\"Otkazi\" class=\"cancel\" data-id="+i+" id-look=\""+data[i].id+"\"/></form></td>"
 										+ "</tr>"
-									$("#tableBody").append(newRow)
-									
-								}
-							$(".table").tablesorter(); 	
+									$("#tableBody").append(newRow);									
+								} 	
 							});
 				});
-				$(document).on("click", ".cinemas", function(event) {
-					event.preventDefault();
-					id=$(this).closest("a").attr("id");	
-					var redirect = function(url, method) {
-						var div = document.createElement('div');
-						var form = document.createElement('form');
-						div.setAttribute("class","invisible");
-						div.appendChild(form);
-						document.body.appendChild(div);
-						var input = document.createElement('input');
-						input.name='id';
-						input.value=id;
-						form.appendChild(input);
-						form.method = method;
-						form.action = url;
-						form.submit();
-					};
-					redirect('cinemaDetails.html','GET');
-				});
+				 /*]]>*/
 				
-				$(document).on("click", ".repertoar", function(event) {
+				$(document).on("click", ".cancel", function(event) {
 					event.preventDefault();
-					id=$(this).attr("id-look");	
-					var redirect = function(url, method) {
-						var div = document.createElement('div');
-						var form = document.createElement('form');
-						div.setAttribute("class","invisible");
-						div.appendChild(form);
-						document.body.appendChild(div);
-						var input = document.createElement('input');
-						input.name='id';
-						input.value=id;
-						form.appendChild(input);
-						form.method = method;
-						form.action = url;
-						form.submit();
-					};
-					redirect('cinemaRepertoar.html','GET');
-				}); */
-				
+					var data = $(document).data('rezervacije');
+					/*<![CDATA[*/					
+					var userId = /*[[${session.loggedUser.getId()}]]*/ 'id'						
+					var id=$(this).attr("id-look");			
+					var i=$(this).attr("data-id");
+					var termin = data[i].term;
+					var splits = termin.split(":");
+					var hour = parseInt(splits[0]);
+					var minutes = parseInt(splits[1]);
+					var terminDate  = new Date(data[i].date);
+					terminDate.setHours(hour);
+					terminDate.setMinutes(minutes);
+					terminDate.setSeconds(0);
+					var todayDate = new Date();
+					todayDate.setSeconds(0,0);
+					var razlika = (terminDate.getTime()-todayDate.getTime())/1000/60;
+					if(razlika=>30){
+							var confirmed=confirm("Da li ste sigurni da zelite da otkazete rezervaciju?");
+							if(confirmed){
+								tr_parent=$(this).closest("tr");
+								$.ajax({
+									url : "http://localhost:8080/reservations/reservationCanceled/"+userId+"/"+id,
+									success : function() {
+										alert("Uspesno otkazivanje rezervacije!");
+										tr_parent.remove();
+									}
+								});	
+							}	
+					}
+					else{
+						alert("Prosao je rok za otkazivanje rezervacije");
+						return;
+					}
+					
+					
+				}); 
+				/*]]>*/
 		</script>			
 	</head>
 <body class="bg-light">		

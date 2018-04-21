@@ -31,4 +31,6 @@ public interface ReservationService {
 	
 	List<Reservation> findByUser_id(long user);
 
+	void Canceled(Long userId, Long reservationId);
+
 }

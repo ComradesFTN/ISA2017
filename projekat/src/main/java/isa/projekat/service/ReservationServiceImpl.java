@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
 import org.springframework.stereotype.Service;
 
+import isa.projekat.domain.Auditorium;
 import isa.projekat.domain.Cinema;
 import isa.projekat.domain.Movie;
 import isa.projekat.domain.Projection;
@@ -96,7 +97,7 @@ public class ReservationServiceImpl implements ReservationService {
 		User inviter = userRepository.findOne(inviterId);
 		Reservation reservation=reservationRepository.findOne(reservationId);
 		Projection projection = reservation.getProjection();
-		int index =reservation.getSeat()-1;
+		int index = reservation.getSeat()-1;
 		projection.getSeats().set(index, 1);
 		projection.getReservations().remove(reservation);
 		projectionRepository.save(projection);
@@ -147,6 +148,22 @@ public class ReservationServiceImpl implements ReservationService {
 	@Override
 	public List<Reservation> findByUser_id(long user) {
 		return reservationRepository.findByUser_id(user);
+	}
+
+	@Override
+	public void Canceled(Long userId, Long reservationId) {
+		User user = userRepository.findOne(userId);
+		Reservation reservation=reservationRepository.findOne(reservationId);
+		Projection projection = reservation.getProjection();
+		int index = reservation.getSeat()-1;
+		Auditorium auditorium = auditoriumRepository.findOne(projection.getAuditoriumId());
+		int seat=auditorium.getSeats().get(index);
+		projection.getSeats().set(index, seat);
+		projection.getReservations().remove(reservation);
+		projectionRepository.save(projection);
+		user.getReservations().remove(reservation);
+		userRepository.save(user);
+		reservationRepository.delete(reservation);
 	}
 
 }
