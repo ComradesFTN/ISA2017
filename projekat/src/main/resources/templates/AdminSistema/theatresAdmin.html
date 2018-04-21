@@ -8,10 +8,30 @@
 		  <script>
 			$(document).ready(function(){
 				$.ajax({
-					url : "http://localhost:8080/cinemas/getCinemas"
+					url : "http://localhost:8080/theatres/getTheatres"
 				}).then(
 						function(data) {
-							
+							var provera ="Bez";
+							for (i = 0; i < data.length; i++) {
+								rating=data[i].rating;
+								ratingText="";
+								for(j = 0; j < 5; j++){
+									if(rating<0.5){
+										ratingText+="&#9734;";
+									}
+									else{
+										ratingText+="&#9733;";
+										rating-=1;
+									}
+								}
+								newRow = 
+									"<tr>"
+										+ "<td>" + data[i].name + "</td>"
+										+ "<td>" + data[i].adress + "</td>"
+										+ "<td>" + ratingText + "</td>"
+									+ "</tr>"
+								$("#tableBody").append(newRow)
+							}
 						
 					});
 			});
