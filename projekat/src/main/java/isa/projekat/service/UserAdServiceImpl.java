@@ -7,6 +7,7 @@ import java.util.Base64;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import isa.projekat.domain.Bid;
@@ -17,6 +18,9 @@ import isa.projekat.repository.UserRepository;
 
 @Service
 public class UserAdServiceImpl implements UserAdService{
+	
+	@Value("${paths.menjaj}")
+	private String putanja;
 	
 	@Autowired
 	public UserAdRepository userAdRepository; 
@@ -33,7 +37,7 @@ public class UserAdServiceImpl implements UserAdService{
 	public UserAd save(UserAd userAd, Boolean aprove) {
 		if(aprove==false) {
 			if(userAd.getImage().contains("Bez slike")==false) {
-				String pathFile = "C:\\Users\\HP\\git\\ISA2017\\projekat\\src\\main\\resources\\static\\imagesAd\\slikaOglas"+System.currentTimeMillis()+".jpg";
+				String pathFile = putanja+"imagesAd\\slikaOglas"+System.currentTimeMillis()+".jpg";
 				decoder(userAd.getImage(), pathFile);
 				String splitPath[] = pathFile.split("static\\\\");
 				userAd.setImage(splitPath[1]);

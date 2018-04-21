@@ -7,6 +7,7 @@ import java.util.Base64;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import isa.projekat.domain.OfficialAd;
@@ -15,6 +16,9 @@ import isa.projekat.repository.OfficialAdRepository;
 @Service
 public class OfficialAdServiceImpl implements OfficialAdService{
 
+	@Value("${paths.menjaj}")
+	private String putanja;
+	
 	@Autowired
 	private OfficialAdRepository officialAdRepository;
 	
@@ -30,19 +34,19 @@ public class OfficialAdServiceImpl implements OfficialAdService{
 			if(!officialAd.getImage().contains("imagesAd")) {
 				if(this.findOne(officialAd.getId())!=null) {
 					if(this.findOne(officialAd.getId()).getImage().contains("Bez slike")) {
-						String pathFile = "C:\\Users\\HP\\git\\ISA2017\\projekat\\src\\main\\resources\\static\\imagesAd\\zvanicniOglas"+System.currentTimeMillis()+".jpg";
+						String pathFile = putanja+"imagesAd\\zvanicniOglas"+System.currentTimeMillis()+".jpg";
 						decoder(officialAd.getImage(), pathFile);
 						String splitPath[] = pathFile.split("static\\\\");
 						officialAd.setImage(splitPath[1]);
 					}
 					else {
-						String pathFile = "C:\\Users\\HP\\git\\ISA2017\\projekat\\src\\main\\resources\\static\\"+this.findOne(officialAd.getId()).getImage();
+						String pathFile = putanja+this.findOne(officialAd.getId()).getImage();
 						decoder(officialAd.getImage(), pathFile);
 						String splitPath[] = pathFile.split("static\\\\");
 						officialAd.setImage(splitPath[1]);
 					}
 				}else {
-					String pathFile = "C:\\Users\\HP\\git\\ISA2017\\projekat\\src\\main\\resources\\static\\imagesAd\\zvanicniOglas"+System.currentTimeMillis()+".jpg";
+					String pathFile = putanja+"imagesAd\\zvanicniOglas"+System.currentTimeMillis()+".jpg";
 					decoder(officialAd.getImage(), pathFile);
 					String splitPath[] = pathFile.split("static\\\\");
 					officialAd.setImage(splitPath[1]);
